@@ -1,7 +1,7 @@
 <?php
 if (!function_exists('phooty')) {
-    function phooty()
+    function phooty(array $options = [])
     {
-        return new Phooty\Foundation\Application;
+        return new Phooty\Foundation\Application($options);
     }
 }

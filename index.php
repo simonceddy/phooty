@@ -1,4 +1,4 @@
 <?php
 require 'vendor/autoload.php';
 
-dd(phooty());
+phooty()->make(Phooty\Console\Kernel::class)->run();

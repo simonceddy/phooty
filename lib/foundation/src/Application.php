@@ -2,48 +2,57 @@
 namespace Phooty\Foundation;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container as IlluminateContainer;
 
 class Application extends Container
 {
     private $config;
 
-    private $root_path;
+    private $path;
 
-    public function __construct()
+    public function __construct(array $options = [])
     {
-        $this->locateRootPath();
-        $this->bootstrap();
+        $this->initPath();
+        $this->bootstrap($options);
         $this->registerBindings();
     }
 
-    private function locateRootPath()
+    private function initPath()
     {
-        $dir = dirname(__DIR__, 3);
-        while (!file_exists($dir.'/composer.json')
-            && !file_exists($dir.'/vendor/autoload.php')
-            && dirname($dir) !== $dir
-        ) {
-            $dir = dirname($dir);
-        }
-        $this->root_path = $dir;
+        $this->path = (new Bootstrap\BootstrapPath())->bootstrap();
     }
 
-    private function bootstrap()
+    private function bootstrap(array $options)
     {
-        $this->config = (new Bootstrap\BootstrapConfig)->bootstrap(
-            $this->root_path.'/config'
+        $this->config = (new Bootstrap\BootstrapConfig(
+            $options['config_drivers'] ?? []
+        ))->bootstrap(
+            $this->path.'/config'
         );
     }
 
     private function registerBindings()
     {
-        $this->bind('path.root', function () {
-            return $this->root_path;
+        $this->bind(IlluminateContainer::class, function () {
+            return $this;
         });
 
-        $this->singleton('config', function () {
+        $this->bind('path', function () {
+            return $this->path;
+        });
+
+        $this->bind('path.config', function () {
+            return $this->path->get('config');
+        });
+
+        $this->bind('config', function () {
             return $this->config;
         });
+    }
+
+    public function path()
+    {
+        return $this->path;
     }
 
     public function config()

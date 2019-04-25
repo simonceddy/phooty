@@ -20,7 +20,7 @@ class BootstrapConfig
             $this->drivers = array_filter($drivers, function ($val, $key) {
                 return is_string($key)
                     && (class_exists($val))
-                    && ($val instanceof Driver);
+                    && (new \ReflectionClass($val))->isSubclassOf(Driver::class);
             }, ARRAY_FILTER_USE_BOTH);
         }
         if (!isset($this->drivers['php'])) {
