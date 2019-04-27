@@ -1,20 +1,13 @@
 <?php
-namespace AflCrawler\Crawler;
+namespace Phooty\Crawler\Crawler;
 
-use AflCrawler\Support\Mappings\SeasonTotalsMappings;
-use AflCrawler\Util\RegexHelper;
-use AflCrawler\Util\TeamResolver;
 use Symfony\Component\DomCrawler\Crawler;
-use AflCrawler\Support\Traits\CurrentTeamAware;
-use AflCrawler\Support\Traits\ErrorStack;
-use AflCrawler\Support\Traits\HasFactories;
-use AflCrawler\Support\Traits\HasSeason;
-use AflCrawler\Support\Mapper;
+use Phooty\Crawler\Mappings\PlayerSeasonTotals;
+use Phooty\Crawler\Processor\Crawler\GetSeasonFromCrawler;
+use Phooty\Crawler\Contract\DataMapping;
 
-class SeasonPlayerTotals implements CrawlerInterface
+class SeasonPlayerTotals extends BaseCrawler
 {
-    use HasFactories, HasSeason, ErrorStack, CurrentTeamAware;
-
     /**
      * The result data
      *
@@ -26,54 +19,26 @@ class SeasonPlayerTotals implements CrawlerInterface
     ];
 
     /**
-     * The Column Mappings
-     *
-     * @var \AflCrawler\Support\Mappings\MappingsInterface
-     */
-    protected $map;
-
-    /**
      * Resolver for Team names/locations
      *
      * @var TeamResolver
      */
     private $teamResolver;
 
-    public function __construct(int $season = null)
+    public function __construct(DataMapping $mapping = null)
     {
-        !$season ?: $this->setSeason($season);
-        $this->map = new SeasonTotalsMappings;
+        parent::__construct($mapping ?? new PlayerSeasonTotals);
     }
 
     /**
-     * Attempts to locate the season year from the root Crawler instance.
-     *
-     * @param Crawler $crawler
-     * @return void
-     */
-    private function locateSeasonFromCrawler(Crawler $crawler)
-    {
-        $title = $crawler->filter('title')->first()->text();
-        try {
-            $this->setSeason((int) preg_replace('/\D/', '', $title));
-        } catch (\Exception $e) {
-            $this->errors[] = $e;
-            throw $e; // todo: handle errors
-        }
-    }
-
-    /**
-     * Crawls through the response html and returns an array of results.
-     * 
-     * Results are instances of AflCrawler\Model\ModelInterface
-     *
-     * @param string $html
-     * @return array
+     * @inheritDoc
      */
     public function crawl(string $html)
     {
         $crawler = new Crawler($html);
-        isset($this->season) ?: $this->locateSeasonFromCrawler($crawler);
+        if (!isset($this->season)) {
+            $this->season = (new GetSeasonFromCrawler)->process($crawler);
+        }
         $filter = $crawler->filter('table');
         
         foreach ($filter as $el) {

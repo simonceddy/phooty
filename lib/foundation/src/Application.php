@@ -6,6 +6,11 @@ use Illuminate\Contracts\Container\Container as IlluminateContainer;
 
 class Application extends Container
 {
+    /**
+     * The Application Config instance
+     *
+     * @var \Phooty\Config\Config
+     */
     private $config;
 
     private $path;
@@ -55,8 +60,13 @@ class Application extends Container
         return $this->path;
     }
 
-    public function config()
+    public function config(string $key = null, $val = null)
     {
+        if (null !== $key) {
+            return null !== $val ? $this->config->set($key, $val) :
+                $this->config->get($key);
+        }
+        
         return $this->config;
     }
 }
