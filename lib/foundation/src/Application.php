@@ -3,6 +3,8 @@ namespace Phooty\Foundation;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as IlluminateContainer;
+use Phooty\Config\Config;
+use Phooty\Core\Support\RegisterBindings;
 
 class Application extends Container
 {
@@ -50,9 +52,13 @@ class Application extends Container
             return $this->path->get('config');
         });
 
-        $this->bind('config', function () {
+        $this->bind(Config::class, function () {
             return $this->config;
         });
+
+        $this->alias(Config::class, 'config');
+
+        (new RegisterBindings)->register($this);
     }
 
     public function path()

@@ -16,4 +16,26 @@ class Timer
         }
         $this->periodLength = $periodLength;
     }
+
+    public function current()
+    {
+        return $this->current;
+    }
+
+    public function periodLength()
+    {
+        return $this->periodLength;
+    }
+
+    public function tick(int $ms = 1)
+    {
+        $this->current += $ms;
+        return $this;
+    }
+
+    public function reset()
+    {
+        $this->current = 0;
+        return $this;
+    }
 }
