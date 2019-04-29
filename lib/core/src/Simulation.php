@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Core;
 
-use Phooty\Events\Emitter;
+use Phooty\Core\Event\Emitter;
 use Illuminate\Contracts\Container\Container;
 
 class Simulation extends Emitter
@@ -59,7 +59,11 @@ class Simulation extends Emitter
 
     public function run()
     {
+        if ($this->started) {
+            return;
+        }
         $result = [];
+        $this->started = true;
         while (!$this->finished) {
             while($this->timer->current() < $this->timer->periodLength()) {
                 $this->timer->tick(mt_rand(1, 8923));

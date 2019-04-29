@@ -22,15 +22,14 @@
             "Phooty\\Foundation\\": "lib/foundation/src",
             "Phooty\\Orm\\": "lib/orm/src",
             "Phooty\\Support\\": "lib/support/src",
-            "Phooty\\Crawler\\": "lib/crawler/src",
-            "Phooty\\Events\\": "lib/events/src"
-
+            "Phooty\\Crawler\\": "lib/crawler/src"
         },
         "files": [
             "lib/support/src/helpers.php"
         ]
     },
     "require": {
+        "php": ">=7.1",
         "symfony/console": "^4.2",
         "symfony/process": "^4.2",
         "illuminate/config": "^5.8",
@@ -44,7 +43,8 @@
         "symfony/yaml": "^4.2",
         "symfony/dom-crawler": "^4.2",
         "symfony/css-selector": "^4.2",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

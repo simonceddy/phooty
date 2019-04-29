@@ -1,7 +1,7 @@
 <?php
 return [
-    'driver' => 'sqlite',
+    'driver' => env('DATABASE_DRIVER', 'sqlite'),
     'sqlite' => [
-        'location' => ''
+        'path' => env('SQLITE_PATH', 'db.sqlite')
     ]
 ];

@@ -1,7 +1,9 @@
 <?php
+use Doctrine\ORM\EntityManagerInterface;
+
 require 'vendor/autoload.php';
 
-//phooty()->make(Phooty\Console\Kernel::class)->run();
-dd(phooty()->make(Phooty\Core\Simulation::class)->run());
+$app = include_once 'bootstrap.php';
 
-dd(phooty()->config());
+//$app->make(Phooty\Core\Simulation::class)->run();
+dd($app->make(EntityManagerInterface::class));

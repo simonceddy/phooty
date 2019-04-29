@@ -10,6 +10,7 @@ class BootstrapPath
         is_dir($path) ?: $path = $this->locateRootPath();
         $path = new Path($path);
         $path->bind('config', 'config');
+        // todo bind paths
         return $path;
     }
 

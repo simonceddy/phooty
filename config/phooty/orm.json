@@ -1,0 +1,7 @@
+{
+    "config_method": "annotations",
+    "annotations": {
+        "path": "lib/orm/src/Entities",
+        "namespace": "Phooty\\Orm\\Entities\\"
+    }
+}

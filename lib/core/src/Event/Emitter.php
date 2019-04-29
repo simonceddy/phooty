@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Events;
+namespace Phooty\Core\Event;
 
 class Emitter
 {

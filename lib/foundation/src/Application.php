@@ -5,6 +5,7 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as IlluminateContainer;
 use Phooty\Config\Config;
 use Phooty\Core\Support\RegisterBindings;
+use Phooty\Config\Drivers as ConfigDriver;
 
 class Application extends Container
 {
@@ -32,9 +33,12 @@ class Application extends Container
     private function bootstrap(array $options)
     {
         $this->config = (new Bootstrap\BootstrapConfig(
-            $options['config_drivers'] ?? []
+            $options['config_drivers'] ?? [
+                'php' => ConfigDriver\PhpFileDriver::class,
+                'json' => ConfigDriver\JsonFileDriver::class,
+            ]
         ))->bootstrap(
-            $this->path.'/config'
+            $this->path->get('config')
         );
     }
 
@@ -52,25 +56,51 @@ class Application extends Container
             return $this->path->get('config');
         });
 
-        $this->bind(Config::class, function () {
-            return $this->config;
-        });
+        $this->instance(Config::class, $this->config);
 
         $this->alias(Config::class, 'config');
 
         (new RegisterBindings)->register($this);
     }
 
-    public function path()
+    /**
+     * Get the Application Path object.
+     * 
+     * An optional argument can be given to directly use the Path object's get()
+     * method.
+     *
+     * @param string $path  Optional path or shortcut to resolve
+     * @return string|Path
+     */
+    public function path(string $path = null)
     {
+        if (null !== $path) {
+            return $this->path->get($path);
+        }
         return $this->path;
     }
 
+    /**
+     * Returns the Application's Config instance.
+     * 
+     * If one argument is given it will be treated as the Config key and will
+     * attempt to return the key's value.
+     * 
+     * If two arguments are given they are treated as a key => value pair and
+     * passed to the Config object's set() method.
+     *
+     * @param string $key The Config key (optional)
+     * @param mixed $val The value of Config key (optional)
+     * @return mixed|Config
+     */
     public function config(string $key = null, $val = null)
     {
         if (null !== $key) {
-            return null !== $val ? $this->config->set($key, $val) :
-                $this->config->get($key);
+            if (null === $val) {
+                return $this->config->get($key);
+            } else {
+                $this->config->set($key, $val);
+            }
         }
         
         return $this->config;
