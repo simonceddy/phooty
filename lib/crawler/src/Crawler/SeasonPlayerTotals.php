@@ -5,6 +5,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Phooty\Crawler\Mappings\PlayerSeasonTotals;
 use Phooty\Crawler\Processor\Crawler\GetSeasonFromCrawler;
 use Phooty\Crawler\Contract\DataMapping;
+use Phooty\Crawler\Support\CrawlerUtils;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -37,7 +38,7 @@ class SeasonPlayerTotals extends BaseCrawler
     {
         $crawler = new Crawler($html);
         if (!isset($this->season)) {
-            $this->season = (new GetSeasonFromCrawler)->process($crawler);
+            $this->season = CrawlerUtils::getSeasonFromTitle($crawler);
         }
         $filter = $crawler->filter('table');
         

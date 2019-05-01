@@ -24,6 +24,6 @@ class Kernel extends Application
 
     private function registerCommands()
     {
-        
+        $this->add(new Commands\FizzBuzzCommand());
     }
 }
