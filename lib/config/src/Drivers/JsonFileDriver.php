@@ -1,9 +1,7 @@
 <?php
 namespace Phooty\Config\Drivers;
 
-use function GuzzleHttp\json_decode;
-
-class JsonFileDriver extends Driver
+class JsonFileDriver implements Driver
 {
     public function load($resource)
     {

@@ -3,7 +3,7 @@ namespace Phooty\Config\Drivers;
 
 use Symfony\Component\Yaml\Yaml;
 
-class YamlFileDriver extends Driver
+class YamlFileDriver implements Driver
 {
     public function load($resource)
     {

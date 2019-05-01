@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Config\Drivers;
 
-abstract class Driver
+interface Driver
 {
-    abstract public function load($resource);
+    public function load($resource);
 }

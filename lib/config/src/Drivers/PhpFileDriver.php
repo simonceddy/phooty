@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Config\Drivers;
 
-class PhpFileDriver extends Driver
+class PhpFileDriver implements Driver
 {
     public function load($resource)
     {

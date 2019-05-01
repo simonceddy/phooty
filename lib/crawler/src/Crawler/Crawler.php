@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Crawler\Contract;
+namespace Phooty\Crawler\Crawler;
 
 interface Crawler
 {

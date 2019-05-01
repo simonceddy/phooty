@@ -1,15 +1,14 @@
 <?php
 namespace Phooty\Crawler\Crawler;
 
-use Phooty\Crawler\Contract\Crawler;
-use Phooty\Crawler\Contract\DataMapping;
+use Phooty\Crawler\Mappings\Mapping;
 
 abstract class BaseCrawler implements Crawler
 {
     /**
      * The Column Mappings
      *
-     * @var \Phooty\Crawler\Contract\DataMapping
+     * @var Mapping
      */
     protected $mappings;
     
@@ -21,7 +20,7 @@ abstract class BaseCrawler implements Crawler
      */
     abstract public function crawl(string $html);
 
-    public function __construct(DataMapping $mappings)
+    public function __construct(Mapping $mappings)
     {
         $this->mappings = $mappings;
     }
