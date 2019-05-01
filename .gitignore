@@ -5,3 +5,4 @@ composer.phar
 .env
 *.code-workspace
 *.sqlite
+/storage/*.html

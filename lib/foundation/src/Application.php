@@ -23,6 +23,7 @@ class Application extends Container
         $this->initPath();
         $this->bootstrap($options);
         $this->registerBindings();
+        $this->registerProviders();
     }
 
     private function initPath()
@@ -63,6 +64,19 @@ class Application extends Container
         $this->alias(Config::class, 'config');
 
         (new RegisterBindings)->register($this);
+    }
+
+    /**
+     * @todo Make better
+     *
+     * @return void
+     */
+    private function registerProviders()
+    {
+        $providers = $this->config('phooty.app.providers') ?? [];
+        foreach ($providers as $provider) {
+            (new $provider($this))->register();
+        }
     }
 
     /**

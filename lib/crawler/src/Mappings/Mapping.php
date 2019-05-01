@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Crawler;
+namespace Phooty\Crawler\Mappings;
 
 interface Mapping
 {

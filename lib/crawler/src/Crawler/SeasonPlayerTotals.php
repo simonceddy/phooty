@@ -3,9 +3,11 @@ namespace Phooty\Crawler\Crawler;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Phooty\Crawler\Mappings\PlayerSeasonTotals;
-use Phooty\Crawler\Processor\Crawler\GetSeasonFromCrawler;
 use Phooty\Crawler\Contract\DataMapping;
 use Phooty\Crawler\Support\CrawlerUtils;
+use Phooty\Crawler\Support\RegexUtils;
+use Illuminate\Contracts\Container\Container;
+use Phooty\Crawler\Support\TeamResolver;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -26,9 +28,9 @@ class SeasonPlayerTotals extends BaseCrawler
      */
     private $teamResolver;
 
-    public function __construct(DataMapping $mapping = null)
+    public function __construct(Container $container, DataMapping $mapping = null)
     {
-        parent::__construct($mapping ?? new PlayerSeasonTotals);
+        parent::__construct($container, $mapping ?? new PlayerSeasonTotals);
     }
 
     /**
@@ -76,7 +78,7 @@ class SeasonPlayerTotals extends BaseCrawler
                     //dd($roster);
                     //$this->factory('rostered-player');
                 }
-            } elseif(RegexHelper::isTableHeading($node->textContent)) {
+            } elseif(RegexUtils::isTableHeading($node->textContent)) {
                 $team = $this->teamFromTableHeading($node);
                 if (!isset($this->result['teams'][($team['short'])])) {
                     $this->buildTeam($team);
@@ -93,10 +95,12 @@ class SeasonPlayerTotals extends BaseCrawler
      */
     private function teamFromTableHeading(\DOMElement $node)
     {
-        $team = RegexHelper::getTeamFromHeading(
+        $team = RegexUtils::getTeamFromHeading(
             $node->textContent
         );
-        isset($this->teamResolver) ?: $this->teamResolver = new TeamResolver;
+        if (!isset($this->teamResolver)) {
+            $this->teamResolver = $this->container->make(TeamResolver::class);
+        }
         $teamData = $this->teamResolver->resolve($team);
         if (!$teamData) {
             throw new \LogicException('Invalid team: '.$team);
