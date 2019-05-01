@@ -36,6 +36,8 @@ class Application extends Container
             $options['config_drivers'] ?? [
                 'php' => ConfigDriver\PhpFileDriver::class,
                 'json' => ConfigDriver\JsonFileDriver::class,
+                'yaml' => ConfigDriver\YamlFileDriver::class,
+                'yml' => ConfigDriver\YamlFileDriver::class,
             ]
         ))->bootstrap(
             $this->path->get('config')

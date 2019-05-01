@@ -1,5 +1,5 @@
 <?php
-namespace AflCrawler\Http;
+namespace Phooty\Crawler;
 
 use GuzzleHttp\Client as GuzzleClient;
 
