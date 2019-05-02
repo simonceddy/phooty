@@ -36,6 +36,6 @@ abstract class BaseCrawler implements Crawler
 
     public function factory(string $factory = null)
     {
-        
+        return $this->container->make("factory.{$factory}");
     }
 }

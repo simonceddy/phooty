@@ -8,6 +8,7 @@ use Phooty\Crawler\Support\RegexUtils;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Support\TeamResolver;
 use Phooty\Crawler\Mappings\Mapping;
+use Phooty\Crawler\Support\MappingUtils;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -27,6 +28,8 @@ class SeasonPlayerTotals extends BaseCrawler
      * @var TeamResolver
      */
     private $teamResolver;
+
+    private $current_team = false;
 
     public function __construct(Container $container, Mapping $mapping = null)
     {
@@ -65,16 +68,17 @@ class SeasonPlayerTotals extends BaseCrawler
     {
         foreach ($nodes as $node) {
             if (($children = $node->childNodes)->count() > 2
-                && false !== $this->tm()
+                && false !== $this->current_team
             ) {
                 foreach ($children as $child) {
-                    $player = Mapper::mapNode($child, $this->map);
-                    [$id, $model] = $this->handlePlayer($player);
-                    $roster = $this->currentTm->getRoster($this->season);
-                    $player['model'] = $model;
-                    $roster->addRosteredPlayer(
+                    $player = MappingUtils::mapNode($child, $this->mappings);
+                    $model = $this->handlePlayer($player);
+                    //$roster = $this->current_team->getRoster($this->season);
+                    $this->result['players'][$model->id] = $model;
+                    //dd($player);
+                    /* $roster->addRosteredPlayer(
                         $this->factory('rostered-player')->build($player)
-                    );
+                    ); */
                     //dd($roster);
                     //$this->factory('rostered-player');
                 }
@@ -90,10 +94,10 @@ class SeasonPlayerTotals extends BaseCrawler
     /**
      * Attempts to resolve a Team from a table row.
      *
-     * @param \DOMElement $node
+     * @param \DOMNode $node
      * @return array
      */
-    private function teamFromTableHeading(\DOMElement $node)
+    private function teamFromTableHeading(\DOMNode $node)
     {
         $team = RegexUtils::getTeamFromHeading(
             $node->textContent
@@ -120,23 +124,24 @@ class SeasonPlayerTotals extends BaseCrawler
     protected function handlePlayer(array $player)
     {
         // todo: make better
-        $id = $this->tm().$player['number'];
-        if (!isset($this->result['players'][$id])) {
-            $this->result['players'][$id] = $this->factory('player')
-                ->build($player);
+        if (isset($player['player'])) {
+            $name = explode(',', $player['player'], 2);
+            $player['surname'] = $name[0];
+            !isset($name[1]) ?: $player['given_names'] = $name[1];
         }
-        return [$id, $this->result['players'][$id]];
+        return $this->factory('player')->build($player);
     }
 
     protected function buildTeam(array $teamData)
     {
         $team = $this->factory('team')->build($teamData);
-        $team->addRoster($this->factory('roster')->build([
+        //dd($team);
+        /* $this->factory('roster')->build([
             'team' => $team,
             'season' => $this->getSeason()
-        ]));
-        $this->result['teams'][$team->getShortName()] = $team;
-        $this->currentTm = $team;
+        ]); */
+        $this->result['teams'][$team->short] = $team;
+        $this->current_team = $team;
         return $team;
     }
 }
