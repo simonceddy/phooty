@@ -75,8 +75,8 @@ class CrawlSeason extends Command
         }
 
         
-        $crawler = new SeasonPlayerTotals($this->container);
-        $output->writeln('Crawling response...');
+        $crawler = $this->container->make(SeasonPlayerTotals::class);
+        $output->writeln('Crawling html...');
         $result = $crawler->crawl($html);
         dd($result);
     }

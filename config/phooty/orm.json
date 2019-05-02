@@ -3,5 +3,8 @@
     "annotations": {
         "path": "lib/orm/src/Entities",
         "namespace": "Phooty\\Orm\\Entities\\"
+    },
+    "xml": {
+        "path": "config/xml"
     }
 }

@@ -24,10 +24,11 @@ class Kernel extends Application
 
     private function registerCommands()
     {
+        // get commands from config
         $commands = $this->config->get('phooty.console.commands');
+
         foreach ($commands as $command) {
             $this->add($this->app->make($command));
         }
-        //$this->add(new Commands\FizzBuzzCommand());
     }
 }

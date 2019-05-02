@@ -3,11 +3,11 @@ namespace Phooty\Crawler\Crawler;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Phooty\Crawler\Mappings\PlayerSeasonTotals;
-use Phooty\Crawler\Contract\DataMapping;
 use Phooty\Crawler\Support\CrawlerUtils;
 use Phooty\Crawler\Support\RegexUtils;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Support\TeamResolver;
+use Phooty\Crawler\Mappings\Mapping;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -28,7 +28,7 @@ class SeasonPlayerTotals extends BaseCrawler
      */
     private $teamResolver;
 
-    public function __construct(Container $container, DataMapping $mapping = null)
+    public function __construct(Container $container, Mapping $mapping = null)
     {
         parent::__construct($container, $mapping ?? new PlayerSeasonTotals);
     }

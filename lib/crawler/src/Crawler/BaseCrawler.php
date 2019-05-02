@@ -33,4 +33,9 @@ abstract class BaseCrawler implements Crawler
         $this->container = $container;
         $this->mappings = $mappings;
     }
+
+    public function factory(string $factory = null)
+    {
+        
+    }
 }

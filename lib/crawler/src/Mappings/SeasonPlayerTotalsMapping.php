@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Crawler\Mappings;
 
-class PlayerSeasonTotals implements Mapping
+class SeasonPlayerTotalsMapping implements Mapping
 {
     public function mappings(): array
     {
