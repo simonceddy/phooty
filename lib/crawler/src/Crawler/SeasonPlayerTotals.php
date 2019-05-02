@@ -9,6 +9,7 @@ use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Support\TeamResolver;
 use Phooty\Crawler\Mappings\Mapping;
 use Phooty\Crawler\Support\MappingUtils;
+use Phooty\Crawler\Results;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -39,7 +40,7 @@ class SeasonPlayerTotals extends BaseCrawler
     /**
      * @inheritDoc
      */
-    public function crawl(string $html)
+    public function crawl(string $html): Results
     {
         $crawler = new Crawler($html);
         if (!isset($this->season)) {
@@ -52,7 +53,7 @@ class SeasonPlayerTotals extends BaseCrawler
                 $this->crawlNodes($el->childNodes); 
             }
         }
-        return $this->result;
+        return $this->result();
     }
 
     /**
@@ -73,8 +74,10 @@ class SeasonPlayerTotals extends BaseCrawler
                 foreach ($children as $child) {
                     $player = MappingUtils::mapNode($child, $this->mappings);
                     $model = $this->handlePlayer($player);
+                    $model->stats = $this->factory('stats')->build($player);
                     //$roster = $this->current_team->getRoster($this->season);
-                    $this->result['players'][$model->id] = $model;
+                    $this->result()->players()->add($model);
+                    //$this->result['players'][$model->id] = $model;
                     //dd($player);
                     /* $roster->addRosteredPlayer(
                         $this->factory('rostered-player')->build($player)
@@ -84,9 +87,7 @@ class SeasonPlayerTotals extends BaseCrawler
                 }
             } elseif(RegexUtils::isTableHeading($node->textContent)) {
                 $team = $this->teamFromTableHeading($node);
-                if (!isset($this->result['teams'][($team['short'])])) {
-                    $this->buildTeam($team);
-                }
+                $this->buildTeam($team);
             }
         }
     }
@@ -140,7 +141,8 @@ class SeasonPlayerTotals extends BaseCrawler
             'team' => $team,
             'season' => $this->getSeason()
         ]); */
-        $this->result['teams'][$team->short] = $team;
+        $this->result()->teams()->add($team);
+        //$this->result['teams'][$team->short] = $team;
         $this->current_team = $team;
         return $team;
     }

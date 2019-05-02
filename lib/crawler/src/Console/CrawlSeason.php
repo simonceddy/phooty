@@ -78,6 +78,8 @@ class CrawlSeason extends Command
         $crawler = $this->container->make(SeasonPlayerTotals::class);
         $output->writeln('Crawling html...');
         $result = $crawler->crawl($html);
-        dd($result);
+        $test = $result->players()->get(48);
+        //dd($test);
+        dd(json_encode($test));
     }
 }

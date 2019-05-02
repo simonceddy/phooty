@@ -26,19 +26,19 @@ class Results
      */
     protected $rosters;
 
-    public function players()
+    public function players(): Collection
     {
         isset($this->players) ?: $this->players = new Collection();
         return $this->players;
     }
 
-    public function teams()
+    public function teams(): Collection
     {
         isset($this->teams) ?: $this->teams = new Collection();
         return $this->teams;
     }
 
-    public function rosters()
+    public function rosters(): Collection
     {
         isset($this->rosters) ?: $this->rosters = new Collection();
         return $this->rosters;

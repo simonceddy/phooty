@@ -4,7 +4,7 @@ return [
         'player' => Phooty\Crawler\Factory\PlayerFactory::class,
         'team' => Phooty\Crawler\Factory\TeamFactory::class,
         'roster',
-        'stats',
+        'stats' => Phooty\Crawler\Factory\StatsFactory::class,
     ],
     'teams' => [
         'AD' => [

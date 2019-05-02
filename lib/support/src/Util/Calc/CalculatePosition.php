@@ -5,6 +5,6 @@ class CalculatePosition
 {
     public function calculate($stats)
     {
-        
+        dd($stats);
     }
 }
