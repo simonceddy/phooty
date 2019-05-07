@@ -5,7 +5,7 @@ require 'vendor/autoload.php';
 
 $app = include_once 'bootstrap.php';
 
-//dd($app);
+//dd($app->make(Phooty\Orm\Entities\Player::class)->findAll());
 
 //$app->make(Phooty\Core\Simulation::class)->run();
 $kernel = $app->make(Phooty\Console\Kernel::class);

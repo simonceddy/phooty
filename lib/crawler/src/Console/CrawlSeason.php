@@ -9,6 +9,9 @@ use Phooty\Crawler\Client;
 use Phooty\Crawler\Crawler\SeasonPlayerTotals;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Contracts\Container\Container;
+use Doctrine\ORM\EntityManager;
+use Phooty\Orm\Entities\Player;
+use Phooty\Orm\Entities\Team;
 
 class CrawlSeason extends Command
 {
@@ -18,7 +21,18 @@ class CrawlSeason extends Command
      * @var Container
      */
     private $container;
-        
+
+    /**
+     * The EntityManager instance
+     *
+     * @var EntityManager
+     */
+    private $em;
+
+    private $players_persisted = 0;
+
+    private $teams_persisted = 0;
+    
     public function __construct(Container $container)
     {
         $this->container = $container;
@@ -78,8 +92,58 @@ class CrawlSeason extends Command
         $crawler = $this->container->make(SeasonPlayerTotals::class);
         $output->writeln('Crawling html...');
         $result = $crawler->crawl($html);
-        $test = $result->players()->get(48);
-        //dd($test);
-        dd(json_encode($test));
+        $gaz = $result->players()->get(224);
+        $players = $result->players()->all();
+        $this->em = $this->container->make(EntityManager::class);
+        foreach ($players as $player) {
+            $this->persistPlayerIfNew($player);
+        }
+        $teams = $result->teams()->all();
+        foreach ($teams as $team) {
+            $this->persistTeamIfNew($team);
+        }
+        $this->em->flush();
+        $output->writeln("Stored {$this->players_persisted} new players.");
+        $output->writeln("Stored {$this->teams_persisted} new teams.");
+        dd($players[224]);
+        dd(json_encode($gaz));
+    }
+
+    private function persistPlayerIfNew(Player $player)
+    {
+        
+        $repo = $this->em->getRepository(Player::class);
+        $criteria = [
+            'surname' => $player->getSurname(),
+            'given_names' => $player->getGivenNames(),
+            'prior_players' => $player->getPriorPlayers()
+        ];
+        //dd($player);
+        $result = $repo->findBy($criteria);
+        if (empty($result)) {
+            $this->em->persist($player);
+            $this->players_persisted++;
+            return $player;
+        }
+        return $result[0];
+    }
+
+    private function persistTeamIfNew(Team $team)
+    {
+        
+        $repo = $this->em->getRepository(Team::class);
+        $criteria = [
+            'city' => $team->getCity(),
+            'short' => $team->getShort(),
+            'name' => $team->getName()
+        ];
+        //dd($team);
+        $result = $repo->findBy($criteria);
+        if (empty($result)) {
+            $this->em->persist($team);
+            $this->teams_persisted++;
+            return $team;
+        }
+        return $result[0];
     }
 }

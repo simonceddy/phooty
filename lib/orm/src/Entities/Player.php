@@ -7,8 +7,12 @@ namespace Phooty\Orm\Entities;
 class Player
 {
     /**
-     * @Id @GeneratedValue @Column(type="integer")
-     * @var int
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @Id
+     * @Column(type="uuid", unique=true)
+     * @GeneratedValue(strategy="CUSTOM")
+     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     protected $id;
 
@@ -24,6 +28,25 @@ class Player
      */
     protected $given_names;
 
+    /**
+     * Prior players with the same name
+     *
+     * @Column(type="integer")
+     * @var int
+     */
+    protected $prior_players;
+
+    /**
+     * @Column(type="datetime")
+     * @var DateTime
+     */
+    protected $created;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
+    
     /**
      * Get the Player's id
      *
@@ -80,5 +103,39 @@ class Player
         $this->given_names = $given_names;
 
         return $this;
+    }
+
+    /**
+     * Get prior players with the same name
+     *
+     * @return  int
+     */ 
+    public function getPriorPlayers()
+    {
+        return $this->prior_players;
+    }
+
+    /**
+     * Set prior players with the same name
+     *
+     * @param  int  $prior_players  Prior players with the same name
+     *
+     * @return  self
+     */ 
+    public function setPriorPlayers(int $prior_players)
+    {
+        $this->prior_players = $prior_players;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created
+     *
+     * @return  DateTime
+     */ 
+    public function getCreated()
+    {
+        return $this->created;
     }
 }

@@ -26,7 +26,7 @@ class Kernel extends Application
     {
         // get commands from config
         $commands = $this->config->get('phooty.console.commands');
-
+        
         foreach ($commands as $command) {
             $this->add($this->app->make($command));
         }

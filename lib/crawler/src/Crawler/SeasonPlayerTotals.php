@@ -14,16 +14,6 @@ use Phooty\Crawler\Results;
 class SeasonPlayerTotals extends BaseCrawler
 {
     /**
-     * The result data
-     *
-     * @var array
-     */
-    protected $result = [
-        'players' => [],
-        'teams' => []
-    ];
-
-    /**
      * Resolver for Team names/locations
      *
      * @var TeamResolver
@@ -73,8 +63,9 @@ class SeasonPlayerTotals extends BaseCrawler
             ) {
                 foreach ($children as $child) {
                     $player = MappingUtils::mapNode($child, $this->mappings);
+                    $player['prior'] = $this->checkForPriorNames($child);
                     $model = $this->handlePlayer($player);
-                    $model->stats = $this->factory('stats')->build($player);
+                    //$model->stats = $this->factory('stats')->build($player);
                     //$roster = $this->current_team->getRoster($this->season);
                     $this->result()->players()->add($model);
                     //$this->result['players'][$model->id] = $model;
@@ -90,6 +81,16 @@ class SeasonPlayerTotals extends BaseCrawler
                 $this->buildTeam($team);
             }
         }
+    }
+
+    private function checkForPriorNames(\DOMNode $node)
+    {
+        $a = $node->childNodes[1]->childNodes[0]->attributes[0];
+        if (!preg_match('/(\d+\.html)$/', $a->value)) {
+            return 0;
+        }
+        return (int) preg_replace('/\D/', '', $a->value);
+        
     }
 
     /**
@@ -125,11 +126,6 @@ class SeasonPlayerTotals extends BaseCrawler
     protected function handlePlayer(array $player)
     {
         // todo: make better
-        if (isset($player['player'])) {
-            $name = explode(',', $player['player'], 2);
-            $player['surname'] = $name[0];
-            !isset($name[1]) ?: $player['given_names'] = $name[1];
-        }
         return $this->factory('player')->build($player);
     }
 
