@@ -101,6 +101,10 @@ class CrawlSeason extends Command
         foreach ($teams as &$team) {
             $team = $this->persistTeamIfNew($team);
         }
+        /* 
+        foreach ($result->rosters()->all() as &$roster) {
+            $roster = $this->em->persist($roster);
+        } */
         $this->em->flush();
         $output->writeln("Stored {$this->players_persisted} new players.");
         $output->writeln("Stored {$this->teams_persisted} new teams.");
@@ -135,7 +139,6 @@ class CrawlSeason extends Command
             'short' => $team->getShort(),
             'name' => $team->getName()
         ];
-        //dd($team);
         $result = $repo->findBy($criteria);
         if (empty($result)) {
             $this->em->persist($team);

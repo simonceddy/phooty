@@ -11,7 +11,14 @@ use Phooty\Crawler\Mappings\Mapping;
 use Phooty\Crawler\Support\MappingUtils;
 use Phooty\Crawler\Results;
 use Phooty\Orm\Entities\Team;
+use Doctrine\ORM\EntityManager;
+use Phooty\Orm\Entities\Player;
 
+/**
+ * Crawls the HTML from a Season totals page from afltables.com
+ * 
+ * @todo Split methods/tidy up - too much here
+ */
 class SeasonPlayerTotals extends BaseCrawler
 {
     /**
@@ -21,11 +28,13 @@ class SeasonPlayerTotals extends BaseCrawler
      */
     private $teamResolver;
 
-    private $current_team = false;
+    private $team = false;
 
     private $season;
 
-    private $pending = [];
+    private $rosters = [];
+
+    private $em;
 
     public function __construct(Container $container, Mapping $mapping = null)
     {
@@ -48,7 +57,7 @@ class SeasonPlayerTotals extends BaseCrawler
                 $this->crawlNodes($el->childNodes); 
             }
         }
-        
+        $this->initPendingRosters();
         return $this->result();
     }
 
@@ -65,15 +74,16 @@ class SeasonPlayerTotals extends BaseCrawler
     {
         foreach ($nodes as $node) {
             if (($children = $node->childNodes)->count() > 2
-                && false !== $this->current_team
+                && false !== $this->team
             ) {
                 foreach ($children as $child) {
                     $player = MappingUtils::mapNode($child, $this->mappings);
                     $player['prior'] = $this->checkForPriorNames($child);
                     $model = $this->handlePlayer($player);
                     //$model->stats = $this->factory('stats')->build($player);
-                    //$roster = $this->current_team->getRoster($this->season);
+                    //$roster = $this->team->getRoster($this->season);
                     $this->result()->players()->add($model);
+                    $this->addToCurrentRoster($model);
                     //$this->result['players'][$model->id] = $model;
                     //dd($player);
                     /* $roster->addRosteredPlayer(
@@ -83,10 +93,21 @@ class SeasonPlayerTotals extends BaseCrawler
                     //$this->factory('rostered-player');
                 }
             } elseif(RegexUtils::isTableHeading($node->textContent)) {
-                $team = $this->teamFromTableHeading($node);
-                $this->buildTeam($team);
+                $team = $this->resolveTeam($this->teamFromTableHeading($node));
+                $this->team = $team;
+                $this->result()->teams()->add($team);
             }
         }
+    }
+
+    private function resolveTeam(array $team)
+    {
+        $repo = $this->entityManager()->getRepository(Team::class);
+        $result = $repo->findBy($team);
+        if (empty($result)) {
+            return $this->buildTeam($team);
+        }
+        return $result[0];
     }
 
     private function checkForPriorNames(\DOMNode $node)
@@ -127,7 +148,7 @@ class SeasonPlayerTotals extends BaseCrawler
      * @todo Resolving players
      * 
      * @param array $player
-     * @return array
+     * @return Player
      */
     protected function handlePlayer(array $player)
     {
@@ -137,17 +158,35 @@ class SeasonPlayerTotals extends BaseCrawler
 
     protected function buildTeam(array $teamData)
     {
-        $team = $this->factory('team')->build($teamData);
-        //dd($team);
-        /* $this->factory('roster')->build([
-            'team' => $team,
-            'season' => $this->getSeason()
-        ]); */
-        $this->result()->teams()->add($team);
-        $this->pending[$team->getShort()] = $this->pendingNewRoster($team);
-        $this->result()->rosters()[$team->getShort()] = [];
-        $this->current_team = $team;
-        return $team;
+        return $this->factory('team')->build($teamData);
+        /* $this->rosters[$team->getShort()] = [
+            'pending' => $this->pendingNewRoster($team),
+            'players' => []
+        ];
+        $this->team = $team;
+        return $team; */
+    }
+
+    protected function resolveRoster(Team $team)
+    {
+
+        $this->rosters[$team->getShort()] = [
+            'pending' => $this->pendingNewRoster($team),
+            'players' => []
+        ];
+    }
+
+    protected function initPendingRosters()
+    {
+        foreach ($this->rosters as $roster) {
+            if (isset($roster['pending'], $roster['players'])
+                && is_callable($roster['pending'])
+            ) {
+                $this->result()->rosters()->add(
+                    call_user_func($roster['pending'], $roster['players'])
+                );
+            }
+        }
     }
 
     protected function pendingNewRoster(Team $team)
@@ -163,5 +202,20 @@ class SeasonPlayerTotals extends BaseCrawler
         );
 
         return $initRoster;
+    }
+
+    protected function addToCurrentRoster(Player $player)
+    {
+        $this->rosters[$this->team->getShort()]['players'][] = $this->factory(
+            'roster.player'
+        )->build([
+            'player' => $player
+        ]);
+    }
+
+    protected function entityManager()
+    {
+        isset($this->em) ?: $this->em = $this->container->make(EntityManager::class);
+        return $this->em;
     }
 }

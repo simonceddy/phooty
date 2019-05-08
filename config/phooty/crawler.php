@@ -4,6 +4,7 @@ return [
         'player' => Phooty\Crawler\Factory\PlayerFactory::class,
         'team' => Phooty\Crawler\Factory\TeamFactory::class,
         'roster' => Phooty\Crawler\Factory\RosterFactory::class,
+        'roster.player' => Phooty\Crawler\Factory\RosterPlayerFactory::class,
         'stats' => Phooty\Crawler\Factory\StatsFactory::class,
     ],
     'teams' => [

@@ -8,6 +8,7 @@ class RepositoryServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        // todo: fix or remove
         $this->app->bind(Entities\Player::class, function () {
             return $this->app->make(EntityManager::class)
                 ->getRepository(Entities\Player::class);

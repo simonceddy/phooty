@@ -12,7 +12,7 @@ class RosterFactory extends BaseFactory
                 "Rosters require both a team and a season to be specified."
             );
         }
-        $roster = new Roster();
+        $roster = new Roster($data['players'] ?? []);
         $roster->setTeam($data['team']);
         $roster->setSeason($data['season']);
         return $roster;

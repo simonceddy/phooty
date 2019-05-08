@@ -64,4 +64,28 @@ class RosterPlayer
 
         return $this;
     }
+
+    /**
+     * Get the Roster the player belongs to
+     *
+     * @return  Roster
+     */ 
+    public function getRoster()
+    {
+        return $this->roster;
+    }
+
+    /**
+     * Set the Roster the player belongs to
+     *
+     * @param  Roster  $roster  The Roster the player belongs to
+     *
+     * @return  self
+     */ 
+    public function setRoster(Roster $roster)
+    {
+        $this->roster = $roster;
+
+        return $this;
+    }
 }

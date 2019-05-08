@@ -23,7 +23,7 @@ class Roster
     /**
      * The Players belonging to the Roster
      *
-     * @OneToMany(targetEntity="RosterPlayer", mappedBy="roster", indexBy="symbol")
+     * @OneToMany(targetEntity="RosterPlayer", mappedBy="roster", indexBy="symbol", cascade={"persist"})
      * @var RosterPlayer[]
      */
     protected $players;
@@ -36,9 +36,16 @@ class Roster
      */
     protected $season;
 
-    public function __construct()
+    public function __construct(array $players)
     {
         $this->created = new \DateTime();
+        $this->players = array_filter($players, function ($player) {
+            if ($player instanceof RosterPlayer) {
+                $player->setRoster($this);
+                return true;
+            }
+            return false;
+        });
     }
 
     /**

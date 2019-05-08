@@ -12,8 +12,8 @@ class OrmServiceProvider extends ServiceProvider
     public function register()
     {
         Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+
         $this->app->singleton(EntityManagerInterface::class, function () {
-            //dd(Type::getTypesMap());
             return (new BootstrapEntityManager())->bootstrap(
                     $this->app->make('config'),
                     $this->app->make('path')
