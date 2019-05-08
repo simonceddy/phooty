@@ -13,6 +13,7 @@ use Phooty\Crawler\Results;
 use Phooty\Orm\Entities\Team;
 use Doctrine\ORM\EntityManager;
 use Phooty\Orm\Entities\Player;
+use Phooty\Crawler\Support\OrmUtil;
 
 /**
  * Crawls the HTML from a Season totals page from afltables.com
@@ -34,11 +35,12 @@ class SeasonPlayerTotals extends BaseCrawler
 
     private $rosters = [];
 
-    private $em;
+    private $orm;
 
     public function __construct(Container $container, Mapping $mapping = null)
     {
         parent::__construct($container, $mapping ?? new PlayerSeasonTotals);
+        $this->orm = $this->container->make(OrmUtil::class);
     }
 
     /**
@@ -77,9 +79,16 @@ class SeasonPlayerTotals extends BaseCrawler
                 && false !== $this->team
             ) {
                 foreach ($children as $child) {
-                    $player = MappingUtils::mapNode($child, $this->mappings);
-                    $player['prior'] = $this->checkForPriorNames($child);
-                    $model = $this->handlePlayer($player);
+                    $data = MappingUtils::mapNode($child, $this->mappings);
+                    if (!isset($data['player'])) {
+                        break;
+                    }
+                    $player = [];
+                    $name = explode(',', $data['player'], 2);
+                    $player['surname'] = $name[0];
+                    !isset($name[1]) ?: $player['given_names'] = $name[1];
+                    $player['prior_players'] = $this->checkForPriorNames($child);
+                    $model = $this->resolvePlayer($player);
                     //$model->stats = $this->factory('stats')->build($player);
                     //$roster = $this->team->getRoster($this->season);
                     $this->result()->players()->add($model);
@@ -102,12 +111,16 @@ class SeasonPlayerTotals extends BaseCrawler
 
     private function resolveTeam(array $team)
     {
-        $repo = $this->entityManager()->getRepository(Team::class);
-        $result = $repo->findBy($team);
-        if (empty($result)) {
-            return $this->buildTeam($team);
-        }
-        return $result[0];
+        return $this->orm->find(Team::class, $team, function (array $team) {
+            return $this->factory('team')->build($team);;
+        });
+    }
+
+    private function resolvePlayer(array $player)
+    {
+        return $this->orm->find(Player::class, $player, function (array $player) {
+            return $this->factory('player')->build($player);;
+        });
     }
 
     private function checkForPriorNames(\DOMNode $node)
@@ -117,7 +130,6 @@ class SeasonPlayerTotals extends BaseCrawler
             return 0;
         }
         return (int) preg_replace('/\D/', '', $a->value);
-        
     }
 
     /**
@@ -140,31 +152,6 @@ class SeasonPlayerTotals extends BaseCrawler
         }
         return $teamData;
         
-    }
-
-    /**
-     * Handles resolving or creating a player from given data
-     *
-     * @todo Resolving players
-     * 
-     * @param array $player
-     * @return Player
-     */
-    protected function handlePlayer(array $player)
-    {
-        // todo: make better
-        return $this->factory('player')->build($player);
-    }
-
-    protected function buildTeam(array $teamData)
-    {
-        return $this->factory('team')->build($teamData);
-        /* $this->rosters[$team->getShort()] = [
-            'pending' => $this->pendingNewRoster($team),
-            'players' => []
-        ];
-        $this->team = $team;
-        return $team; */
     }
 
     protected function resolveRoster(Team $team)
@@ -213,9 +200,8 @@ class SeasonPlayerTotals extends BaseCrawler
         ]);
     }
 
-    protected function entityManager()
+    protected function orm()
     {
-        isset($this->em) ?: $this->em = $this->container->make(EntityManager::class);
-        return $this->em;
+        return $this->orm;
     }
 }
