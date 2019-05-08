@@ -4,7 +4,6 @@ namespace Phooty\Foundation;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as IlluminateContainer;
 use Phooty\Config\Config;
-use Phooty\Core\Support\RegisterBindings;
 use Phooty\Config\Drivers as ConfigDriver;
 
 class Application extends Container
@@ -62,8 +61,6 @@ class Application extends Container
         $this->instance(Config::class, $this->config);
 
         $this->alias(Config::class, 'config');
-
-        (new RegisterBindings)->register($this);
     }
 
     /**
