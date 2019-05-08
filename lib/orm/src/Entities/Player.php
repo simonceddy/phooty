@@ -1,20 +1,15 @@
 <?php
 namespace Phooty\Orm\Entities;
 
+use Phooty\Orm\Support\Traits\HasUuid;
+use Phooty\Orm\Support\Traits\WasCreatedOn;
+
 /**
  * @Entity @Table(name="players")
  */
 class Player
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     *
-     * @Id
-     * @Column(type="uuid", unique=true)
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    protected $id;
+    use HasUuid, WasCreatedOn;
 
     /**
      * @Column(type="string")
@@ -37,24 +32,16 @@ class Player
     protected $prior_players;
 
     /**
-     * @Column(type="datetime")
-     * @var DateTime
+     * The Player's roster assignments
+     * 
+     * @OneToMany(targetEntity="RosterPlayer", mappedBy="player", indexBy="symbol")
+     * @var RosterPlayer[]
      */
-    protected $created;
+    protected $rosters;
 
     public function __construct()
     {
         $this->created = new \DateTime();
-    }
-    
-    /**
-     * Get the Player's id
-     *
-     * @return  int
-     */ 
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -127,15 +114,5 @@ class Player
         $this->prior_players = $prior_players;
 
         return $this;
-    }
-
-    /**
-     * Get the value of created
-     *
-     * @return  DateTime
-     */ 
-    public function getCreated()
-    {
-        return $this->created;
     }
 }

@@ -10,6 +10,7 @@ use Phooty\Crawler\Support\TeamResolver;
 use Phooty\Crawler\Mappings\Mapping;
 use Phooty\Crawler\Support\MappingUtils;
 use Phooty\Crawler\Results;
+use Phooty\Orm\Entities\Team;
 
 class SeasonPlayerTotals extends BaseCrawler
 {
@@ -21,6 +22,10 @@ class SeasonPlayerTotals extends BaseCrawler
     private $teamResolver;
 
     private $current_team = false;
+
+    private $season;
+
+    private $pending = [];
 
     public function __construct(Container $container, Mapping $mapping = null)
     {
@@ -43,6 +48,7 @@ class SeasonPlayerTotals extends BaseCrawler
                 $this->crawlNodes($el->childNodes); 
             }
         }
+        
         return $this->result();
     }
 
@@ -138,8 +144,24 @@ class SeasonPlayerTotals extends BaseCrawler
             'season' => $this->getSeason()
         ]); */
         $this->result()->teams()->add($team);
-        //$this->result['teams'][$team->short] = $team;
+        $this->pending[$team->getShort()] = $this->pendingNewRoster($team);
+        $this->result()->rosters()[$team->getShort()] = [];
         $this->current_team = $team;
         return $team;
+    }
+
+    protected function pendingNewRoster(Team $team)
+    {
+        $initRoster = \Closure::fromCallable(
+            function (array $players) use ($team) {
+                return $this->factory('roster')->build([
+                    'players' => $players,
+                    'team' => $team,
+                    'season' => $this->season
+                ]);
+            }
+        );
+
+        return $initRoster;
     }
 }

@@ -92,21 +92,19 @@ class CrawlSeason extends Command
         $crawler = $this->container->make(SeasonPlayerTotals::class);
         $output->writeln('Crawling html...');
         $result = $crawler->crawl($html);
-        $gaz = $result->players()->get(224);
         $players = $result->players()->all();
         $this->em = $this->container->make(EntityManager::class);
-        foreach ($players as $player) {
-            $this->persistPlayerIfNew($player);
+        foreach ($players as &$player) {
+            $player = $this->persistPlayerIfNew($player);
         }
         $teams = $result->teams()->all();
-        foreach ($teams as $team) {
-            $this->persistTeamIfNew($team);
+        foreach ($teams as &$team) {
+            $team = $this->persistTeamIfNew($team);
         }
         $this->em->flush();
         $output->writeln("Stored {$this->players_persisted} new players.");
         $output->writeln("Stored {$this->teams_persisted} new teams.");
-        dd($players[224]);
-        dd(json_encode($gaz));
+        dd(array_random($teams));
     }
 
     private function persistPlayerIfNew(Player $player)
