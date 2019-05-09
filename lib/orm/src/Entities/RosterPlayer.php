@@ -14,18 +14,18 @@ class RosterPlayer
     /**
      * The Player entity
      *
-     * ManyToOne(targetEntity="Player", inversedBy="rosters")
+     * @ManyToOne(targetEntity="Player", inversedBy="rosters")
      * @var Player
      */
     protected $player;
 
     /**
-     * The Roster the player belongs to
+     * The Team the player belongs to
      *
-     * @ManyToOne(targetEntity="Roster", inversedBy="players")
-     * @var Roster
+     * @ManyToOne(targetEntity="Team", inversedBy="players")
+     * @var Team
      */
-    protected $roster;
+    protected $team;
 
     /**
      * The RosterPlayer's season stats
@@ -35,6 +35,14 @@ class RosterPlayer
      * @var SeasonStats
      */
     protected $season_stats;
+
+    /**
+     * The season the player is rostered for
+     *
+     * @Column(type="integer")
+     * @var int
+     */
+    protected $season;
 
     public function __construct()
     {
@@ -68,23 +76,47 @@ class RosterPlayer
     /**
      * Get the Roster the player belongs to
      *
-     * @return  Roster
+     * @return  Team
      */ 
-    public function getRoster()
+    public function getTeam()
     {
-        return $this->roster;
+        return $this->team;
     }
 
     /**
-     * Set the Roster the player belongs to
+     * Set the Team the player belongs to
      *
-     * @param  Roster  $roster  The Roster the player belongs to
+     * @param  Team  $Team  The Team the player belongs to
      *
      * @return  self
      */ 
-    public function setRoster(Roster $roster)
+    public function setTeam(Team $team)
     {
-        $this->roster = $roster;
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get the season the player is rostered for
+     *
+     * @return  int
+     */ 
+    public function getSeason()
+    {
+        return $this->season;
+    }
+
+    /**
+     * Set the season the player is rostered for
+     *
+     * @param  int  $season  The season the player is rostered for
+     *
+     * @return  self
+     */ 
+    public function setSeason(int $season)
+    {
+        $this->season = $season;
 
         return $this;
     }

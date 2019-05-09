@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Phooty\Orm\Entities\SeasonStats" table="season_stats">
+    <id name="id" type="uuid" column="id">
+      <generator strategy="CUSTOM"/>
+    </id>
+    <field name="created" type="datetime" column="created" precision="0" scale="0" nullable="false"/>
+    <field name="kicks" type="integer" column="kicks" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="marks" type="integer" column="marks" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="handballs" type="integer" column="handballs" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="disposals" type="integer" column="disposals" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="goals" type="integer" column="goals" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="behinds" type="integer" column="behinds" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="hitouts" type="integer" column="hitouts" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tackles" type="integer" column="tackles" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="rebound_50" type="integer" column="rebound_50" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="inside_50" type="integer" column="inside_50" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="clearances" type="integer" column="clearances" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="clangers" type="integer" column="clangers" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="frees_for" type="integer" column="frees_for" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="frees_against" type="integer" column="frees_against" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="brownlow_votes" type="integer" column="brownlow_votes" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="contested_possessions" type="integer" column="contested_possessions" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="uncontested_possessions" type="integer" column="uncontested_possessions" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="contested_marks" type="integer" column="contested_marks" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="marks_inside_50" type="integer" column="marks_inside_50" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="one_percenters" type="integer" column="one_percenters" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="bounces" type="integer" column="bounces" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="goal_assists" type="integer" column="goal_assists" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="time_on_ground" type="decimal" column="time_on_ground" precision="0" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <one-to-one field="roster_player" target-entity="Phooty\Orm\Entities\RosterPlayer" fetch="LAZY">
+      <join-columns>
+        <join-column name="roster_player_id" referenced-column-name="id" nullable="1"/>
+      </join-columns>
+    </one-to-one>
+  </entity>
+</doctrine-mapping>

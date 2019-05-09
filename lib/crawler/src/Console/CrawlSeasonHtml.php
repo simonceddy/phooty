@@ -10,10 +10,8 @@ use Phooty\Crawler\Crawler\SeasonPlayerTotals;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Contracts\Container\Container;
 use Doctrine\ORM\EntityManager;
-use Phooty\Orm\Entities\Player;
-use Phooty\Orm\Entities\Team;
 
-class CrawlSeason extends Command
+class CrawlSeasonHtml extends Command
 {
     /**
      * The container instance
@@ -43,52 +41,32 @@ class CrawlSeason extends Command
 
     protected function configure()
     {
-        $this->setName('crawl:season')
+        $this->setName('crawl:season:html')
             ->setDescription(
-                'Crawl html data for a single season.'
+                'Crawl html data for a single season from a locally stored file.'
             )
             ->addArgument(
-                'season',
+                'filename',
                 InputArgument::REQUIRED,
-                'The season year'
-            )
-            ->addOption(
-                'fromFile',
-                'F',
-                InputOption::VALUE_REQUIRED,
-                'Crawl a locally stored HTML file.'
+                'Path to locally stored season html file'
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $season = $input->getArgument('season');
-        // todo: validate season
-        
-        if (!$path = $input->getOption('fromFile')) {
-            $client = new Client;
-            // todo: check connection
-            
-            $output->writeln('Sending request...');
-            $response = $client->getSeason((int) $season);
-            
-            $output->writeln('Received response.');
-            
-            // check $response status
-    
-            $html = $response->getBody()->getContents();
-        } else {
-            if (!file_exists($fn = getcwd().'/'.$path)
-                && !file_exists($fn = $fn.'.html')
-            ) {
-                $output->writeln('<error>Could not locate '.$path.'</error>');
-                return;
-            }
-            $output->writeln('Located file...');
-            $output->writeln('Reading content...');
-            $html = file_get_contents($fn);
+        $path = $input->getArgument('filename');
+
+        if (!file_exists($fn = getcwd().'/'.$path)
+            && !file_exists($fn = $fn.'.html')
+        ) {
+            $output->writeln('<error>Could not locate '.$path.'</error>');
+            return;
         }
+
+        $output->writeln('Located file...');
+        $output->writeln('Reading content...');
+        $html = file_get_contents($fn);
 
         
         $crawler = $this->container->make(SeasonPlayerTotals::class);
@@ -103,7 +81,6 @@ class CrawlSeason extends Command
                 $this->players_persisted++;
             }
         }
-        $teams = $result->teams()->all();
         foreach ($result->teams()->all() as &$team) {
             if (null === $team->getId()) {
                 $team = $this->em->persist($team);
@@ -121,7 +98,6 @@ class CrawlSeason extends Command
         $output->writeln("Stored {$this->players_persisted} new players.");
         $output->writeln("Stored {$this->teams_persisted} new teams.");
         $output->writeln("Stored {$this->roster_spots_persisted} new roster spots.");
-        dd(array_random($teams));
     }
 
 }

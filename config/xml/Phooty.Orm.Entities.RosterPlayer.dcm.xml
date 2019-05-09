@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Phooty\Orm\Entities\RosterPlayer" table="roster_players">
+    <id name="id" type="uuid" column="id">
+      <generator strategy="CUSTOM"/>
+    </id>
+    <field name="season" type="integer" column="season" precision="0" scale="0" nullable="false"/>
+    <field name="created" type="datetime" column="created" precision="0" scale="0" nullable="false"/>
+    <one-to-one field="season_stats" target-entity="Phooty\Orm\Entities\SeasonStats" fetch="LAZY">
+      <join-columns>
+        <join-column name="season_stats_id" referenced-column-name="id" nullable="1"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-one field="player" target-entity="Phooty\Orm\Entities\Player" inversed-by="rosters" fetch="LAZY">
+      <join-columns>
+        <join-column name="player_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="team" target-entity="Phooty\Orm\Entities\Team" inversed-by="players" fetch="LAZY">
+      <join-columns>
+        <join-column name="team_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

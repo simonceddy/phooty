@@ -115,4 +115,14 @@ class Player
 
         return $this;
     }
+
+    /**
+     * Get the Player's roster assignments
+     *
+     * @return  RosterPlayer[]
+     */ 
+    public function getRosters()
+    {
+        return $this->rosters;
+    }
 }

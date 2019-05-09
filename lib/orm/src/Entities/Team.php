@@ -30,12 +30,12 @@ class Team
     protected $short;
 
     /**
-     * The team's rosters.
+     * The team's rostered players.
      *
-     * @OneToMany(targetEntity="Roster", mappedBy="team", indexBy="symbol")
-     * @var Roster[]
+     * @OneToMany(targetEntity="RosterPlayer", mappedBy="team", indexBy="symbol")
+     * @var RosterPlayer[]
      */
-    protected $rosters;
+    protected $players;
 
     public function __construct()
     {

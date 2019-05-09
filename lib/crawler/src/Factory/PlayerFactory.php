@@ -15,7 +15,7 @@ class PlayerFactory extends BaseFactory
         $player = new Player();
         $player->setGivenNames(trim($data['given_names']) ?? '');
         $player->setSurname(trim($data['surname']) ?? '');
-        $player->setPriorPlayers($data['prior'] ?? 0);
+        $player->setPriorPlayers($data['prior_players'] ?? 0);
         return $player;
     }
 }

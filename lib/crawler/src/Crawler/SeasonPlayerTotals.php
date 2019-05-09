@@ -2,18 +2,20 @@
 namespace Phooty\Crawler\Crawler;
 
 use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Mappings\PlayerSeasonTotals;
 use Phooty\Crawler\Support\CrawlerUtils;
 use Phooty\Crawler\Support\RegexUtils;
-use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Support\TeamResolver;
 use Phooty\Crawler\Mappings\Mapping;
 use Phooty\Crawler\Support\MappingUtils;
 use Phooty\Crawler\Results;
-use Phooty\Orm\Entities\Team;
-use Doctrine\ORM\EntityManager;
-use Phooty\Orm\Entities\Player;
+use Phooty\Crawler\Processor\Node\TeamFromTableHeading;
+use Phooty\Crawler\Processor\Node\GetPriorPlayers;
 use Phooty\Crawler\Support\OrmUtil;
+use Phooty\Orm\Entities\Team;
+use Phooty\Orm\Entities\Player;
+use Phooty\Orm\Entities\RosterPlayer;
 
 /**
  * Crawls the HTML from a Season totals page from afltables.com
@@ -32,8 +34,6 @@ class SeasonPlayerTotals extends BaseCrawler
     private $team = false;
 
     private $season;
-
-    private $rosters = [];
 
     private $orm;
 
@@ -59,7 +59,6 @@ class SeasonPlayerTotals extends BaseCrawler
                 $this->crawlNodes($el->childNodes); 
             }
         }
-        $this->initPendingRosters();
         return $this->result();
     }
 
@@ -78,126 +77,83 @@ class SeasonPlayerTotals extends BaseCrawler
             if (($children = $node->childNodes)->count() > 2
                 && false !== $this->team
             ) {
-                foreach ($children as $child) {
-                    $data = MappingUtils::mapNode($child, $this->mappings);
-                    if (!isset($data['player'])) {
-                        break;
-                    }
-                    $player = [];
-                    $name = explode(',', $data['player'], 2);
-                    $player['surname'] = $name[0];
-                    !isset($name[1]) ?: $player['given_names'] = $name[1];
-                    $player['prior_players'] = $this->checkForPriorNames($child);
-                    $model = $this->resolvePlayer($player);
-                    //$model->stats = $this->factory('stats')->build($player);
-                    //$roster = $this->team->getRoster($this->season);
-                    $this->result()->players()->add($model);
-                    $this->addToCurrentRoster($model);
-                    //$this->result['players'][$model->id] = $model;
-                    //dd($player);
-                    /* $roster->addRosteredPlayer(
-                        $this->factory('rostered-player')->build($player)
-                    ); */
-                    //dd($roster);
-                    //$this->factory('rostered-player');
-                }
+                
+                $this->processPlayerData($children);
+
             } elseif(RegexUtils::isTableHeading($node->textContent)) {
-                $team = $this->resolveTeam($this->teamFromTableHeading($node));
+                
+                $team = $this->resolveTeam(
+                    $this->container->make(TeamFromTableHeading::class)->process($node)
+                );
                 $this->team = $team;
                 $this->result()->teams()->add($team);
+                
             }
         }
     }
 
-    private function resolveTeam(array $team)
+    protected function processPlayerData(\DOMNodeList $nodes)
     {
-        return $this->orm->find(Team::class, $team, function (array $team) {
-            return $this->factory('team')->build($team);;
+        foreach ($nodes as $child) {
+            $data = MappingUtils::mapNode($child, $this->mappings);
+            if (!isset($data['player'])) {
+                break;
+            }
+            $player = [];
+            $name = explode(',', $data['player'], 2);
+            $player['surname'] = trim($name[0]);
+            !isset($name[1]) ?: $player['given_names'] = trim($name[1]);
+            $player['prior_players'] = $this->container->make(
+                GetPriorPlayers::class
+            )->process($child);
+            $model = $this->resolvePlayer($player);
+            
+            $this->result()->players()->add($model);
+            $this->result()->rosters()->add($this->resolveRosterPlayer($model));
+        }
+    }
+
+    private function resolveTeam(array $data)
+    {
+        return $this->orm->find(Team::class, $data, function (array $data) {
+            return $this->factory('team')->build($data);;
         });
     }
 
-    private function resolvePlayer(array $player)
+    private function resolvePlayer(array $data)
     {
-        return $this->orm->find(Player::class, $player, function (array $player) {
-            return $this->factory('player')->build($player);;
+        return $this->orm->find(Player::class, $data, function (array $data) {
+            return $this->factory('player')->build($data);
         });
     }
 
-    private function checkForPriorNames(\DOMNode $node)
+    private function resolveRosterPlayer(Player $player)
     {
-        $a = $node->childNodes[1]->childNodes[0]->attributes[0];
-        if (!preg_match('/(\d+\.html)$/', $a->value)) {
-            return 0;
-        }
-        return (int) preg_replace('/\D/', '', $a->value);
-    }
-
-    /**
-     * Attempts to resolve a Team from a table row.
-     *
-     * @param \DOMNode $node
-     * @return array
-     */
-    private function teamFromTableHeading(\DOMNode $node)
-    {
-        $team = RegexUtils::getTeamFromHeading(
-            $node->textContent
-        );
-        if (!isset($this->teamResolver)) {
-            $this->teamResolver = $this->container->make(TeamResolver::class);
-        }
-        $teamData = $this->teamResolver->resolve($team);
-        if (!$teamData) {
-            throw new \LogicException('Invalid team: '.$team);
-        }
-        return $teamData;
-        
-    }
-
-    protected function resolveRoster(Team $team)
-    {
-
-        $this->rosters[$team->getShort()] = [
-            'pending' => $this->pendingNewRoster($team),
-            'players' => []
+        $data = [
+            'player' => $player,
+            'team' => $this->team,
+            'season' => $this->season
         ];
-    }
-
-    protected function initPendingRosters()
-    {
-        foreach ($this->rosters as $roster) {
-            if (isset($roster['pending'], $roster['players'])
-                && is_callable($roster['pending'])
-            ) {
-                $this->result()->rosters()->add(
-                    call_user_func($roster['pending'], $roster['players'])
-                );
-            }
-        }
-    }
-
-    protected function pendingNewRoster(Team $team)
-    {
-        $initRoster = \Closure::fromCallable(
-            function (array $players) use ($team) {
-                return $this->factory('roster')->build([
-                    'players' => $players,
-                    'team' => $team,
-                    'season' => $this->season
-                ]);
+        return $this->orm->find(
+            RosterPlayer::class,
+            $data,
+            function (array $data) {
+                return $this->factory('roster.player')->build($data);
             }
         );
-
-        return $initRoster;
     }
 
     protected function addToCurrentRoster(Player $player)
     {
-        $this->rosters[$this->team->getShort()]['players'][] = $this->factory(
+        $player = $this->factory(
             'roster.player'
         )->build([
-            'player' => $player
+            'player' => $player,
+            'team' => $this->team,
+            'season' => $this->season
         ]);
+
+        dd($player);
     }
 
     protected function orm()
