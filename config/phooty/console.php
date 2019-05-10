@@ -5,5 +5,6 @@ return [
         Phooty\Crawler\Console\CrawlSeasonHtml::class,
         Phooty\Orm\Console\ListRoster::class,
         Phooty\Console\Commands\Orm\PlayerCommand::class,
+        Phooty\Console\Commands\DrawSherrin::class
     ]
 ];
