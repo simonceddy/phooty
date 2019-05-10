@@ -5,7 +5,6 @@ use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Crawler\Mappings\PlayerSeasonTotals;
 use Phooty\Crawler\Support\CrawlerUtils;
-use Phooty\Crawler\Support\RegexUtils;
 use Phooty\Crawler\Support\TeamResolver;
 use Phooty\Crawler\Mappings\Mapping;
 use Phooty\Crawler\Support\MappingUtils;
@@ -80,10 +79,12 @@ class SeasonPlayerTotals extends BaseCrawler
                 
                 $this->processPlayerData($children);
 
-            } elseif(RegexUtils::isTableHeading($node->textContent)) {
+            } elseif(TeamFromTableHeading::isValid($node)) {
                 
                 $team = $this->resolveTeam(
-                    $this->container->make(TeamFromTableHeading::class)->process($node)
+                    $this->processor(
+                        TeamFromTableHeading::class
+                    )->process($node)
                 );
                 $this->team = $team;
                 $this->result()->teams()->add($team);
@@ -103,7 +104,7 @@ class SeasonPlayerTotals extends BaseCrawler
             $name = explode(',', $data['player'], 2);
             $player['surname'] = trim($name[0]);
             !isset($name[1]) ?: $player['given_names'] = trim($name[1]);
-            $player['prior_players'] = $this->container->make(
+            $player['prior_players'] = $this->processor(
                 GetPriorPlayers::class
             )->process($child);
             $model = $this->resolvePlayer($player);
@@ -141,19 +142,6 @@ class SeasonPlayerTotals extends BaseCrawler
                 return $this->factory('roster.player')->build($data);
             }
         );
-    }
-
-    protected function addToCurrentRoster(Player $player)
-    {
-        $player = $this->factory(
-            'roster.player'
-        )->build([
-            'player' => $player,
-            'team' => $this->team,
-            'season' => $this->season
-        ]);
-
-        dd($player);
     }
 
     protected function orm()
