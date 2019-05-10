@@ -16,13 +16,9 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Phooty\\Core\\": "lib/core/src",
             "Phooty\\Config\\": "lib/config/src",
             "Phooty\\Console\\": "lib/console/src",
-            "Phooty\\Foundation\\": "lib/foundation/src",
-            "Phooty\\Orm\\": "lib/orm/src",
-            "Phooty\\Support\\": "lib/support/src",
-            "Phooty\\Crawler\\": "lib/crawler/src"
+            "Phooty\\Support\\": "lib/support/src"
         },
         "files": [
             "lib/support/src/helpers.php"
@@ -39,6 +35,10 @@
         "ramsey/uuid": "^3.8",
         "doctrine/orm": "^2.6",
         "nesbot/carbon": "^2.17",
+        "phooty/core": "dev-master",
+        "phooty/orm": "dev-master",
+        "phooty/foundation": "dev-master",
+        "phooty/crawler": "dev-master",
         "symfony/config": "^4.2",
         "symfony/yaml": "^4.2",
         "symfony/dom-crawler": "^4.2",
@@ -49,5 +49,23 @@
     "require-dev": {
         "symfony/var-dumper": "^4.2",
         "phpunit/phpunit": "^8.1"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/crawler.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/foundation.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/core.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/orm.git"
+        }
+    ]
 }

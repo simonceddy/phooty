@@ -6,4 +6,4 @@ composer.phar
 *.code-workspace
 *.sqlite
 /storage/*.html
-/lib/*/.git/
+#/lib/*/.git/
