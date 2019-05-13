@@ -19,5 +19,7 @@
             "Phooty\\Config\\": "src"
         }
     },
-    "require": {}
+    "require": {
+        "illuminate/config": "^5.8"
+    }
 }

@@ -14,6 +14,12 @@ class TeamFromTableHeading implements NodeProcessor
         $this->teamResolver = $teamResolver;
     }
 
+    /**
+     * Process DOMNode
+     *
+     * @param \DOMNode $node
+     * @return mixed
+     */
     public function process(\DOMNode $node)
     {
         $team = trim(preg_replace(static::TEAM_HEADING, '', $node->textContent)

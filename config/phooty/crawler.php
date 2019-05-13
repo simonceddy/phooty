@@ -1,10 +1,10 @@
 <?php
 return [
     'factories' => [
-        'player' => Phooty\Crawler\Factory\PlayerFactory::class,
-        'team' => Phooty\Crawler\Factory\TeamFactory::class,
-        'roster.player' => Phooty\Crawler\Factory\RosterPlayerFactory::class,
-        'stats' => Phooty\Crawler\Factory\StatsFactory::class,
+        'player' => Phooty\Crawler\Factory\Orm\PlayerFactory::class,
+        'team' => Phooty\Crawler\Factory\Orm\TeamFactory::class,
+        'roster.player' => Phooty\Crawler\Factory\Orm\RosterPlayerFactory::class,
+        'stats' => Phooty\Crawler\Factory\Orm\StatsFactory::class,
     ],
     'teams' => [
         'AD' => [

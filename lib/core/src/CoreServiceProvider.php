@@ -10,7 +10,7 @@ class CoreServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Timer::class, function () {
             return (new BootstrapTimer)->bootstrap(
-                $this->app->make('config')
+                $this->app->make('config')->get('phooty.sim.period_length')
             );
         });
     }

@@ -33,7 +33,7 @@ class Simulation extends Emitter
     {
         $this->config = $this->container->make('config');
 
-        $this->max_periods = $this->config->get('phooty.sim.match.periods');
+        $this->max_periods = $this->config->get('phooty.sim.periods');
     }
 
     private function initEvents()

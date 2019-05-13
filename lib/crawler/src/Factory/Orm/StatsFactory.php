@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Crawler\Factory;
+namespace Phooty\Crawler\Factory\Orm;
 
 use Phooty\Crawler\Transport\StatsTransport;
 

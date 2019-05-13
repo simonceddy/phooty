@@ -1,7 +1,8 @@
 <?php
 //use Doctrine\ORM\EntityManagerInterface;
 
-require 'vendor/autoload.php';
+require 'autoload.php';
+//require 'vendor/autoload.php';
 
 $app = include_once 'bootstrap.php';
 

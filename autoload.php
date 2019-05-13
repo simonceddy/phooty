@@ -18,3 +18,13 @@ function autoload(array $paths)
         !$path ?: require_once $path;
     }
 }
+
+autoload([
+    __DIR__ . '/lib/foundation',
+    __DIR__ . '/lib/config',
+    __DIR__ . '/lib/console',
+    __DIR__ . '/lib/core',
+    __DIR__ . '/lib/crawler',
+    __DIR__ . '/lib/orm',
+    __DIR__ . '/lib/support'
+]);

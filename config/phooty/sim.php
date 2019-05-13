@@ -1,7 +1,5 @@
 <?php
 return [
-    'match' => [
-        'periods' => 4,
-        'period_length' => 120000
-    ]
+    'periods' => 4,
+    'period_length' => 120000
 ];
