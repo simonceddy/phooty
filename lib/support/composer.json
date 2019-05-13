@@ -22,5 +22,8 @@
             "src/helpers.php"
         ]
     },
-    "require": {}
+    "require": {
+        "illuminate/support": "^5.8",
+        "symfony/var-dumper": "^4.2"
+    }
 }
