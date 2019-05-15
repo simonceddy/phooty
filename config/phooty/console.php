@@ -1,5 +1,9 @@
 <?php
 return [
+
+    /**
+     * Register the application's console commands
+     */
     'commands' => [
         Phooty\Crawler\Console\CrawlSeason::class,
         Phooty\Crawler\Console\CrawlSeasonHtml::class,

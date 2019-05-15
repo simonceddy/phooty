@@ -24,6 +24,7 @@ class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        //dd(new \ReflectionClass($this->getHelper('question')));
         dd($this->sim->run());
     }
 }

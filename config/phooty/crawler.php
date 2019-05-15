@@ -1,11 +1,17 @@
 <?php
 return [
+
+    /**
+     * Set factory classes. Using Phooty\Orm entities by default.
+     */
     'factories' => [
         'player' => Phooty\Crawler\Factory\Orm\PlayerFactory::class,
         'team' => Phooty\Crawler\Factory\Orm\TeamFactory::class,
         'roster.player' => Phooty\Crawler\Factory\Orm\RosterPlayerFactory::class,
         'stats' => Phooty\Crawler\Factory\Orm\StatsFactory::class,
     ],
+
+
     'teams' => [
         'AD' => [
             'short' => 'ad',
@@ -35,6 +41,7 @@ return [
         'SM' => ['short' => 'sm', 'city' => 'South Melbourne', 'name' => 'Swans']
     ],
 
+    
     'aliases' => [
         'crows' => 'AD',
         'adelaide' => 'AD',
