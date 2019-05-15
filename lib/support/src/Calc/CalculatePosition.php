@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Support\Util\Calc;
+namespace Phooty\Support\Calc;
 
 class CalculatePosition
 {

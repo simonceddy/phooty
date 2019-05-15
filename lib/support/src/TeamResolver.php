@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Crawler\Support;
+namespace Phooty\Support;
 
 class TeamResolver
 {

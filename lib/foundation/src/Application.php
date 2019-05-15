@@ -5,9 +5,12 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as IlluminateContainer;
 use Phooty\Config\Config;
 use Phooty\Config\Drivers as ConfigDriver;
+use Phooty\Foundation\Support\HasProviders;
 
 class Application extends Container
 {
+    use HasProviders;
+
     /**
      * The Application Config instance
      *
@@ -15,14 +18,23 @@ class Application extends Container
      */
     private $config;
 
+    /**
+     * The Application Path instance
+     *
+     * @var Path
+     */
     private $path;
+
+    private $booted = false;
+
+    private $bootstrapped = false;
 
     public function __construct(array $options = [])
     {
-        $this->initPath();
         $this->bootstrap($options);
         $this->registerBindings();
         $this->registerProviders();
+        $this->booted = true;
     }
 
     private function initPath()
@@ -32,6 +44,8 @@ class Application extends Container
 
     private function bootstrap(array $options)
     {
+        $this->initPath();
+
         $this->config = (new Bootstrap\BootstrapConfig(
             $options['config_drivers'] ?? [
                 'php' => ConfigDriver\PhpFileDriver::class,
@@ -42,6 +56,8 @@ class Application extends Container
         ))->bootstrap(
             $this->path->get('config')
         );
+
+        $this->bootstrapped = true;
     }
 
     private function registerBindings()
@@ -117,5 +133,15 @@ class Application extends Container
         }
         
         return $this->config;
+    }
+
+    public function isBootstrapped(): bool
+    {
+        return $this->bootstrapped;
+    }
+
+    public function isBooted(): bool
+    {
+        return $this->booted;
     }
 }

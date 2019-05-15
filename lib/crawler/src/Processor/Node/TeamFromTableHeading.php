@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Crawler\Processor\Node;
 
-use Phooty\Crawler\Support\TeamResolver;
+use Phooty\Support\TeamResolver;
 
 class TeamFromTableHeading implements NodeProcessor
 {

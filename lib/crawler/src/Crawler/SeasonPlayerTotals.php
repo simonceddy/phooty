@@ -11,7 +11,7 @@ use Phooty\Crawler\Support\MappingUtils;
 use Phooty\Crawler\Results;
 use Phooty\Crawler\Processor\Node\TeamFromTableHeading;
 use Phooty\Crawler\Processor\Node\GetPriorPlayers;
-use Phooty\Crawler\Support\OrmUtil;
+use Phooty\Support\OrmUtil;
 use Phooty\Orm\Entities\Team;
 use Phooty\Orm\Entities\Player;
 use Phooty\Orm\Entities\RosterPlayer;

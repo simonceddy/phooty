@@ -2,7 +2,7 @@
 namespace Phooty\Crawler;
 
 use Phooty\Support\ServiceProvider;
-use Phooty\Crawler\Support\TeamResolver;
+use Phooty\Support\TeamResolver;
 use Phooty\Crawler\Crawler\SeasonPlayerTotals;
 use Phooty\Crawler\Mappings\SeasonPlayerTotalsMapping;
 

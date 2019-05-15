@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Console\Commands\Orm;
+namespace Phooty\Orm\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -7,29 +7,30 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Container\Container;
-use Doctrine\ORM\EntityManager;
 use Phooty\Orm\Entities\Player;
+use Phooty\Support\OrmUtil;
 
-class PlayerCommand extends Command
+class FindPlayer extends Command
 {
     private $app;
 
     /**
-     * Entity Manager instance
+     * OrmUtil instance
      *
-     * @var EntityManager
+     * @var OrmUtil
      */
-    private $em;
+    private $orm;
 
     public function __construct(Container $app)
     {
         $this->app = $app;
+        $this->orm = $this->app->make(OrmUtil::class);
         parent::__construct();
     }
 
     protected function configure()
     {
-        $this->setName('orm:player')
+        $this->setName('find:player')
             ->setDescription(
                 'Search persistance for players by name.'
             )
@@ -49,31 +50,49 @@ class PlayerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->em = $this->app->make(EntityManager::class);
         $names = $input->getArgument('name');
+        if (empty($names)) {
+            $output->writeln('No names provided.');
+            return;
+        }
 
         switch ($names) {
-            case 0 === count($names):
-                $output->writeln('No names provided.');
-                break;
             case 1 === count($names):
-                dd($this->locateSurname($names[0]));
+                $data = ['surname' => $names[0]];
                 break;
             case 2 === count($names):
-                dd($this->locateFullName($names[1], $names[0]));
+                $data = ['surname' => $names[1], 'given_names' => $names[0]];
                 break;
         }
+
+        $result = $this->orm->findAll(Player::class, $data, function () {
+            return [];
+        });
+
+        switch($i = count($result)) {
+            case 0:
+                $total = "no results";
+                break;
+            case 1:
+                $total = "1 result";
+                break;
+            default:
+                $total = "{$i} results";
+        }
+
+        $name = implode(" ", $names);
+        $output->writeln("<bg=black;fg=green;>Found {$total} for</><bg=black;fg=yellow;> {$name} </>");
     }
 
     protected function locateSurname(string $surname)
     {
-        $player = $this->em->getRepository(Player::class);
+        $player = $this->orm->getRepository(Player::class);
         return $player->findBy(['surname' => $surname]);
     }
 
     protected function locateFullName(string $surname, string $given_names, int $prior = null)
     {
-        $player = $this->em->getRepository(Player::class);
+        $player = $this->orm->getRepository(Player::class);
         $criteria = [
             'surname' => $surname,
             'given_names' => $given_names
