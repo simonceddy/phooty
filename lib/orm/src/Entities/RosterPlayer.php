@@ -44,6 +44,9 @@ class RosterPlayer
      */
     protected $season;
 
+    
+    protected $stats;
+
     public function __construct()
     {
         $this->created = new \DateTime();

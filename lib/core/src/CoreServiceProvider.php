@@ -5,7 +5,7 @@ use Phooty\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
         $this->app->singleton(Timer::class, function () {
             return new Timer(

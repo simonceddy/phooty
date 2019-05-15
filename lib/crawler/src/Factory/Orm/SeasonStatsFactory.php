@@ -1,9 +1,7 @@
 <?php
 namespace Phooty\Crawler\Factory\Orm;
 
-use Phooty\Crawler\Transport\StatsTransport;
-
-class StatsFactory extends BaseFactory
+class SeasonStatsFactory extends BaseFactory
 {
     /**
      * An array of valid keys for stats
@@ -16,7 +14,7 @@ class StatsFactory extends BaseFactory
         'marks',
         'handballs',
         'disposals',
-        'average_disposals',
+        //'average_disposals',
         'goals',
         'behinds',
         'hitouts',
@@ -40,10 +38,9 @@ class StatsFactory extends BaseFactory
 
     public function build(array $data = [])
     {
-        $data = array_filter($data, function ($key) {
+        return array_filter($data, function ($key) {
             return in_array($key, static::$valid);
         }, ARRAY_FILTER_USE_KEY);;
-
-        return new StatsTransport($data);
+        //return new StatsTransport($data);
     }
 }

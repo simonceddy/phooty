@@ -8,7 +8,7 @@ return [
         'player' => Phooty\Crawler\Factory\Orm\PlayerFactory::class,
         'team' => Phooty\Crawler\Factory\Orm\TeamFactory::class,
         'roster.player' => Phooty\Crawler\Factory\Orm\RosterPlayerFactory::class,
-        'stats' => Phooty\Crawler\Factory\Orm\StatsFactory::class,
+        'season.stats' => Phooty\Crawler\Factory\Orm\SeasonStatsFactory::class,
     ],
 
 

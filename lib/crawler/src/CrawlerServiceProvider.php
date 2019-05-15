@@ -8,7 +8,7 @@ use Phooty\Crawler\Mappings\SeasonPlayerTotalsMapping;
 
 class CrawlerServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
         $this->app->bind(TeamResolver::class, function () {
             $config = $this->app->make('config');

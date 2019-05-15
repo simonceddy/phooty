@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Orm\Entities\Player;
 use Phooty\Support\OrmUtil;
+use Phooty\Orm\Console\Formatter\PlayerInfoFormatter;
 
 class FindPlayer extends Command
 {
@@ -65,11 +66,24 @@ class FindPlayer extends Command
                 break;
         }
 
-        $result = $this->orm->findAll(Player::class, $data, function () {
+        $results = $this->orm->findAll(Player::class, $data, function () {
             return [];
         });
 
-        switch($i = count($result)) {
+        $this->outputResultCount($output, $results, $names);
+
+        if (empty($results)) {
+            return;
+        }
+
+        $formatter = new PlayerInfoFormatter($output);
+        $formatter->addPlayers($results);
+        $formatter->render();
+    }
+
+    private function outputResultCount(OutputInterface $output, array $results, array $names)
+    {
+        switch($i = count($results)) {
             case 0:
                 $total = "no results";
                 break;
@@ -81,7 +95,8 @@ class FindPlayer extends Command
         }
 
         $name = implode(" ", $names);
-        $output->writeln("<bg=black;fg=green;>Found {$total} for</><bg=black;fg=yellow;> {$name} </>");
+
+        return $output->writeln("<bg=black;fg=green;>Found {$total} for</><bg=black;fg=yellow;> {$name} </>");
     }
 
     protected function locateSurname(string $surname)

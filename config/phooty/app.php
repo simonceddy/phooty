@@ -8,7 +8,6 @@ return [
     'providers' => [
         Phooty\Core\CoreServiceProvider::class,
         Phooty\Orm\OrmServiceProvider::class,
-        Phooty\Orm\RepositoryServiceProvider::class,
         Phooty\Crawler\CrawlerServiceProvider::class,
         Phooty\Crawler\FactoryServiceProvider::class,
     ]

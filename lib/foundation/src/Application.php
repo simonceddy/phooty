@@ -6,7 +6,13 @@ use Illuminate\Contracts\Container\Container as IlluminateContainer;
 use Phooty\Config\Config;
 use Phooty\Config\Drivers as ConfigDriver;
 use Phooty\Foundation\Support\HasProviders;
+use Phooty\Support\ServiceProvider;
 
+/**
+ * The Application instance
+ * 
+ * @todo Fix bootstrapping process
+ */
 class Application extends Container
 {
     use HasProviders;
@@ -88,7 +94,12 @@ class Application extends Container
     {
         $providers = $this->config('phooty.app.providers') ?? [];
         foreach ($providers as $provider) {
-            (new $provider($this))->register();
+            if (!class_exists($provider)
+                || !((new \ReflectionClass($provider))->isSubclassOf(ServiceProvider::class))
+            ) {
+                throw new \LogicException('Invalid provider:' . $provider);
+            }
+            (new $provider($this))->boot();
         }
     }
 

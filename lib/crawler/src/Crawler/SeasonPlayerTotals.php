@@ -111,6 +111,8 @@ class SeasonPlayerTotals extends BaseCrawler
             
             $this->result()->players()->add($model);
             $this->result()->rosters()->add($this->resolveRosterPlayer($model));
+
+            dd($this->factory('season.stats')->build($data));
         }
     }
 

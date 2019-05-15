@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Type;
 
 class OrmServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
         Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
 
