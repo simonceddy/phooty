@@ -56,7 +56,7 @@ class RosterPlayer
      * Get the Player entity
      *
      * @return  Player
-     */ 
+     */
     public function getPlayer()
     {
         return $this->player;
@@ -68,7 +68,7 @@ class RosterPlayer
      * @param  Player  $player  The Player entity
      *
      * @return  self
-     */ 
+     */
     public function setPlayer(Player $player)
     {
         $this->player = $player;
@@ -80,7 +80,7 @@ class RosterPlayer
      * Get the Roster the player belongs to
      *
      * @return  Team
-     */ 
+     */
     public function getTeam()
     {
         return $this->team;
@@ -92,7 +92,7 @@ class RosterPlayer
      * @param  Team  $Team  The Team the player belongs to
      *
      * @return  self
-     */ 
+     */
     public function setTeam(Team $team)
     {
         $this->team = $team;
@@ -104,7 +104,7 @@ class RosterPlayer
      * Get the season the player is rostered for
      *
      * @return  int
-     */ 
+     */
     public function getSeason()
     {
         return $this->season;
@@ -116,7 +116,7 @@ class RosterPlayer
      * @param  int  $season  The season the player is rostered for
      *
      * @return  self
-     */ 
+     */
     public function setSeason(int $season)
     {
         $this->season = $season;
