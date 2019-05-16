@@ -1,12 +1,7 @@
 <?php
-namespace Phooty\Console\Commands;
+namespace Phooty\Console\Artwork;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Phooty\Console\Artwork\AsciiSherrin;
-
-class DrawSherrin extends Command
+class AsciiSherrin
 {
     protected const SHERRIN = <<<EOT
     <fg=red;bg=black;options=bold;>
@@ -22,15 +17,8 @@ class DrawSherrin extends Command
     </>
 EOT;
 
-    protected function configure()
+    public static function render()
     {
-        $this->setName('draw:sherrin')
-            ->setDescription('Draw a sherrin')
-        ;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln(AsciiSherrin::render());
+        return self::SHERRIN;
     }
 }

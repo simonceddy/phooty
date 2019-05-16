@@ -1,6 +1,9 @@
 <?php
 namespace Phooty\Orm\Support\Traits;
 
+/**
+ * Tracks games played
+ */
 trait CountsGames
 {
     /**

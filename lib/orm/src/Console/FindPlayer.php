@@ -9,7 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Orm\Entities\Player;
 use Phooty\Support\OrmUtil;
-use Phooty\Orm\Console\Formatter\PlayerInfoFormatter;
+use Phooty\Orm\Console\Formatter\PlayerTableFormatter;
+use Phooty\Orm\Console\Formatter\PlayerStatsFormatter;
 
 class FindPlayer extends Command
 {
@@ -76,9 +77,32 @@ class FindPlayer extends Command
             return;
         }
 
-        $formatter = new PlayerInfoFormatter($output);
-        $formatter->addPlayers($results);
-        $formatter->render();
+        foreach ($results as $player) {
+            $output->write(PHP_EOL);
+            $output->writeln(
+                "<info>{$player->getGivenNames()} {$player->getSurname()}</>"
+            );
+
+            $output->write(PHP_EOL);
+
+            if (1 < ($prior = $player->getPriorPlayers())) {
+                $output->writeln(
+                    "{$prior} players with this name have previously played."
+                );
+
+                $output->write(PHP_EOL);
+            } elseif (1 === ($prior = $player->getPriorPlayers())) {
+                $output->writeln(
+                    "{$prior} player with this name has previously played."
+                );
+
+                $output->write(PHP_EOL);
+            }
+
+            $formatter = new PlayerStatsFormatter($output, $player);
+            $formatter->render();
+            $output->write(PHP_EOL);
+        }
     }
 
     private function outputResultCount(OutputInterface $output, array $results, array $names)

@@ -30,7 +30,7 @@ class RosterPlayer
     /**
      * The RosterPlayer's season stats
      *
-     * @OneToOne(targetEntity="SeasonStats")
+     * @OneToOne(targetEntity="SeasonStats", cascade={"persist"})
      * @JoinColumn(name="season_stats_id", referencedColumnName="id")
      * @var SeasonStats
      */
@@ -43,9 +43,14 @@ class RosterPlayer
      * @var int
      */
     protected $season;
-
     
-    protected $stats;
+    /**
+     * The Player's number
+     *
+     * @Column(type="integer")
+     * @var int
+     */
+    protected $number;
 
     public function __construct()
     {
@@ -120,6 +125,54 @@ class RosterPlayer
     public function setSeason(int $season)
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    /**
+     * Get the Player's number
+     *
+     * @return  int
+     */ 
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set the Player's number
+     *
+     * @param  int  $number  The Player's number
+     *
+     * @return  self
+     */ 
+    public function setNumber(int $number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get the RosterPlayer's season stats
+     *
+     * @return  SeasonStats
+     */ 
+    public function getSeasonStats()
+    {
+        return $this->season_stats;
+    }
+
+    /**
+     * Set the RosterPlayer's season stats
+     *
+     * @param  SeasonStats  $season_stats  The RosterPlayer's season stats
+     *
+     * @return  self
+     */ 
+    public function setSeasonStats(SeasonStats $season_stats)
+    {
+        $this->season_stats = $season_stats;
 
         return $this;
     }

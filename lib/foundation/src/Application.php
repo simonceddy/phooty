@@ -31,16 +31,29 @@ class Application extends Container
      */
     private $path;
 
-    private $booted = false;
-
-    private $bootstrapped = false;
+    /**
+     * Is Phooty installed yet
+     *
+     * @var boolean
+     */
+    private $is_installed;
 
     public function __construct(array $options = [])
     {
-        $this->bootstrap($options);
+        $this->initPath();
+
+        $this->is_installed = $this->getInstallStatus();
+        
+        $this->preboot($options);
+
         $this->registerBindings();
+        
         $this->registerProviders();
-        $this->booted = true;
+    }
+
+    private function getInstallStatus(): bool
+    {
+        return Support\CheckInstallStatus::check($this->path('home'));
     }
 
     private function initPath()
@@ -48,10 +61,8 @@ class Application extends Container
         $this->path = (new Bootstrap\BootstrapPath())->bootstrap();
     }
 
-    private function bootstrap(array $options)
+    private function preboot(array $options)
     {
-        $this->initPath();
-
         $this->config = (new Bootstrap\BootstrapConfig(
             $options['config_drivers'] ?? [
                 'php' => ConfigDriver\PhpFileDriver::class,
@@ -63,7 +74,6 @@ class Application extends Container
             $this->path->get('config')
         );
 
-        $this->bootstrapped = true;
     }
 
     private function registerBindings()
@@ -79,6 +89,12 @@ class Application extends Container
         $this->bind('path.config', function () {
             return $this->path->get('config');
         });
+
+        if ($this->path->hasBound('home')) {
+            $this->bind('path.home', function () {
+                return $this->path->get('home');
+            });
+        }
 
         $this->instance(Config::class, $this->config);
 
@@ -154,5 +170,10 @@ class Application extends Container
     public function isBooted(): bool
     {
         return $this->booted;
+    }
+
+    public function getHomeDir()
+    {
+        return $this->path('home');
     }
 }

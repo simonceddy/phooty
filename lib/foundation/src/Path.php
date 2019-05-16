@@ -36,6 +36,25 @@ class Path
         return $this;
     }
 
+    public function has(string $path)
+    {
+        switch ($path) {
+            case (isset($this->shortcuts[$path])):
+                return true;
+            case (file_exists($path)):
+                return true;
+            case (file_exists($fn = $this->root_path.'/'.$path)):
+                return true;
+        }
+
+        return false;
+    }
+
+    public function hasBound(string $shortcut)
+    {
+        return isset($this->shortcuts[$shortcut]);
+    }
+
     public function get(string $path = null)
     {
         switch ($path) {

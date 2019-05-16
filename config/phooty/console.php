@@ -11,5 +11,6 @@ return [
         Phooty\Orm\Console\FindPlayer::class,
         Phooty\Console\Commands\DrawSherrin::class,
         Phooty\Console\Commands\RunCommand::class,
+        Phooty\Console\Commands\InstallCommand::class,
     ]
 ];

@@ -19,7 +19,18 @@ class Kernel extends Application
             $this->config->get('phooty.app.version')
         );
 
+        $this->registerDefaultCommands();
+
         $this->registerCommands();
+    }
+
+    private function registerDefaultCommands()
+    {
+        $this->addCommands([
+            new Commands\WelcomeCommand()
+        ]);
+
+        $this->setDefaultCommand('welcome');
     }
 
     private function registerCommands()

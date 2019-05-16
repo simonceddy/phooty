@@ -6,7 +6,7 @@ use Symfony\Component\Console\Helper\Table;
 use Phooty\Orm\Entities\Player;
 use Phooty\Orm\Entities\RosterPlayer;
 
-class PlayerInfoFormatter
+class PlayerTableFormatter
 {
     private static $headers = [
         'Surname',
