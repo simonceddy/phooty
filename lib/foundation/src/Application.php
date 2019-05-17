@@ -7,6 +7,8 @@ use Phooty\Config\Config;
 use Phooty\Config\Drivers as ConfigDriver;
 use Phooty\Foundation\Support\HasProviders;
 use Phooty\Support\ServiceProvider;
+use Phooty\Console\Kernel;
+use Symfony\Component\Console\Application as SymfApplication;
 
 /**
  * The Application instance
@@ -49,6 +51,8 @@ class Application extends Container
         $this->registerBindings();
         
         $this->registerProviders();
+
+        $this->alias(Kernel::class, SymfApplication::class);
     }
 
     private function getInstallStatus(): bool
@@ -99,6 +103,8 @@ class Application extends Container
         $this->instance(Config::class, $this->config);
 
         $this->alias(Config::class, 'config');
+
+        $this->instance(static::class, $this);
     }
 
     /**
@@ -162,14 +168,9 @@ class Application extends Container
         return $this->config;
     }
 
-    public function isBootstrapped(): bool
+    public function isInstalled(): bool
     {
-        return $this->bootstrapped;
-    }
-
-    public function isBooted(): bool
-    {
-        return $this->booted;
+        return $this->is_installed;
     }
 
     public function getHomeDir()

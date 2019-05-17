@@ -1,10 +1,10 @@
 <?php
-namespace Phooty\Console;
+namespace Phooty\App\Console;
 
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as SymfApp;
 use Illuminate\Contracts\Container\Container;
 
-class Kernel extends Application
+class Kernel extends SymfApp
 {
     private $app;
 

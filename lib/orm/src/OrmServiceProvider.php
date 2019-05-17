@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Phooty\Orm\Bootstrap\BootstrapEntityManager;
 use Doctrine\DBAL\Types\Type;
+use Phooty\Console\Kernel;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 
 class OrmServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,12 @@ class OrmServiceProvider extends ServiceProvider
 
         $this->app->alias(EntityManagerInterface::class, EntityManager::class);
 
-
+        /* $this->app->afterResolving(Kernel::class, function () {
+            $emh = $this->app->make(EntityManagerHelper::class);
+            $this->app->make(Kernel::class)->getHelperSet()->set($emh);
+            return;
+        }); */
+        
     }
 
     public function provides()

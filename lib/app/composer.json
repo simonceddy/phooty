@@ -1,0 +1,30 @@
+{
+    "name": "phooty/app",
+    "description": "Foundation classes for Phooty app",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\App\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "illuminate/container": "^5.8",
+        "vlucas/phpdotenv": "^3.3",
+        "symfony/console": "^4.2",
+        "symfony/process": "^4.2",
+        "illuminate/config": "^5.8"
+    }
+}

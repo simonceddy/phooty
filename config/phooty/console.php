@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand;
+
 return [
 
     /**
@@ -12,5 +14,7 @@ return [
         Phooty\Console\Commands\DrawSherrin::class,
         Phooty\Console\Commands\RunCommand::class,
         Phooty\Console\Commands\InstallCommand::class,
+
+        //CreateCommand::class ,
     ]
 ];
