@@ -26,7 +26,6 @@ class Simulation extends Emitter
         $this->timer = $timer;
         $this->loadConfig();
         $this->initEvents();
-
     }
 
     private function loadConfig()
@@ -65,9 +64,9 @@ class Simulation extends Emitter
         $result = [];
         $this->started = true;
         while (!$this->finished) {
-            while($this->timer->current() < $this->timer->periodLength()) {
+            while ($this->timer->current() < $this->timer->periodLength()) {
                 $this->timer->tick(mt_rand(1, 8923));
-                $result[] = ($this->period + 1) . 'th! - ' . $this->timer->current(); 
+                $result[] = ($this->period + 1) . 'th! - ' . $this->timer->current();
             }
             $this->emit('endPeriod');
         }
