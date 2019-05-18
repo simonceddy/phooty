@@ -20,6 +20,7 @@ function autoload(array $paths)
 }
 
 autoload([
+    __DIR__ . '/lib/contract',
     __DIR__ . '/lib/foundation',
     __DIR__ . '/lib/config',
     __DIR__ . '/lib/console',
