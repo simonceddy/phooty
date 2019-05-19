@@ -23,4 +23,17 @@ trait HoldsMovableEntities
         $this->entities = array_merge($this->entities, [$entity], $ents);
         return $this;
     }
+
+    public function hasEntity(Movable $entity)
+    {
+        if (in_array($entity, $this->entities)) {
+            return true;
+        }
+
+        /* $check = array_filter($this->entities, function ($ent) use ($entity) {
+
+        }); */
+
+        return false;
+    }
 }

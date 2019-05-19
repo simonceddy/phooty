@@ -4,7 +4,7 @@ namespace Phooty\Core\Support;
 use Phooty\Contract\Core\Movable;
 use Phooty\Contract\Core\Tilemap\Tile;
 
-class MovableEntityBridge implements Movable
+class MovableEntityWrapper implements Movable
 {
     /**
      * The Entity instance
@@ -35,13 +35,24 @@ class MovableEntityBridge implements Movable
         return $this->entity;
     }
 
-    public function __call(string $name, array $arguments)
+    /**
+     * Magic __call method.
+     * 
+     * Passes methods on to entity instance if they exist on the entity, or if
+     * the entity has it's own __call method.
+     *
+     * @param string $name
+     * @param array $params
+     * @return mixed
+     * 
+     * @throws \Exception thrown if no method is found
+     */
+    public function __call(string $name, array $params)
     {
-        if ((0 === strpos($name, 'get')
-            || 0 === strpos($name, 'set'))
-            && method_exists($this->entity, $name)
-        ) {
-            return call_user_func_array([$this->entity, $name], $arguments);
+        if (method_exists($this->entity, $name)) {
+            return call_user_func_array([$this->entity, $name], $params);
+        } elseif (method_exists($this->entity, '__call')) {
+            return call_user_func([$this->entity, '__call'], $name, $params);
         }
 
         throw new \Exception(
