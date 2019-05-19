@@ -11,8 +11,8 @@ require 'autoload.php';
 //dd(new ReflectionClass(CreateCommand::class));
 $app = include_once 'bootstrap.php';
 
-$player = new Phooty\Orm\Entities\Player();
-$player->setSurname('jiffy');
+/* $player = new Phooty\Orm\Entities\Player();
+$player->setSurname('jiffy'); */
 
 /* $map = new Phooty\Core\Tilemap\Tilemap(120, 180);
 
@@ -21,7 +21,7 @@ $tile->addMovableEntity($mp = new MovableEntityWrapper($player));
 //dd($tile->hasEntity($mp));
 dd($map); */
 
-dd((new EntityToArray())->convert($player));
+//dd((new EntityToArray())->convert($player));
 
 //$app->make(Phooty\Core\Simulation::class)->run();
 $kernel = $app->make(Phooty\Console\Kernel::class);

@@ -27,5 +27,6 @@ autoload([
     __DIR__ . '/lib/core',
     __DIR__ . '/lib/crawler',
     __DIR__ . '/lib/orm',
-    __DIR__ . '/lib/support'
+    __DIR__ . '/lib/support',
+    __DIR__ . '/lib/installer',
 ]);
