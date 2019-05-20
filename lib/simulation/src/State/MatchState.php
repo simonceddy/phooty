@@ -2,9 +2,10 @@
 namespace Phooty\Simulation\State;
 
 /**
- * The MatchState object should be a record of a specific time in the match.
+ * The MatchState object should be a record of stats for a specific time in
+ * the match.
  * 
- * It should be immutable and return a new instance when updated.
+ * It should be immutable and return a new instance when changed.
  */
 class MatchState
 {
