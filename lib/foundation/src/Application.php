@@ -3,6 +3,7 @@ namespace Phooty\Foundation;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as IlluminateContainer;
+use Illuminate\Contracts\Config\Repository;
 use Phooty\Config\Config;
 use Phooty\Config\Drivers as ConfigDriver;
 use Phooty\Foundation\Support\HasProviders;
@@ -103,6 +104,8 @@ class Application extends Container
         $this->instance(Config::class, $this->config);
 
         $this->alias(Config::class, 'config');
+
+        $this->alias(Config::class, Repository::class);
 
         $this->instance(static::class, $this);
     }

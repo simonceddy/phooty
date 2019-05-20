@@ -27,6 +27,13 @@ dd($map); */
 $kernel = $app->make(Phooty\Console\Kernel::class);
 //dd($app);
 
+$sim = new Phooty\Simulation\Kernel(null, [
+    'timer' => [
+        'periods' => 5
+    ]
+]);
+
+dd($sim);
 
 $kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));
 

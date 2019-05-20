@@ -5,9 +5,17 @@ class Emitter
 {
     protected $events = [];
 
+    protected $listeners = [];
+
+    public function addListener(Listener $listener)
+    {
+        $this->listeners[] = $listener;
+    }
+
     public function on(string $event, callable $handler)
     {
         $this->events[$event] = $handler;
+        return $this;
     }
 
     public function emit(string $event)

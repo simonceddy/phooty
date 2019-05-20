@@ -62,9 +62,13 @@ class Simulation extends Emitter
             return;
         }
         $result = [];
+
+        $l = $this->timer->periodLength();
+
         $this->started = true;
+
         while (!$this->finished) {
-            while ($this->timer->current() < $this->timer->periodLength()) {
+            while ($this->timer->current() < ($l)) {
                 $this->timer->tick(mt_rand(1, 8923));
                 $result[] = ($this->period + 1) . 'th! - ' . $this->timer->current();
             }

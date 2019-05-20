@@ -1,6 +1,6 @@
 {
     "name": "phooty/core",
-    "description": "Core classes for Phooty simulation",
+    "description": "Phooty simulation",
     "type": "library",
     "license": "MIT",
     "config": {
@@ -16,11 +16,13 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Phooty\\Core\\": "src"
+            "Phooty\\Simulation\\": "src"
         }
     },
     "require": {
         "php": ">=7.1",
-        "symfony/event-dispatcher": "^4.2"
+        "symfony/event-dispatcher": "^4.2",
+        "illuminate/container": "^5.8",
+        "illuminate/config": "^5.8"
     }
 }

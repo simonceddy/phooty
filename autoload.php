@@ -29,4 +29,5 @@ autoload([
     __DIR__ . '/lib/orm',
     __DIR__ . '/lib/support',
     __DIR__ . '/lib/installer',
+    __DIR__ . '/lib/simulation',
 ]);
