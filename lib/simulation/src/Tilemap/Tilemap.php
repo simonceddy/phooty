@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Core\Tilemap;
+namespace Phooty\Simulation\Tilemap;
 
 class Tilemap
 {
