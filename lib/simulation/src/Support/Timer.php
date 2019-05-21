@@ -1,7 +1,9 @@
 <?php
 namespace Phooty\Simulation\Support;
 
-class Timer
+use Phooty\Simulation\Dispatcher;
+
+class Timer extends Emitter
 {
     /**
      * The total time elapsed in ms.
@@ -16,6 +18,13 @@ class Timer
      * @var int
      */
     private $current = 0;
+    
+    /**
+     * The maximum period length.
+     *
+     * @var int
+     */
+    private $period_length;
 
     /**
      * The number of times the current timer has been reset.
@@ -23,6 +32,19 @@ class Timer
      * @var int
      */
     private $resets = 0;
+
+    public function __construct(int $period_length, Dispatcher $dispatcher)
+    {
+        if (1 > $period_length) {
+            throw new \InvalidArgumentException(
+                "Period length must be greater than 1."
+            );
+        }
+
+        $this->period_length = $period_length;
+
+        parent::__construct($dispatcher);
+    }
 
     public function tick(int $ms = 1)
     {

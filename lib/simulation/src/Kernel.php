@@ -46,7 +46,10 @@ class Kernel
     private function registerTimer()
     {
         $this->app->singleton(Support\Timer::class, function () {
-            return new Support\Timer();
+            return new Support\Timer(
+                $this->config->get('timer.period_length'),
+                $this->app->make(Dispatcher::class)
+            );
         });
     }
 }
