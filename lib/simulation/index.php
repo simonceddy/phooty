@@ -1,8 +1,15 @@
 <?php
 use Phooty\Simulation\Kernel;
+use Phooty\Simulation\MatchSimulator;
 
 require __DIR__.'/vendor/autoload.php';
 
-$sim = new Kernel();
+$krnl = new Kernel();
 
-dd($sim);
+$sim = $krnl->app()->make(MatchSimulator::class);
+
+$result = $sim->run();
+
+foreach ($result as $a) {
+    dump($a);
+}

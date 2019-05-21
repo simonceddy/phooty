@@ -46,4 +46,14 @@ trait IsPositionable
         $this->tile = null;
         return $this;
     }
+
+    /**
+     * Does a tile instance exist?
+     *
+     * @return bool
+     */
+    public function hasTile()
+    {
+        return isset($this->tile);
+    }
 }

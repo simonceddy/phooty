@@ -9,5 +9,20 @@ namespace Phooty\Simulation\State;
  */
 class MatchState
 {
+    /**
+     * The Match state as an array
+     *
+     * @var array
+     */
+    private $state;
 
+    public function __construct(array $state)
+    {
+        $this->state = $state;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
 }

@@ -1,0 +1,32 @@
+{
+    "name": "phooty/commentary",
+    "description": "Phooty simulation commentary plugin",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\Commentary\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "symfony/event-dispatcher": "^4.2"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
+    },
+    "bin": [
+        "bin/phooty-sim"
+    ]
+}

@@ -6,8 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Phooty\Orm\Bootstrap\BootstrapEntityManager;
 use Doctrine\DBAL\Types\Type;
-use Phooty\Console\Kernel;
-use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 
 class OrmServiceProvider extends ServiceProvider
 {

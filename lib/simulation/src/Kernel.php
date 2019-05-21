@@ -29,7 +29,10 @@ class Kernel
         
         $this->initConfig($config);
 
+        $this->registerEventDispatcher();
+
         $this->registerTimer();
+
     }
 
     private function initConfig($config = null)
@@ -43,6 +46,11 @@ class Kernel
         }
     }
 
+    private function registerEventDispatcher()
+    {
+        $this->app->singleton(Dispatcher::class);
+    }
+
     private function registerTimer()
     {
         $this->app->singleton(Support\Timer::class, function () {
@@ -51,5 +59,10 @@ class Kernel
                 $this->app->make(Dispatcher::class)
             );
         });
+    }
+
+    public function app()
+    {
+        return $this->app;
     }
 }
