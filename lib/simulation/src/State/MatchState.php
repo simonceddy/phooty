@@ -16,13 +16,37 @@ class MatchState
      */
     private $state;
 
+    /**
+     * Creation datetime object
+     *
+     * @var \DateTime
+     */
+    private $created;
+
     public function __construct(array $state)
     {
         $this->state = $state;
+
+        $this->created = new \DateTime('now');
     }
 
     public function getState()
     {
         return $this->state;
+    }
+
+    public function setState(array $state): MatchState
+    {
+        return new MatchState($state);
+    }
+
+    /**
+     * Get creation datetime object
+     *
+     * @return  \DateTime
+     */ 
+    public function getCreated()
+    {
+        return $this->created;
     }
 }

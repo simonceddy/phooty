@@ -2,6 +2,7 @@
 namespace Phooty\Simulation\Support;
 
 use Phooty\Simulation\Dispatcher;
+use Phooty\Simulation\Events\Match\EndPeriodEvent;
 
 class Timer extends Emitter
 {
@@ -57,6 +58,10 @@ class Timer extends Emitter
         $this->current += $ms;
         $this->total += $ms;
 
+        if ($this->current >= $this->period_length) {
+            $this->reset();
+        }
+
         return $this;
     }
 
@@ -64,6 +69,9 @@ class Timer extends Emitter
     {
         $this->current = 0;
         $this->resets++;
+
+        $this->emit(EndPeriodEvent::NAME, EndPeriodEvent::class);
+
         return $this;
     }
 
@@ -95,5 +103,15 @@ class Timer extends Emitter
     public function getResets()
     {
         return $this->resets;
+    }
+
+    /**
+     * Get the maximum period length.
+     *
+     * @return  int
+     */ 
+    public function getPeriodLength()
+    {
+        return $this->period_length;
     }
 }

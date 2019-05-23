@@ -4,15 +4,11 @@ namespace Phooty\Simulation;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Container\Container as IlluminateContainer;
+use Phooty\Simulation\Support\Traits\AppAware;
 
 class Kernel
 {
-    /**
-     * The Container/App instance
-     *
-     * @var Container
-     */
-    protected $app;
+    use AppAware;
 
     /**
      * The Config instance
@@ -20,6 +16,20 @@ class Kernel
      * @var Config
      */
     protected $config;
+
+    /**
+     * The MatchSimulator instance
+     *
+     * @var MatchSimulator
+     */
+    protected $sim;
+
+    /**
+     * Has the Kernel run bootstrapping processes
+     *
+     * @var boolean
+     */
+    private $bootstrapped = false;
 
     public function __construct(
         Container $container = null,
@@ -31,7 +41,7 @@ class Kernel
 
         $this->registerEventDispatcher();
 
-        $this->registerTimer();
+        $this->registerBindings();
 
     }
 
@@ -48,21 +58,66 @@ class Kernel
 
     private function registerEventDispatcher()
     {
-        $this->app->singleton(Dispatcher::class);
     }
 
-    private function registerTimer()
+    private function registerBindings()
     {
+        if (!$this->app->has(Container::class)) {
+            $this->app->singleton(Container::class, function () {
+                return $this->app;
+            });
+        }
+
+        $this->app->singleton(Dispatcher::class);
+        
         $this->app->singleton(Support\Timer::class, function () {
             return new Support\Timer(
                 $this->config->get('timer.period_length'),
                 $this->app->make(Dispatcher::class)
             );
         });
+
+
+        $this->app->instance(static::class, $this);
     }
 
-    public function app()
+    public function simulate()
     {
-        return $this->app;
+
+    }
+
+    public function simulator(): MatchSimulator
+    {
+        isset($this->sim) ?: $this->sim = $this->app->make(MatchSimulator::class);
+
+        return $this->sim;
+    }
+
+    /**
+     * Check if the Kernel has run bootstrapping processes
+     *
+     * @return  boolean
+     */ 
+    public function isBootstrapped()
+    {
+        return $this->bootstrapped;
+    }
+
+    /**
+     * Runs the processes required before simulation.
+     *
+     * @param array $bootstrappers
+     * @return self
+     */
+    public function bootsrap(array $bootstrappers = [])
+    {
+        $this->initSubscribers();
+
+        return $this;
+    }
+
+    protected function initSubscribers()
+    {
+        
     }
 }

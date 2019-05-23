@@ -1,7 +1,6 @@
 <?php
 namespace Phooty\Simulation\Support;
 
-use Symfony\Component\EventDispatcher\Event;
 use Phooty\Simulation\Dispatcher;
 
 class Emitter
@@ -13,7 +12,7 @@ class Emitter
         $this->dispatcher = $dispatcher;
     }
 
-    public function emit(string $name, Event $event = null)
+    public function emit(string $name, $event = null)
     {
         return $this->dispatcher->dispatch($name, $event);
     }
