@@ -1,9 +1,7 @@
 <?php
 namespace Phooty\Simulation\Events\Match;
 
-use Symfony\Component\EventDispatcher\Event;
-
-class EndPassageEvent extends Event
+class EndPassageEvent extends BaseMatchEvent
 {
     public const NAME = 'match.end_passage';
 }

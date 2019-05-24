@@ -2,16 +2,12 @@
 namespace Phooty\Simulation;
 
 use Phooty\Simulation\Support\Timer;
-use Phooty\Simulation\Generators\PassageGenerator;
+use Phooty\Simulation\Support\Traits\KernelAware;
+use Phooty\Simulation\Support\Traits\TimerAware;
 
 class MatchSimulator
 {
-    /**
-     * The Match Timer instance
-     *
-     * @var Timer
-     */
-    protected $timer;
+    use KernelAware, TimerAware;
 
     /**
      * Has the simulation started
@@ -34,8 +30,9 @@ class MatchSimulator
      */
     private $periods = 4;
 
-    public function __construct(Timer $timer)
+    public function __construct(Timer $timer, Kernel $kernel)
     {
+        $this->kernel = $kernel;
         $this->timer = $timer;
     }
 
@@ -46,14 +43,15 @@ class MatchSimulator
      */
     public function run()
     {
+        if (!$this->kernel->isBootstrapped()) {
+            $this->kernel->bootstrap();
+        }
         $this->started = true;
 
-        while (!$this->finished) {
+        while (!$this->isFinished()) {
             $this->timer->tick(mt_rand(100, 1000));
-            dd($this->timer);
+            //dd($this->timer);
         }
-
-        $this->finished = true;
 
         return;
     }
@@ -90,21 +88,11 @@ class MatchSimulator
     }
 
     /**
-     * Get the Match Timer instance
-     *
-     * @return  Timer
-     */ 
-    public function getTimer()
-    {
-        return $this->timer;
-    }
-
-    /**
      * Get the amount of periods to simulate (default = 4)
      *
      * @return  integer
      */ 
-    public function getPeriods()
+    public function getMaxPeriods()
     {
         return $this->periods;
     }

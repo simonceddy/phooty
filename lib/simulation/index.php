@@ -5,4 +5,5 @@ use Phooty\Simulation\Kernel;
 require __DIR__.'/vendor/autoload.php';
 
 $kernel = new Kernel();
-dd($kernel->simulator()->run());
+
+$kernel->simulate();

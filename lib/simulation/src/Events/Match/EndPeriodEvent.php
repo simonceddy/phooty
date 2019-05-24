@@ -1,9 +1,7 @@
 <?php
 namespace Phooty\Simulation\Events\Match;
 
-use Symfony\Component\EventDispatcher\Event;
-
-class EndPeriodEvent extends Event
+class EndPeriodEvent extends BaseMatchEvent
 {
     public const NAME = 'match.end_period';
 }

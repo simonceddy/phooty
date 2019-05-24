@@ -9,4 +9,14 @@ trait TimerAware
      * @var Timer
      */
     protected $timer;
+    
+    /**
+     * Get the Timer instance
+     *
+     * @return  Timer
+     */ 
+    public function getTimer()
+    {
+        return $this->timer;
+    }
 }

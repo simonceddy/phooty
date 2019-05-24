@@ -24,12 +24,19 @@
         "symfony/event-dispatcher": "^4.2",
         "illuminate/container": "^5.8",
         "illuminate/config": "^5.8",
-        "ramsey/uuid": "^3.8"
+        "ramsey/uuid": "^3.8",
+        "simoneddy/tilemap": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2"
     },
     "bin": [
         "bin/phooty-sim"
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:simonceddy/tilemap.git"
+        }
     ]
 }

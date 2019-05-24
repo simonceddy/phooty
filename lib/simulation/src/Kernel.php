@@ -77,13 +77,16 @@ class Kernel
             );
         });
 
-
         $this->app->instance(static::class, $this);
+
+        $this->app->singleton(MatchSimulator::class);
     }
 
     public function simulate()
     {
+        $this->isBootstrapped() ?: $this->bootstrap();
 
+        return $this->simulator()->run();
     }
 
     public function simulator(): MatchSimulator
@@ -109,15 +112,27 @@ class Kernel
      * @param array $bootstrappers
      * @return self
      */
-    public function bootsrap(array $bootstrappers = [])
+    public function bootstrap(array $bootstrappers = [])
     {
         $this->initSubscribers();
-
+        $this->bootstrapped = true;
         return $this;
     }
 
     protected function initSubscribers()
     {
-        
+        $dispatcher = $this->app->make(Dispatcher::class);
+
+        $dispatcher->addSubscriber(
+            $this->app->make(Subscribers\MatchSubscriber::class)
+        );        
+
+        $dispatcher->addSubscriber(
+            $this->app->make(Subscribers\TimerSubscriber::class)
+        );
+
+
     }
+
+
 }
