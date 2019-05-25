@@ -1,9 +1,8 @@
 <?php
-namespace Phooty\Foundation\Bootstrap;
+namespace Phooty\Config;
 
 use Phooty\Config\Config;
-use Phooty\Config\Drivers\Driver;
-use Phooty\Config\Drivers\PhpFileDriver;
+use Phooty\Config\Drivers;
 
 class BootstrapConfig
 {
@@ -18,28 +17,24 @@ class BootstrapConfig
     {
         if (empty($drivers)) {
             // todo: init default drivers
+            $this->drivers = static::getDefaultDrivers();
+            return;
         }
         $this->drivers = array_filter($drivers, function ($val, $key) {
             return is_string($key)
                 && (class_exists($val))
                 && (new \ReflectionClass($val))->implementsInterface(Driver::class);
         }, ARRAY_FILTER_USE_BOTH);
-        
-        if (!isset($this->drivers['php'])) {
-            $this->drivers['php'] = PhpFileDriver::class;
-        }
     }
 
-    public function bootstrap(string $configPath)
+    private static function getDefaultDrivers()
     {
-        if (!is_dir($configPath)) {
-            throw new \InvalidArgumentException(
-                'Cannot not locate '.$configPath
-            );
-        }
-        $items = $this->loadConfigFiles($configPath);
-        $config = new Config($items);
-        return $config;
+        return [
+            'php' => Drivers\PhpFileDriver::class,
+            'json' => Drivers\JsonFileDriver::class,
+            'yaml' => Drivers\YamlFileDriver::class,
+            'yml' => Drivers\YamlFileDriver::class,
+        ];
     }
 
     private function locateConfigFiles(string $path)
@@ -118,5 +113,14 @@ class BootstrapConfig
                 break;
         }
         return $driver;
+    }
+
+    public function bootstrap(array $paths)
+    {
+        $items = [];
+        foreach ($paths as $path) {
+            $items = array_merge_recursive($this->loadConfigFile($path));
+        }
+        return new Config($items);
     }
 }

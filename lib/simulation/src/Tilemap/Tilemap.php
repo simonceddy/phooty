@@ -1,54 +1,24 @@
 <?php
 namespace Phooty\Simulation\Tilemap;
 
-class Tilemap
+use Eddy\Tilemap\Tilemap as BaseTilemap;
+use Eddy\Tilemap\TileInterface;
+use Eddy\Tilemap\Tile;
+use Phooty\Simulation\Support\Traits\AppAware;
+use Illuminate\Contracts\Container\Container;
+use Phooty\Simulation\Dispatcher;
+
+class Tilemap extends BaseTilemap
 {
-    /**
-     * The instantiated tiles.
-     * 
-     * Each column (x) with instantiated tiles has its own array of Tiles.
-     * 
-     * Tiles are stored y => Tile.
-     *
-     * @var array[]
-     */
-    protected $tiles = [];
+    use AppAware;
 
-    /**
-     * Map width
-     *
-     * @var int
-     */
-    protected $width;
-
-    /**
-     * Map length
-     *
-     * @var int
-     */
-    protected $length;
-
-    public function __construct(int $width, int $length)
+    public function __construct(Container $app, int $width, int $length)
     {
-        if (1 > $width || 1 > $length) {
-            throw new \InvalidArgumentException(
-                "Width and length cannot be less than 1."
-            );
-        }
-
-        $this->width = $width;
-        $this->length = $length;
+        $this->app = $app;
+        parent::__construct($width, $length);
     }
 
-    protected function validCoords(int $x, int $y): bool
-    {
-        return $x >= 1
-            && $x <= $this->width
-            && $y >= 1
-            && $y <= $this->length;
-    }
-
-    public function tile(int $x, int $y): Tile
+    public function tile(int $x, int $y): TileInterface
     {
         if (!$this->validCoords($x, $y)) {
             throw new \InvalidArgumentException(
@@ -60,24 +30,13 @@ class Tilemap
             $this->tiles[$x] = [];
 
             if (!isset($this->tiles[$x][$y])) {
-                $this->tiles[$x][$y] = new Tile($x, $y, $this);
+                $this->tiles[$x][$y] = new TileDecorator(
+                    new Tile($x, $y, $this),
+                    $this->app->make(Dispatcher::class)
+            );
             }
         }
 
         return $this->tiles[$x][$y];
-    }
-
-    public function clearTile(int $x, int $y)
-    {
-        if (!isset($this->tiles[$x], $this->tiles[$x][$y])) {
-            return false;
-        }
-        unset($this->tiles[$x][$y]);
-        return $this;
-    }
-
-    public function toArray(): array
-    {
-        return [];
     }
 }

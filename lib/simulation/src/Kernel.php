@@ -4,6 +4,7 @@ namespace Phooty\Simulation;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Container\Container as IlluminateContainer;
+use Phooty\Config\BootstrapConfig;
 use Phooty\Simulation\Support\Traits\AppAware;
 
 class Kernel
@@ -33,7 +34,7 @@ class Kernel
 
     public function __construct(
         Container $container = null,
-        $config = null
+        Config $config = null
     ) {
         $this->app = $container ?? new IlluminateContainer;
         
@@ -45,15 +46,17 @@ class Kernel
 
     }
 
-    private function initConfig($config = null)
+    private function initConfig(Config $config = null)
     {
-        if (is_array($config)) {
-            $this->config = new Support\SimulationConfig($config);
-        } elseif (null === $config && $this->app->has(Config::class)) {
-            $this->config = $this->app->make(Config::class);
-        } else {
-            $this->config = $config ?? new Support\SimulationConfig();
+        // todo: check paths
+        if (null === $config) {
+            $config = (new BootstrapConfig())->bootstrap([
+                dirname(__DIR__) . '/config'
+            ]);
         }
+        $this->config = $config;
+        
+        $this->app->instance(Config::class, $this->config);
     }
 
     private function registerEventDispatcher()
@@ -72,7 +75,7 @@ class Kernel
         
         $this->app->singleton(Support\Timer::class, function () {
             return new Support\Timer(
-                $this->config->get('timer.period_length'),
+                $this->config->get('sim.period_length'),
                 $this->app->make(Dispatcher::class)
             );
         });
@@ -80,6 +83,7 @@ class Kernel
         $this->app->instance(static::class, $this);
 
         $this->app->singleton(MatchSimulator::class);
+
     }
 
     public function simulate()

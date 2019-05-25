@@ -4,6 +4,11 @@ use Phooty\Simulation\Kernel;
 
 require __DIR__.'/vendor/autoload.php';
 
+/* if (1 < $argc) {
+    // args
+    dd($argv);
+} */
+
 $kernel = new Kernel();
 
 $kernel->simulate();

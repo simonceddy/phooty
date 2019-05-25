@@ -23,9 +23,10 @@
         "php": ">=7.1",
         "symfony/event-dispatcher": "^4.2",
         "illuminate/container": "^5.8",
-        "illuminate/config": "^5.8",
         "ramsey/uuid": "^3.8",
-        "simoneddy/tilemap": "dev-master"
+        "simoneddy/tilemap": "dev-master",
+        "phooty/config": "dev-master",
+        "symfony/yaml": "^4.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2"
@@ -37,6 +38,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:simonceddy/tilemap.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/config.git"
         }
     ]
 }
