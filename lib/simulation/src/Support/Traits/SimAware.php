@@ -17,7 +17,7 @@ trait SimAware
      *
      * @return  MatchSimulator
      */ 
-    public function sim()
+    public function getSim()
     {
         return $this->sim;
     }

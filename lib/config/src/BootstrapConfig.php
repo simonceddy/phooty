@@ -115,11 +115,17 @@ class BootstrapConfig
         return $driver;
     }
 
-    public function bootstrap(array $paths)
+    public function bootstrap(array $paths, array $config = null)
     {
         $items = [];
         foreach ($paths as $path) {
-            $items = array_merge_recursive($this->loadConfigFile($path));
+            $items = array_merge_recursive(
+                $items,
+                $this->loadConfigFile($path)
+            );
+        }
+        if (is_array($config)) {
+            $items = array_replace_recursive($items, $config);
         }
         return new Config($items);
     }

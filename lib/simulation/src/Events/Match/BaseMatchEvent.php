@@ -2,17 +2,22 @@
 namespace Phooty\Simulation\Events\Match;
 
 use Symfony\Component\EventDispatcher\Event;
-use Phooty\Simulation\Support\Traits\SimAware;
 use Phooty\Simulation\MatchSimulator;
 use Phooty\Simulation\Support\Timer;
+use Phooty\Simulation\MatchContainer;
 
 abstract class BaseMatchEvent extends Event
 {
-    use SimAware;
+    /**
+     * The MatchContainer instance
+     *
+     * @var MatchContainer
+     */
+    protected $match;
 
-    public function __construct(MatchSimulator $sim)
+    public function __construct(MatchContainer $match)
     {
-        $this->sim = $sim;
+        $this->match = $match;
     }
 
     /**
@@ -22,6 +27,16 @@ abstract class BaseMatchEvent extends Event
      */
     public function timer()
     {
-        return $this->sim->getTimer();
+        return $this->match->getTimer();
+    }
+
+    /**
+     * Get the MatchSimulator instance
+     *
+     * @return MatchSimulator
+     */
+    public function sim()
+    {
+        return $this->match->getSim();
     }
 }

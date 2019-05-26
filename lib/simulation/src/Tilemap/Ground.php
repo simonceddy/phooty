@@ -3,6 +3,26 @@ namespace Phooty\Simulation\Tilemap;
 
 class Ground
 {
+    public const MCG = [180, 160];
+
+    public const SCG = [160, 150];
+
+    public const GABBA = [160, 150];
+
+    public const PERTH_STADIUM = [160, 150];
+
+    public const WACA = [160, 150];
+
+    public const SUBIACO = [160, 150];
+
+    public const DOCKLANDS = [160, 150];
+
+    public const GIANT_STADIUM = [160, 150];
+
+    public const KARDINIA_PARK = [160, 150];
+
+    public const WAVERLY_PARK = [160, 150];
+
     protected static $grounds = [
         'mcg' => [180, 160],
         'scg' => [160, 150],
@@ -23,11 +43,32 @@ class Ground
         'cazalyStadium' => [160, 150],
     ];
 
+    public static function random()
+    {
+        return array_random(self::$grounds);
+    }
+
+    public static function make(int $width, int $length)
+    {
+        if (1 > $width || 1 > $length) {
+            throw new \InvalidArgumentException(
+                "Dimensions cannot be less than 1"
+            );
+        }
+
+        return new PendingMap($width, $length);
+    }
+
+    public static function preset(string $name)
+    {
+        return self::$grounds[$name] ?? false;
+    }
+
     public static function __callStatic(string $name, $arguments)
     {
         if (isset(self::$grounds[$name])) {
             [$w, $l] = self::$grounds[$name];
-            return MapFactory::create($w, $l);
+            return self::make($w, $l);
         }
     }
 }

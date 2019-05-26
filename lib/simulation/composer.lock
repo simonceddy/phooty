@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad0a4bf59a618b86d54da695adad15e8",
+    "content-hash": "7e82230fd725f07fb217d486bf79975a",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -378,12 +378,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phooty/config.git",
-                "reference": "5637f4cca27863216991b9e2958b623e1b8d51ed"
+                "reference": "e70df33c052597ee69c932d431756fbe6b2f5377"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phooty/config/zipball/5637f4cca27863216991b9e2958b623e1b8d51ed",
-                "reference": "5637f4cca27863216991b9e2958b623e1b8d51ed",
+                "url": "https://api.github.com/repos/phooty/config/zipball/e70df33c052597ee69c932d431756fbe6b2f5377",
+                "reference": "e70df33c052597ee69c932d431756fbe6b2f5377",
                 "shasum": ""
             },
             "require": {
@@ -409,7 +409,7 @@
                 "source": "https://github.com/phooty/config/tree/master",
                 "issues": "https://github.com/phooty/config/issues"
             },
-            "time": "2019-05-24T06:23:55+00:00"
+            "time": "2019-05-26T04:42:01+00:00"
         },
         {
             "name": "psr/container",

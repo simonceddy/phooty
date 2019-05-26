@@ -6,6 +6,9 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Container\Container as IlluminateContainer;
 use Phooty\Config\BootstrapConfig;
 use Phooty\Simulation\Support\Traits\AppAware;
+use Phooty\Simulation\Tilemap\Tilemap;
+use Phooty\Simulation\Tilemap\Ground;
+use Phooty\Simulation\Tilemap\PendingMap;
 
 class Kernel
 {
@@ -25,42 +28,45 @@ class Kernel
      */
     protected $sim;
 
-    /**
-     * Has the Kernel run bootstrapping processes
-     *
-     * @var boolean
-     */
-    private $bootstrapped = false;
+    private static $cn_aliases = [
+        'Phooty' => Kernel::class,
+        'PhootyGround' => \Phooty\Simulation\Tilemap\Ground::class
+    ];
+
+    private static $aliased = false;
 
     public function __construct(
         Container $container = null,
-        Config $config = null
+        $config = null
     ) {
         $this->app = $container ?? new IlluminateContainer;
         
         $this->initConfig($config);
 
-        $this->registerEventDispatcher();
-
         $this->registerBindings();
 
     }
 
-    private function initConfig(Config $config = null)
+    private function initConfig($config = null)
     {
         // todo: check paths
-        if (null === $config) {
+        if (is_array($config) || null === $config) {
+
             $config = (new BootstrapConfig())->bootstrap([
                 dirname(__DIR__) . '/config'
-            ]);
+            ], $config);
+
+        } elseif (!$config instanceof Config) {
+
+            throw new \InvalidArgumentException(
+                "Invalid configuration argument"
+            );
+
         }
+
         $this->config = $config;
         
         $this->app->instance(Config::class, $this->config);
-    }
-
-    private function registerEventDispatcher()
-    {
     }
 
     private function registerBindings()
@@ -71,7 +77,11 @@ class Kernel
             });
         }
 
-        $this->app->singleton(Dispatcher::class);
+        $this->app->singleton(Dispatcher::class, function () {
+            return (new Bootstrap\BootstrapDispatcher)->bootstrap(
+                new Dispatcher($this->app)
+            );
+        });
         
         $this->app->singleton(Support\Timer::class, function () {
             return new Support\Timer(
@@ -84,59 +94,66 @@ class Kernel
 
         $this->app->singleton(MatchSimulator::class);
 
+        /* $this->app->singleton(Tilemap::class, function (int $w, int $l) {
+            return new Tilemap($this->app, $w, $l);
+        }); */
+    }
+
+    protected function registerPendingTilemap(PendingMap $ground)
+    {
+        $this->app->singleton(Tilemap::class, function () use ($ground) {
+            return $ground->create($this->app);
+        });
     }
 
     public function simulate()
     {
-        $this->isBootstrapped() ?: $this->bootstrap();
-
         return $this->simulator()->run();
     }
 
-    public function simulator(): MatchSimulator
+    public function simulator(array $settings = []): MatchSimulator
     {
-        isset($this->sim) ?: $this->sim = $this->app->make(MatchSimulator::class);
+        if (!$this->app->has(Tilemap::class)) {
+            $this->setGround($settings['ground'] ?? null);
+        }
+
+        isset($this->sim) ?: $this->sim = $this->app->make(
+            MatchSimulator::class
+        );
 
         return $this->sim;
     }
 
-    /**
-     * Check if the Kernel has run bootstrapping processes
-     *
-     * @return  boolean
-     */ 
-    public function isBootstrapped()
+    public static function loadClassAliases()
     {
-        return $this->bootstrapped;
+        if (!self::$aliased) {
+            foreach (self::$cn_aliases as $alias => $cn) {
+                class_exists($alias) ?: class_alias($cn, $alias);
+            }
+            self::$aliased = true;
+        }
     }
 
-    /**
-     * Runs the processes required before simulation.
-     *
-     * @param array $bootstrappers
-     * @return self
-     */
-    public function bootstrap(array $bootstrappers = [])
+    public function setHomeTeam($team)
     {
-        $this->initSubscribers();
-        $this->bootstrapped = true;
+        
+    }
+
+    public function setAwayTeam($team)
+    {
+
+    }
+
+    public function setGround(...$ground)
+    {
+        $ground = Support\SetGround::resolve($ground);
+
+        if (!$ground) {
+            throw new \Exception("Could not load ground");
+        }
+
+        $this->registerPendingTilemap($ground);
+
         return $this;
     }
-
-    protected function initSubscribers()
-    {
-        $dispatcher = $this->app->make(Dispatcher::class);
-
-        $dispatcher->addSubscriber(
-            $this->app->make(Subscribers\MatchSubscriber::class)
-        );        
-
-        $dispatcher->addSubscriber(
-            $this->app->make(Subscribers\TimerSubscriber::class)
-        );
-
-
-    }
-
-
 }

@@ -4,11 +4,13 @@ use Phooty\Simulation\Kernel;
 
 require __DIR__.'/vendor/autoload.php';
 
+Kernel::loadClassAliases();
 /* if (1 < $argc) {
     // args
     dd($argv);
 } */
-
+//dd(PhootyGround::subiaco());
 $kernel = new Kernel();
-
+/* $kernel->setGround();
+dd($kernel); */
 $kernel->simulate();

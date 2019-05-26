@@ -4,7 +4,6 @@ namespace Phooty\Simulation;
 use Phooty\Simulation\Support\Timer;
 use Phooty\Simulation\Support\Traits\KernelAware;
 use Phooty\Simulation\Support\Traits\TimerAware;
-use Phooty\Simulation\Tilemap\Ground;
 
 class MatchSimulator
 {
@@ -46,7 +45,7 @@ class MatchSimulator
 
     protected function initiMatchContainer()
     {
-        $this->match = new MatchContainer(Ground::mcg());
+        $this->match = $this->kernel->app()->make(MatchContainer::class);
     }
 
     /**
@@ -56,17 +55,14 @@ class MatchSimulator
      */
     public function run()
     {
-        if (!$this->kernel->isBootstrapped()) {
-            $this->kernel->bootstrap();
-        }
         isset($this->match) ?: $this->initiMatchContainer();
         $this->started = true;
 
-        while (!$this->isFinished()) {
+        while (!$this->finished) {
             $this->timer->tick(mt_rand(100, 1000));
             //dd($this->timer);
         }
-        //dd($this);
+        //dd($this->match);
         return;
     }
 
