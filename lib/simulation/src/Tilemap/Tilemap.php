@@ -18,25 +18,11 @@ class Tilemap extends BaseTilemap
         parent::__construct($width, $length);
     }
 
-    public function tile(int $x, int $y): TileInterface
+    protected function createTile(int $x, int $y): TileInterface
     {
-        if (!$this->validCoords($x, $y)) {
-            throw new \InvalidArgumentException(
-                "Invalid coords. Coords cannot be less than 1 or greater than the map's dimensions."
-            );
-        }
-
-        if (!isset($this->tiles[$x])) {
-            $this->tiles[$x] = [];
-
-            if (!isset($this->tiles[$x][$y])) {
-                $this->tiles[$x][$y] = new TileDecorator(
-                    new Tile($x, $y, $this),
-                    $this->app->make(Dispatcher::class)
-            );
-            }
-        }
-
-        return $this->tiles[$x][$y];
+        return new TileDecorator(
+            new Tile($x, $y, $this),
+            $this->app->make(Dispatcher::class)
+        );
     }
 }

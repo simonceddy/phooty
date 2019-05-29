@@ -106,17 +106,8 @@ class Kernel
         });
     }
 
-    public function simulate()
+    protected function getSimulator(array $settings = []): MatchSimulator
     {
-        return $this->simulator()->run();
-    }
-
-    public function simulator(array $settings = []): MatchSimulator
-    {
-        if (!$this->app->has(Tilemap::class)) {
-            $this->setGround($settings['ground'] ?? null);
-        }
-
         isset($this->sim) ?: $this->sim = $this->app->make(
             MatchSimulator::class
         );
@@ -134,26 +125,22 @@ class Kernel
         }
     }
 
-    public function setHomeTeam($team)
+    /**
+     * Builds a Simulator instance.
+     * 
+     * This method will also create the MatchContainer instance.
+     *
+     * @param callable $closure
+     * @return MatchSimulator
+     */
+    public function makeSim(callable $closure)
     {
-        
-    }
+        $builder = $this->app->make(Support\MatchBuilder::class);
 
-    public function setAwayTeam($team)
-    {
+        call_user_func($closure, $builder);
 
-    }
+        $this->app->instance(MatchContainer::class, $builder->create());
 
-    public function setGround(...$ground)
-    {
-        $ground = Support\SetGround::resolve($ground);
-
-        if (!$ground) {
-            throw new \Exception("Could not load ground");
-        }
-
-        $this->registerPendingTilemap($ground);
-
-        return $this;
+        return $this->getSimulator();
     }
 }

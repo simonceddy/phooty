@@ -45,7 +45,8 @@ class Ground
 
     public static function random()
     {
-        return array_random(self::$grounds);
+        [$w, $l] = array_random(self::$grounds);
+        return self::make($w, $l);
     }
 
     public static function make(int $width, int $length)
@@ -61,7 +62,11 @@ class Ground
 
     public static function preset(string $name)
     {
-        return self::$grounds[$name] ?? false;
+        if (!isset(self::$grounds[$name])) {
+            return false;
+        }
+        [$w, $l] = self::$grounds[$name];
+        return self::make($w, $l);
     }
 
     public static function __callStatic(string $name, $arguments)

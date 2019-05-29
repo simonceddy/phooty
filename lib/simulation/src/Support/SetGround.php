@@ -19,15 +19,13 @@ class SetGround
     {
         switch ($c = count($args)) {
             case 0 || (1 && null === $args[0]):
-                [$w, $l] = Ground::random();
-                $g = Ground::make($w, $l);
+                $g = Ground::random();
                 break;
             case 1 && ($args[0] instanceof Tilemap):
                 $g = $args[0];
                 break;
             case 1 && is_string($args[0]):
-                [$w, $l] = Ground::preset($args[0]);
-                $g = Ground::make($w, $l);
+                $g = Ground::preset($args[0]);
                 break;
             case 1 && is_array($args[0]) && (2 >= count($args[0])):
                 [$w, $l] = $args[0];

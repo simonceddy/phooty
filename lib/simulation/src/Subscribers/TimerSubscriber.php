@@ -3,6 +3,7 @@ namespace Phooty\Simulation\Subscribers;
 
 use Symfony\Component\EventDispatcher\Event;
 use Phooty\Simulation\Events\Timer;
+use Phooty\Simulation\Support\GetStateFrom;
 
 class TimerSubscriber implements Subscriber
 {
@@ -24,6 +25,8 @@ class TimerSubscriber implements Subscriber
      */
     public function onTick(Event $event)
     {
-        
+        $event->getStates()[$event->getTimer()->getCurrent()] = GetStateFrom::match(
+            $event->getMatch()
+        );
     }
 }

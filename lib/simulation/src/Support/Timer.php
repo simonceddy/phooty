@@ -3,6 +3,7 @@ namespace Phooty\Simulation\Support;
 
 use Phooty\Simulation\Dispatcher;
 use Phooty\Simulation\Events\Match\EndPeriodEvent;
+use Phooty\Simulation\Events\Timer\TickEvent;
 
 class Timer extends Emitter
 {
@@ -57,6 +58,8 @@ class Timer extends Emitter
 
         $this->current += $ms;
         $this->total += $ms;
+
+        $this->emit('timer.tick', TickEvent::class);
 
         if ($this->current >= $this->period_length) {
             $this->reset();

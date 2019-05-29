@@ -2,32 +2,54 @@
 namespace Phooty\Simulation\Events\Timer;
 
 use Symfony\Component\EventDispatcher\Event;
+use Phooty\Simulation\MatchContainer;
+use Phooty\Simulation\StateCollection;
 use Phooty\Simulation\Support\Timer;
 
 class TickEvent extends Event
 {
     public const NAME = 'timer.tick';
 
-    private $timer;
+    /**
+     * The MatchContainer instance
+     *
+     * @var MatchContainer
+     */
+    private $match;
 
-    private $pl;
-
-    public function __construct(Timer $timer)
+    public function __construct(MatchContainer $match)
     {
-        $this->timer = $timer;
+        $this->match = $match;
+    }
+    
 
-        $this->pl = $this->timer->getPeriodLength();
+    /**
+     * Get the MatchContainer instance
+     *
+     * @return  MatchContainer
+     */ 
+    public function getMatch()
+    {
+        return $this->match;
     }
 
-    public function isPeriodComplete()
+    /**
+     * Get the MatchState collection
+     *
+     * @return StateCollection
+     */
+    public function getStates()
     {
-        if ($this->timer->getCurrent() > $this->pl) {
-            $this->timer->reset();
-        }
+        return $this->match->getStates();
     }
 
-    public function isMatchComplete()
+    /**
+     * Get the Match timer instance
+     *
+     * @return Timer
+     */
+    public function getTimer()
     {
-        
+        return $this->match->getTimer();
     }
 }

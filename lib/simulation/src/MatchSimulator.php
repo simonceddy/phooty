@@ -1,14 +1,8 @@
 <?php
 namespace Phooty\Simulation;
 
-use Phooty\Simulation\Support\Timer;
-use Phooty\Simulation\Support\Traits\KernelAware;
-use Phooty\Simulation\Support\Traits\TimerAware;
-
 class MatchSimulator
 {
-    use KernelAware, TimerAware;
-
     /**
      * Has the simulation started
      *
@@ -37,10 +31,9 @@ class MatchSimulator
      */
     private $match;
 
-    public function __construct(Timer $timer, Kernel $kernel)
+    public function __construct(MatchContainer $match)
     {
-        $this->kernel = $kernel;
-        $this->timer = $timer;
+        $this->match = $match;
     }
 
     protected function initiMatchContainer()
@@ -56,10 +49,13 @@ class MatchSimulator
     public function run()
     {
         isset($this->match) ?: $this->initiMatchContainer();
+        
+        $timer = $this->match->getTimer();
+        
         $this->started = true;
 
         while (!$this->finished) {
-            $this->timer->tick(mt_rand(100, 1000));
+            $timer->tick(mt_rand(100, 1000));
             //dd($this->timer);
         }
         //dd($this->match);
@@ -105,5 +101,15 @@ class MatchSimulator
     public function getMaxPeriods()
     {
         return $this->periods;
+    }
+
+    /**
+     * Get the MatchContainer
+     *
+     * @return  MatchContainer
+     */ 
+    public function getMatch()
+    {
+        return $this->match;
     }
 }

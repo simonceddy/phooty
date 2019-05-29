@@ -23,11 +23,22 @@ class MatchContainer
      */
     protected $states;
 
+    /**
+     * The timer instance
+     *
+     * @var Timer
+     */
+    protected $timer;
+
+    protected $homeTeam;
+
+    protected $awayTeam;
+
     public function __construct(
-        MatchSimulator $sim,
+        Timer $timer,
         Tilemap $tilemap
     ) {
-        $this->sim = $sim;
+        $this->timer = $timer;
         $this->tilemap = $tilemap;
     }
 
@@ -48,7 +59,7 @@ class MatchContainer
      */
     public function getTimer()
     {
-        return $this->sim->getTimer();
+        return $this->timer;
     }
 
     /**

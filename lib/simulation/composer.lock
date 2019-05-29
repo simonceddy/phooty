@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e82230fd725f07fb217d486bf79975a",
+    "content-hash": "a2b389de46b98700e0b8d74f7055dfcd",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -596,12 +596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simonceddy/tilemap.git",
-                "reference": "2ba4e54f4af78c2a5e34daa3ae68ef5978f92a04"
+                "reference": "b2f2e6bf5025c7ed6c821e77777b3f0f427fbc85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simonceddy/tilemap/zipball/2ba4e54f4af78c2a5e34daa3ae68ef5978f92a04",
-                "reference": "2ba4e54f4af78c2a5e34daa3ae68ef5978f92a04",
+                "url": "https://api.github.com/repos/simonceddy/tilemap/zipball/b2f2e6bf5025c7ed6c821e77777b3f0f427fbc85",
+                "reference": "b2f2e6bf5025c7ed6c821e77777b3f0f427fbc85",
                 "shasum": ""
             },
             "require-dev": {
@@ -626,7 +626,7 @@
                 "source": "https://github.com/simonceddy/tilemap/tree/master",
                 "issues": "https://github.com/simonceddy/tilemap/issues"
             },
-            "time": "2019-05-22T04:53:22+00:00"
+            "time": "2019-05-28T01:55:33+00:00"
         },
         {
             "name": "symfony/contracts",
