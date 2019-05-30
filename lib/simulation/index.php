@@ -1,6 +1,7 @@
 <?php
 use Phooty\Simulation\Kernel;
 use Carbon\Carbon;
+use Phooty\Simulation\Entities\Team;
 
 //use Phooty\Simulation\MatchSimulator;
 
@@ -16,10 +17,14 @@ Kernel::loadClassAliases();
 //dd(PhootyGround::subiaco());
 $kernel = new Kernel();
 
-$sim = $kernel->makeSim(function ($builder) {
+$home = new Team([]);
+
+$away = new Team([], true);
+
+$sim = $kernel->makeSim(function ($builder) use ($home, $away) {
     $builder->setGround(PhootyGround::mcg());
-    $builder->setHomeTeam('best');
-    $builder->setAwayTeam('bester');
+    $builder->setHomeTeam($home);
+    $builder->setAwayTeam($away);
 });
 
 //dd($sim);

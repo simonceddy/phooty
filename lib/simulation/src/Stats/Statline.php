@@ -12,6 +12,13 @@ class Statline
         'hitouts' => 0,
         'goals' => 0,
         'behinds' => 0,
+        'tackles' => 0,
+        'clearances' => 0,
+        'clangers' => 0,
+        'one_percenters' => 0,
+        'bounces' => 0,
+        'inside_50' => 0,
+        'rebound_50' => 0,
     ];
 
     /**

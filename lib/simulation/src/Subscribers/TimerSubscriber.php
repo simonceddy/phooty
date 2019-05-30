@@ -25,8 +25,8 @@ class TimerSubscriber implements Subscriber
      */
     public function onTick(Event $event)
     {
-        $event->getStates()[$event->getTimer()->getCurrent()] = GetStateFrom::match(
+        /* $event->getStates()[$event->getTimer()->getCurrent()] = GetStateFrom::match(
             $event->getMatch()
-        );
+        ); */
     }
 }

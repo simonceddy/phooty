@@ -6,6 +6,7 @@ use Phooty\Simulation\MatchContainer;
 use Phooty\Simulation\Support\Traits\AppAware;
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Tilemap\PendingMap;
+use Phooty\Simulation\Support\Timer;
 
 class MatchBuilder
 {
@@ -24,6 +25,13 @@ class MatchBuilder
      * @var [type]
      */
     protected $awayTeam;
+
+    /**
+     * The Timer instance
+     *
+     * @var Timer
+     */
+    protected $timer;
 
     /**
      * The Tilemap instance for the specified ground
@@ -116,9 +124,17 @@ class MatchBuilder
     public function create(array $options = [])
     {
         // todo handle options
-        return new MatchContainer(
-            $this->app->make(Timer::class),
-            $this->ground
-        );
+        return new MatchContainer($this);
+    }
+
+    /**
+     * Get the Timer instance
+     *
+     * @return  Timer
+     */ 
+    public function getTimer()
+    {
+        isset($this->timer) ?: $this->timer = $this->app->make(Timer::class);
+        return $this->timer;
     }
 }

@@ -129,6 +129,8 @@ class Kernel
      * Builds a Simulator instance.
      * 
      * This method will also create the MatchContainer instance.
+     * 
+     * @todo Improve creating a match
      *
      * @param callable $closure
      * @return MatchSimulator

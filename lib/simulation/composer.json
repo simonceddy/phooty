@@ -30,6 +30,7 @@
         "nesbot/carbon": "^2.18"
     },
     "require-dev": {
+        "simoneddy/tilemap-visualizer": "dev-master",
         "symfony/var-dumper": "^4.2"
     },
     "bin": [
@@ -39,6 +40,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:simonceddy/tilemap.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:simonceddy/tilemap-visualizer.git"
         },
         {
             "type": "vcs",

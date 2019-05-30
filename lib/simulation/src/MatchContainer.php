@@ -4,6 +4,8 @@ namespace Phooty\Simulation;
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Support\Traits\SimAware;
 use Phooty\Simulation\Support\Timer;
+use Phooty\Simulation\Entities\Team;
+use Phooty\Simulation\Support\MatchBuilder;
 
 class MatchContainer
 {
@@ -30,16 +32,30 @@ class MatchContainer
      */
     protected $timer;
 
+    /**
+     * The home Team object
+     *
+     * @var Team
+     */
     protected $homeTeam;
 
+    /**
+     * The away Team object
+     *
+     * @var Team
+     */
     protected $awayTeam;
 
-    public function __construct(
-        Timer $timer,
-        Tilemap $tilemap
-    ) {
-        $this->timer = $timer;
-        $this->tilemap = $tilemap;
+    /**
+     * Create a new MatchContainer instance
+     * 
+     * @param MatchBuilder $builder The MatchBuilder instance
+     */
+    public function __construct(MatchBuilder $builder) {
+        $this->timer = $builder->getTimer();
+        $this->tilemap = $builder->getGround();
+        $this->homeTeam = $builder->getHomeTeam();
+        $this->awayTeam = $builder->getAwayTeam();
     }
 
     /**
@@ -71,5 +87,25 @@ class MatchContainer
     {
         isset($this->states) ?: $this->states = new StateCollection();
         return $this->states;
+    }
+
+    /**
+     * Get the home Team object
+     *
+     * @return  Team
+     */ 
+    public function getHomeTeam()
+    {
+        return $this->homeTeam;
+    }
+
+    /**
+     * Get the away Team object
+     *
+     * @return  Team
+     */ 
+    public function getAwayTeam()
+    {
+        return $this->awayTeam;
     }
 }
