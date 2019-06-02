@@ -42,6 +42,10 @@ class Kernel
         $this->app = $container ?? new IlluminateContainer;
         
         $this->initConfig($config);
+        //dd($this->config);
+        if ($this->config->get('sim.dev_mode')) {
+            $this->registerDevBindings();
+        }
 
         $this->registerBindings();
 
@@ -67,6 +71,13 @@ class Kernel
         $this->config = $config;
         
         $this->app->instance(Config::class, $this->config);
+    }
+
+    private function registerDevBindings()
+    {
+        $this->app->bind(\Faker\Generator::class, function () {
+            return \Faker\Factory::create();
+        });
     }
 
     private function registerBindings()

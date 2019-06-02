@@ -1,6 +1,8 @@
 <?php
 namespace Phooty\Simulation;
 
+use Phooty\Simulation\Support\MapPlacer;
+
 class MatchSimulator
 {
     /**
@@ -36,11 +38,6 @@ class MatchSimulator
         $this->match = $match;
     }
 
-    protected function initiMatchContainer()
-    {
-        $this->match = $this->kernel->app()->make(MatchContainer::class);
-    }
-
     /**
      * Run the simulation
      *
@@ -48,7 +45,7 @@ class MatchSimulator
      */
     public function run()
     {
-        isset($this->match) ?: $this->initiMatchContainer();
+        (new MapPlacer($this->match))->run();
         
         $timer = $this->match->getTimer();
         

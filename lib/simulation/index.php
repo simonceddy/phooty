@@ -2,6 +2,7 @@
 use Phooty\Simulation\Kernel;
 use Carbon\Carbon;
 use Phooty\Simulation\Entities\Team;
+use Phooty\Simulation\Factory\PlayerEntityFactory;
 
 //use Phooty\Simulation\MatchSimulator;
 
@@ -17,9 +18,22 @@ Kernel::loadClassAliases();
 //dd(PhootyGround::subiaco());
 $kernel = new Kernel();
 
-$home = new Team([]);
+$players = [
+    'h' => [],
+    'a' => []
+];
 
-$away = new Team([], true);
+$factory = $kernel->app()->make(PlayerEntityFactory::class);
+
+foreach ($players as $team => &$list) {
+    for ($i = 0; $i < 18; $i++) {
+        $list[] = $factory->create();
+    }
+}
+
+$home = new Team([], $players['h']);
+
+$away = new Team([], $players['a'], true);
 
 $sim = $kernel->makeSim(function ($builder) use ($home, $away) {
     $builder->setGround(PhootyGround::mcg());
@@ -39,4 +53,4 @@ $total = $end - $start;
 
 dump("Sim took {$total} microseconds");
 
-dd($kernel);
+//dd($kernel);

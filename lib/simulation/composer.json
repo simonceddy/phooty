@@ -31,7 +31,8 @@
     },
     "require-dev": {
         "simoneddy/tilemap-visualizer": "dev-master",
-        "symfony/var-dumper": "^4.2"
+        "symfony/var-dumper": "^4.2",
+        "fzaninotto/faker": "^1.8"
     },
     "bin": [
         "bin/phooty-sim"

@@ -2,7 +2,6 @@
 namespace Phooty\Simulation\Tilemap;
 
 use Eddy\Tilemap\Tilemap as BaseTilemap;
-use Eddy\Tilemap\TileInterface;
 use Eddy\Tilemap\Tile;
 use Phooty\Simulation\Support\Traits\AppAware;
 use Illuminate\Contracts\Container\Container;
@@ -18,7 +17,7 @@ class Tilemap extends BaseTilemap
         parent::__construct($width, $length);
     }
 
-    protected function createTile(int $x, int $y): TileInterface
+    protected function createTile(int $x, int $y)
     {
         return new TileDecorator(
             new Tile($x, $y, $this),

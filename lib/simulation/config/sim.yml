@@ -1,2 +1,4 @@
 periods:        4       # The total periods to simulate
 period_length:  120000  # 
+
+dev_mode: true
