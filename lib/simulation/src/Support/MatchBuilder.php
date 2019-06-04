@@ -123,6 +123,11 @@ class MatchBuilder
 
     public function create(array $options = [])
     {
+        if (!$this->isValid()) {
+            throw new \LogicException(
+                "Match not ready to be created!"
+            );
+        }
         // todo handle options
         return new MatchContainer($this);
     }
@@ -136,5 +141,15 @@ class MatchBuilder
     {
         isset($this->timer) ?: $this->timer = $this->app->make(Timer::class);
         return $this->timer;
+    }
+
+    /**
+     * Is the Match able to be created?
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return isset($this->ground, $this->homeTeam, $this->awayTeam);
     }
 }

@@ -2,15 +2,12 @@
 namespace Phooty\Simulation;
 
 use Phooty\Simulation\Tilemap\Tilemap;
-use Phooty\Simulation\Support\Traits\SimAware;
 use Phooty\Simulation\Support\Timer;
 use Phooty\Simulation\Entities\Team;
 use Phooty\Simulation\Support\MatchBuilder;
 
 class MatchContainer
-{
-    use SimAware;
-    
+{    
     /**
      * The Match's tilemap
      *

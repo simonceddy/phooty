@@ -71,8 +71,8 @@ class MapPlacer
             }
         }
 
-        HtmlDumper::dump($map);
-        dd();
+        /* HtmlDumper::dump($map);
+        dd(); */
     }
 
     protected function placePlayer(Tilemap $map, PlayerEntity $player)

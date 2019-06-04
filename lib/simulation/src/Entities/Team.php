@@ -23,12 +23,19 @@ class Team
      */
     protected $isAway;
 
+    protected $name;
+
+    protected $city;
+
     public function __construct(
         array $data,
         array $players,
         bool $isAway = false
     ) {
         // handle data
+        $this->name = $data['name'] ?? null;
+
+        $this->city = $data['city'] ?? null;
 
         $this->initPlayers($players);
 
