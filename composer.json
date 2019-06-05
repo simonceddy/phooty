@@ -44,7 +44,14 @@
         "symfony/dom-crawler": "^4.2",
         "symfony/css-selector": "^4.2",
         "guzzlehttp/guzzle": "^6.3",
-        "vlucas/phpdotenv": "^3.3"
+        "vlucas/phpdotenv": "^3.3",
+        "react/event-loop": "^1.1",
+        "react/stream": "^1.1",
+        "react/promise": "^2.7",
+        "react/child-process": "^0.6.1",
+        "react/promise-stream": "^1.1",
+        "react/cache": "^0.5.0",
+        "react/promise-timer": "^1.5"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

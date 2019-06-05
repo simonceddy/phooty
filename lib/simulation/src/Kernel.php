@@ -7,7 +7,6 @@ use Illuminate\Container\Container as IlluminateContainer;
 use Phooty\Config\BootstrapConfig;
 use Phooty\Simulation\Support\Traits\AppAware;
 use Phooty\Simulation\Tilemap\Tilemap;
-use Phooty\Simulation\Tilemap\Ground;
 use Phooty\Simulation\Tilemap\PendingMap;
 
 class Kernel
@@ -42,7 +41,7 @@ class Kernel
         $this->app = $container ?? new IlluminateContainer;
         
         $this->initConfig($config);
-        //dd($this->config);
+        
         if ($this->config->get('sim.dev_mode')) {
             $this->registerDevBindings();
         }
@@ -104,10 +103,6 @@ class Kernel
         $this->app->instance(static::class, $this);
 
         $this->app->singleton(MatchSimulator::class);
-
-        /* $this->app->singleton(Tilemap::class, function (int $w, int $l) {
-            return new Tilemap($this->app, $w, $l);
-        }); */
     }
 
     protected function registerPendingTilemap(PendingMap $ground)

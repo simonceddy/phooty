@@ -128,7 +128,9 @@ class MatchBuilder
                 "Match not ready to be created!"
             );
         }
+
         // todo handle options
+        
         return new MatchContainer($this);
     }
 

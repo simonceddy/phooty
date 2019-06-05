@@ -78,6 +78,7 @@ class TeamFactory
             $list[] = $factory->create();
         }
         
+        // Reset the numbers assigned.
         $factory->resetNumbers();
 
         return $list;
