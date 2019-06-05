@@ -9,7 +9,7 @@ use Phooty\Orm\Support\EntityToArray;
 //require 'vendor/autoload.php';
 require 'autoload.php';
 //dd(new ReflectionClass(CreateCommand::class));
-$app = include_once 'bootstrap.php';
+//$app = include_once 'bootstrap.php';
 
 /* $player = new Phooty\Orm\Entities\Player();
 $player->setSurname('jiffy'); */
@@ -24,17 +24,17 @@ dd($map); */
 //dd((new EntityToArray())->convert($player));
 
 //$app->make(Phooty\Core\Simulation::class)->run();
-$kernel = $app->make(Phooty\Console\Kernel::class);
+//$kernel = $app->make(Phooty\Console\Kernel::class);
 //dd($app);
 
 $sim = new Phooty\Simulation\Kernel(null, [
-    'timer' => [
+    'sim' => [
         'periods' => 5
     ]
 ]);
 
 dd($sim);
 
-$kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));
+/* $kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));
 
-$kernel->run();
+$kernel->run(); */
