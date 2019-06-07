@@ -1,13 +1,14 @@
 <?php
-namespace Phooty\Simulation;
+namespace Phooty\Simulation\Match;
 
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Support\Timer;
 use Phooty\Simulation\Entities\Team;
 use Phooty\Simulation\Support\MatchBuilder;
+use Phooty\Simulation\Support\StateCollection;
 
 class MatchContainer
-{    
+{
     /**
      * The Match's tilemap
      *
@@ -49,6 +50,9 @@ class MatchContainer
      * @param MatchBuilder $builder The MatchBuilder instance
      */
     public function __construct(MatchBuilder $builder) {
+        if (!$builder->isValid()) {
+            throw new \Exception("Invalid match!");
+        }
         $this->timer = $builder->getTimer();
         $this->tilemap = $builder->getGround();
         $this->homeTeam = $builder->getHomeTeam();

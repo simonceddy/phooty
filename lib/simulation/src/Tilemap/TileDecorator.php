@@ -4,10 +4,8 @@ namespace Phooty\Simulation\Tilemap;
 use Eddy\Tilemap\TileInterface;
 use Eddy\Tilemap\Tile;
 use Phooty\Simulation\Entities\SimulationEntity;
-use Phooty\Simulation\Support\Emitter;
-use Phooty\Simulation\Dispatcher;
 
-class TileDecorator extends Emitter implements TileInterface
+class TileDecorator implements TileInterface
 {
     /**
      * The Entities present in the Tile
@@ -23,9 +21,8 @@ class TileDecorator extends Emitter implements TileInterface
      */
     protected $tile;
 
-    public function __construct(Tile $tile, Dispatcher $dispatcher)
+    public function __construct(Tile $tile)
     {
-        parent::__construct($dispatcher);
         $this->tile = $tile;
     }
 
@@ -49,7 +46,7 @@ class TileDecorator extends Emitter implements TileInterface
      */
     public function addEntity(SimulationEntity $entity)
     {
-        $id = $entity->getId()->toString();
+        $id = $entity->getId();
 
         if (isset($this->entities[$id])) {
             throw new \LogicException(

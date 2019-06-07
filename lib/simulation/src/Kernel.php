@@ -8,6 +8,9 @@ use Phooty\Config\BootstrapConfig;
 use Phooty\Simulation\Support\Traits\AppAware;
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Tilemap\PendingMap;
+use Phooty\Simulation\Match\MatchContainer;
+use Phooty\Simulation\Core\MatchSimulator;
+use Phooty\Simulation\Support\MatchBuilder;
 
 class Kernel
 {
@@ -42,7 +45,7 @@ class Kernel
         
         $this->initConfig($config);
         
-        if ($this->config->get('sim.dev_mode')) {
+        if ($this->config->get('settings.debug')) {
             $this->registerDevBindings();
         }
 
@@ -87,16 +90,12 @@ class Kernel
             });
         }
 
-        $this->app->singleton(Dispatcher::class, function () {
-            return (new Bootstrap\BootstrapDispatcher)->bootstrap(
-                new Dispatcher($this->app)
-            );
-        });
+        $this->app->singleton(Emitter::class);
         
         $this->app->singleton(Support\Timer::class, function () {
             return new Support\Timer(
-                $this->config->get('sim.period_length'),
-                $this->app->make(Dispatcher::class)
+                $this->config->get('settings.quarter_length'),
+                $this->app->make(Emitter::class)
             );
         });
 
@@ -143,11 +142,32 @@ class Kernel
      */
     public function makeSim(callable $closure)
     {
-        $builder = $this->app->make(Support\MatchBuilder::class);
+        $match = $this->app->make(Support\MatchBuilder::class);
 
-        call_user_func($closure, $builder);
+        call_user_func($closure, $match);
 
-        $this->app->instance(MatchContainer::class, $builder->create());
+        $this->app->instance(MatchContainer::class, $match->create());
+
+        return $this->getSimulator();
+    }
+
+    /**
+     * Create a MatchSimulator from an existing MatchBuilder.
+     *
+     * @param MatchBuilder $match
+     * @return MatchSimulator
+     * 
+     * @throws Exception thrown if the match is invalid
+     */
+    public function build(MatchBuilder $match)
+    {
+        if (!$match->isValid()) {
+            throw new \Exception(
+                "Invalid match!"
+            );
+        }
+
+        $this->app->instance(MatchContainer::class, $match->create());
 
         return $this->getSimulator();
     }

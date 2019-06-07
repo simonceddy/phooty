@@ -6,7 +6,7 @@ use Phooty\Orm\Support\EntityToArray;
 
 //use Doctrine\ORM\EntityManagerInterface;
 
-//require 'vendor/autoload.php';
+require 'vendor/autoload.php';
 require 'autoload.php';
 //dd(new ReflectionClass(CreateCommand::class));
 //$app = include_once 'bootstrap.php';
@@ -27,13 +27,19 @@ dd($map); */
 //$kernel = $app->make(Phooty\Console\Kernel::class);
 //dd($app);
 
-$sim = new Phooty\Simulation\Kernel(null, [
+$knl = new Phooty\Simulation\Kernel(null, [
     'sim' => [
         'periods' => 5
     ]
 ]);
 
-dd($sim);
+$loop = React\EventLoop\Factory::create();
+
+$loop->addPeriodicTimer(1, function () {
+    echo "true!\n";
+});
+//$loop->run();
+dd($loop, memory_get_usage());
 
 /* $kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));
 

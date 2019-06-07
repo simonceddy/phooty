@@ -1,8 +1,6 @@
 <?php
 namespace Phooty\Simulation\Entities;
 
-use Phooty\Simulation\Entities\PlayerEntity;
-
 class Team
 {
     public const HOME = false;
@@ -12,7 +10,7 @@ class Team
     /**
      * The Team's players
      *
-     * @var PlayerEntity[]
+     * @var Player[]
      */
     protected $players;
 
@@ -44,9 +42,15 @@ class Team
 
     private function initPlayers(array $players)
     {
-        $this->players = array_filter($players, function ($player) {
-            return $player instanceof PlayerEntity;
-        });
+        foreach ($players as $player) {
+            $this->players[] = $this->initPlayer($player);
+        }
+    }
+
+    private function initPlayer(Player $player)
+    {
+        $player->setTeam($this);
+        return $player;
     }
 
     public function isHomeTeam(): bool
@@ -62,7 +66,7 @@ class Team
     /**
      * Get the team's players
      *
-     * @return PlayerEntity[]
+     * @return Player[]
      */
     public function getPlayers()
     {

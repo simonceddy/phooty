@@ -9,7 +9,7 @@ namespace Phooty\Simulation\Entities;
  * It should be immutable and never required to change. Changes in state, such
  * as movement and stats, are the responsibility of other classes.
  */
-class PlayerEntity extends SimulationEntity
+class Player extends SimulationEntity
 {
     /**
      * The Player's number
@@ -41,9 +41,24 @@ class PlayerEntity extends SimulationEntity
      */
     protected $nicknames;
 
+    /**
+     * The player's Team
+     *
+     * @var Team
+     */
+    protected $team;
+
+    public function __construct(array $data)
+    {
+        //$this->team = $team;
+        parent::__construct($data);
+    }
+
     protected function initialize(array $data)
     {
         // todo validate
+        //$this->team = $data['team'];
+
         // must be int greater than 0
         $this->number = $data['number'];
 
@@ -98,5 +113,29 @@ class PlayerEntity extends SimulationEntity
     public function getGivenNames()
     {
         return $this->given_names;
+    }
+
+    /**
+     * Get the player's Team
+     *
+     * @return  Team
+     */ 
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * Set the player's Team
+     *
+     * @param  Team  $team  The player's Team
+     *
+     * @return  self
+     */ 
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
     }
 }

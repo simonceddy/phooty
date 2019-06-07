@@ -1,0 +1,18 @@
+# Here you can modify how many points a certain score is worth.
+values:
+  goals:        6       # How many points a goal is worth
+  behinds:      1       # How many points a behind is worth
+  supergoals:   9       # How many points a supergoal is worth, if enabled
+
+rules:
+  supergoals:   false   # Enable supergoals - disabled by default
+
+# Here you can modify what happens when the ball hits a goal/behind post
+# Valid options are:
+#   - an integer specifying a custom amount of points
+#   - behind
+#   - oob OR out_of_bounds)
+#   - turnover
+#   - rebound
+goalposts:    behind
+behindposts:  oob

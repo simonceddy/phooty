@@ -1,10 +1,15 @@
 <?php
-namespace Phooty\Simulation;
+namespace Phooty\Simulation\Core;
 
 use Phooty\Simulation\Support\MapPlacer;
+use Phooty\Simulation\Support\Traits\EmitsEvents;
+use Phooty\Simulation\Match\MatchContainer;
+use Phooty\Simulation\Emitter;
 
 class MatchSimulator
 {
+    use EmitsEvents;
+
     /**
      * Has the simulation started
      *
@@ -33,9 +38,46 @@ class MatchSimulator
      */
     private $match;
 
-    public function __construct(MatchContainer $match)
+    private $is_bootstrapped = false;
+
+    /**
+     * The PeriodSimulator instance
+     *
+     * @var PeriodSimulator
+     */
+    private $period_sim;
+
+    public function __construct(MatchContainer $match, Emitter $emitter)
     {
+        $this->emitter = $emitter;
         $this->match = $match;
+    }
+
+    private function bootstrapSim()
+    {
+        $this->period_sim = new PeriodSimulator($this->match);
+
+        $this->bootstrapEmitter($this->emitter);
+
+        $this->is_bootstrapped = true;
+    }
+
+    private function bootstrapEmitter(Emitter $emitter)
+    {
+        $timer = $this->match->getTimer();
+
+        $emitter->on('sim.endPeriod', function () use ($timer) {
+            dump("Period {$timer->getResets()} complete!");
+            $this->period_sim->finish();
+            if ($timer->getResets() >= $this->getMaxPeriods()) {
+                $this->emit('sim.endMatch');
+            }
+        });
+
+        $emitter->on('sim.endMatch', function () {
+            $this->finish();
+            dump("Match finished!");
+        });
     }
 
     /**
@@ -45,18 +87,24 @@ class MatchSimulator
      */
     public function run()
     {
+        $this->is_bootstrapped ?: $this->bootstrapSim();
+
         (new MapPlacer($this->match))->run();
         
-        $timer = $this->match->getTimer();
+        //$timer = $this->match->getTimer();
         
         $this->started = true;
 
+        $periods = [];
+
         while (!$this->finished) {
-            $timer->tick(mt_rand(100, 1000));
-            //dd($this->timer);
+            $periods[] = $this->period_sim->run();
+            $this->period_sim->clear();
+            // simulate a period until period end
+            // repeat until match end
         }
-        //dd($this->match);
-        return;
+        
+        return $periods;
     }
 
     /**

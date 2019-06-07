@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Simulation;
+namespace Phooty\Simulation\Support;
 
 use Illuminate\Support\Collection;
 

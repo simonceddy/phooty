@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Simulation\Factory;
 
-use Phooty\Simulation\Entities\PlayerEntity;
+use Phooty\Simulation\Entities\Player;
 use Faker\Generator;
 
 class PlayerEntityFactory
@@ -41,7 +41,7 @@ class PlayerEntityFactory
             $num = mt_rand(0, 99);
         }
 
-        return new PlayerEntity([
+        return new Player([
             'number' => $data['number'] ?? mt_rand(0, 99),
             'surname' => $data['surname'] ?? $this->faker->lastName(),
             'given_names' => $data['given_names'] ?? $this->faker->firstName(),

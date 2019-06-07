@@ -1,12 +1,11 @@
 <?php
 namespace Phooty\Simulation\Support;
 
-use Phooty\Simulation\MatchContainer;
+use Phooty\Simulation\Match\MatchContainer;
 use Phooty\Simulation\Entities\Team;
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Entities\SherrinEntity;
 use Phooty\Simulation\Entities\PlayerEntity;
-use Eddy\Tilemap\Visualizer\HtmlDumper;
 
 class MapPlacer
 {

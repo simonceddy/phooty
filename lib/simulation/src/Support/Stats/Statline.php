@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Simulation\Stats;
+namespace Phooty\Simulation\Support\Stats;
 
 use Phooty\Simulation\Entities\PlayerEntity;
 

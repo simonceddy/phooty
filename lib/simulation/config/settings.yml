@@ -1,0 +1,4 @@
+debug:  true            # Set the Simulator to debug mode
+
+quarters:        4      # The total periods to simulate
+quarter_length:  120000  # The length of each period in milliseconds

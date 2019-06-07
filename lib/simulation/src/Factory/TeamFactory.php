@@ -2,7 +2,7 @@
 namespace Phooty\Simulation\Factory;
 
 use Faker\Generator;
-use Phooty\Simulation\Entities\PlayerEntity;
+use Phooty\Simulation\Entities\Player;
 use Phooty\Simulation\Entities\Team;
 use Illuminate\Support\Pluralizer;
 
@@ -66,7 +66,7 @@ class TeamFactory
     /**
      * Create a playing list
      *
-     * @return PlayerEntity[]
+     * @return Player[]
      */
     protected function createPlayingList()
     {

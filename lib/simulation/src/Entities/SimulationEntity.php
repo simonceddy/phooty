@@ -24,10 +24,10 @@ abstract class SimulationEntity
     /**
      * Get the entity's UUID
      *
-     * @return  Uuid
+     * @return  string
      */ 
     public function getId()
     {
-        return $this->id;
+        return $this->id->toString();
     }
 }

@@ -2,7 +2,7 @@
 namespace Phooty\Simulation\Support;
 
 use Illuminate\Contracts\Container\Container;
-use Phooty\Simulation\MatchContainer;
+use Phooty\Simulation\Match\MatchContainer;
 use Phooty\Simulation\Support\Traits\AppAware;
 use Phooty\Simulation\Tilemap\Tilemap;
 use Phooty\Simulation\Tilemap\PendingMap;

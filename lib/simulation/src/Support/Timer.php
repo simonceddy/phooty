@@ -1,12 +1,13 @@
 <?php
 namespace Phooty\Simulation\Support;
 
-use Phooty\Simulation\Dispatcher;
-use Phooty\Simulation\Events\Match\EndPeriodEvent;
-use Phooty\Simulation\Events\Timer\TickEvent;
+use Phooty\Simulation\Emitter;
+use Phooty\Simulation\Support\Traits\EmitsEvents;
 
-class Timer extends Emitter
+class Timer
 {
+    use EmitsEvents;
+
     /**
      * The total time elapsed in ms.
      *
@@ -35,7 +36,7 @@ class Timer extends Emitter
      */
     private $resets = 0;
 
-    public function __construct(int $period_length, Dispatcher $dispatcher)
+    public function __construct(int $period_length, Emitter $emitter)
     {
         if (1 > $period_length) {
             throw new \InvalidArgumentException(
@@ -45,7 +46,7 @@ class Timer extends Emitter
 
         $this->period_length = $period_length;
 
-        parent::__construct($dispatcher);
+        $this->emitter = $emitter;
     }
 
     public function tick(int $ms = 1)
@@ -59,7 +60,7 @@ class Timer extends Emitter
         $this->current += $ms;
         $this->total += $ms;
 
-        $this->emit('timer.tick', TickEvent::class);
+        $this->emit('timer.tick');
 
         if ($this->current >= $this->period_length) {
             $this->reset();
@@ -73,7 +74,7 @@ class Timer extends Emitter
         $this->current = 0;
         $this->resets++;
 
-        $this->emit(EndPeriodEvent::NAME, EndPeriodEvent::class);
+        $this->emit('sim.endPeriod');
 
         return $this;
     }
