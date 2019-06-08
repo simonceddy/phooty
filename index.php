@@ -27,19 +27,15 @@ dd($map); */
 //$kernel = $app->make(Phooty\Console\Kernel::class);
 //dd($app);
 
-$knl = new Phooty\Simulation\Kernel(null, [
-    'sim' => [
-        'periods' => 5
-    ]
-]);
+$knl = new Phooty\Simulation\Kernel();
 
 $loop = React\EventLoop\Factory::create();
 
 $loop->addPeriodicTimer(1, function () {
     echo "true!\n";
 });
-//$loop->run();
-dd($loop, memory_get_usage());
+$loop->run();
+//dd($loop, memory_get_usage());
 
 /* $kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));
 
