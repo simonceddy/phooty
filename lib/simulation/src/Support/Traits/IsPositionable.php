@@ -1,14 +1,14 @@
 <?php
 namespace Phooty\Simulation\Support\Traits;
 
-use Phooty\Simulation\Tilemap\Tile;
+use Eddy\Tilemap\TileInterface;
 
 trait IsPositionable
 {
     /**
      * The current tile instance
      *
-     * @var Tile
+     * @var TileInterface
      */
     protected $tile;
 
@@ -25,11 +25,11 @@ trait IsPositionable
     /**
      * Set the current tile instance
      *
-     * @param  Tile  $tile  The current tile instance
+     * @param  TileInterface  $tile  The current tile instance
      *
      * @return  self
      */ 
-    public function setTile(Tile $tile)
+    public function setTile(TileInterface $tile)
     {
         $this->tile = $tile;
 

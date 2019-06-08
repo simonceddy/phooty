@@ -1,6 +1,8 @@
 <?php
 namespace Phooty\Simulation\Entities;
 
+use Phooty\Simulation\Support\Stats\Statline;
+
 /**
  * The PlayerEntity represents a Player within the Simulation.
  * 
@@ -42,22 +44,30 @@ class Player extends SimulationEntity
     protected $nicknames;
 
     /**
+     * The Player's Statline
+     *
+     * @var Statline
+     */
+    protected $statline;
+
+    /**
      * The player's Team
      *
      * @var Team
      */
     protected $team;
 
-    public function __construct(array $data)
-    {
-        //$this->team = $team;
-        parent::__construct($data);
-    }
+    /**
+     * The Player's position.
+     *
+     * @var Position
+     */
+    protected $position;
 
     protected function initialize(array $data)
     {
         // todo validate
-        //$this->team = $data['team'];
+        $this->position = $data['position'];
 
         // must be int greater than 0
         $this->number = $data['number'];
@@ -135,6 +145,30 @@ class Player extends SimulationEntity
     public function setTeam(Team $team)
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get the Player's Statline
+     *
+     * @return  Statline
+     */ 
+    public function getStats()
+    {
+        return $this->statline;
+    }
+
+    /**
+     * Set the Player's Statline
+     *
+     * @param  Statline  $statline  The Player's Statline
+     *
+     * @return  self
+     */ 
+    public function setStatline(Statline $statline)
+    {
+        $this->statline = $statline;
 
         return $this;
     }

@@ -2,9 +2,13 @@
 namespace Phooty\Simulation\Entities;
 
 use Ramsey\Uuid\Uuid;
+use Phooty\Simulation\Support\Traits\IsPositionable;
+use Phooty\Simulation\Contract\MovableEntity;
 
-abstract class SimulationEntity
+abstract class SimulationEntity implements MovableEntity
 {
+    use IsPositionable;
+
     /**
      * The entity's UUID
      *

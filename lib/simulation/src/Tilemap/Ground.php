@@ -24,7 +24,7 @@ class Ground
     public const WAVERLY_PARK = [160, 150];
 
     protected static $grounds = [
-        'mcg' => [180, 160],
+        'mcg' => [140, 120],
         'scg' => [160, 150],
         'metriconStadium' => [160, 150],
         'gabba' => [160, 150],

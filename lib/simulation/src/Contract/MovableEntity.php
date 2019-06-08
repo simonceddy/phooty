@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Simulation\Contract;
 
-use Phooty\Simulation\Tilemap\Tile;
+use Eddy\Tilemap\TileInterface;
 
 interface MovableEntity
 {
@@ -9,7 +9,7 @@ interface MovableEntity
 
     public function hasTile();
 
-    public function setTile(Tile $tile);
+    public function setTile(TileInterface $tile);
 
     public function clearTile();
 }

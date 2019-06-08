@@ -1,26 +1,15 @@
 <?php
 namespace Phooty\Simulation\Factory;
 
-use Faker\Generator;
 use Phooty\Simulation\Entities\Player;
 use Phooty\Simulation\Entities\Team;
 use Illuminate\Support\Pluralizer;
+use Phooty\Simulation\Support\Positions;
+use Phooty\Simulation\Support\PlayerPosition;
 
-class TeamFactory
+class TeamFactory extends BaseFactory
 {
-    /**
-     * The Faker Generator instance
-     *
-     * @var Generator
-     */
-    protected $faker;
-
     protected $playerFactory;
-
-    public function __construct(Generator $faker)
-    {
-        $this->faker = $faker;
-    }
 
     /**
      * Get the PlayerEntityFactory
@@ -29,14 +18,16 @@ class TeamFactory
      */
     protected function playerFactory()
     {
-        isset($this->playerFactory) ?: $this->playerFactory = new PlayerEntityFactory($this->faker);
+        isset($this->playerFactory) ?: $this->playerFactory = $this->app->make(
+            PlayerEntityFactory::class
+        );
 
         return $this->playerFactory;
     }
 
     public function create(array $data = [])
     {
-        $city = $data['city'] ?? $this->faker->city;
+        $city = $data['city'] ?? $this->faker()->city;
 
         $name = $data['name'] ?? $this->getTeamName();
         
@@ -52,13 +43,13 @@ class TeamFactory
     protected function getTeamName()
     {
         $cases = [
-            0 => $this->faker->jobTitle,
-            1 => $this->faker->company,
-            2 => $this->faker->monthName,
-            3 => $this->faker->name,
-            4 => $this->faker->streetName,
-            5 => $this->faker->title,
-            6 => $this->faker->word,
+            0 => $this->faker()->jobTitle,
+            1 => $this->faker()->company,
+            2 => $this->faker()->monthName,
+            3 => $this->faker()->name,
+            4 => $this->faker()->streetName,
+            5 => $this->faker()->title,
+            6 => $this->faker()->word,
         ];
         return Pluralizer::plural($cases[mt_rand(0, 6)]);
     }
@@ -72,10 +63,14 @@ class TeamFactory
     {
         $list = [];
 
+        $positions = $this->app->make(Positions::class)->all();
+
         $factory = $this->playerFactory();
         
         for ($i = 0; $i < 18; $i++) {
-            $list[] = $factory->create();
+            $list[] = $factory->create([
+                'position' => new PlayerPosition(array_shift($positions))
+            ]);
         }
         
         // Reset the numbers assigned.

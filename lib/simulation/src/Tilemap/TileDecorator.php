@@ -3,7 +3,7 @@ namespace Phooty\Simulation\Tilemap;
 
 use Eddy\Tilemap\TileInterface;
 use Eddy\Tilemap\Tile;
-use Phooty\Simulation\Entities\SimulationEntity;
+use Phooty\Simulation\Contract\MovableEntity;
 
 class TileDecorator implements TileInterface
 {
@@ -39,13 +39,17 @@ class TileDecorator implements TileInterface
     /**
      * Add an entity to the Tile
      *
-     * @param SimulationEntity $entity
+     * @param MovableEntity $entity
      * @return self
      * 
      * @throws \LogicException  thrown if an existing Entity is given
      */
-    public function addEntity(SimulationEntity $entity)
+    public function addEntity(MovableEntity $entity)
     {
+        if ($entity->hasTile()) {
+            $entity->clearTile();
+        }
+
         $id = $entity->getId();
 
         if (isset($this->entities[$id])) {
@@ -55,10 +59,13 @@ class TileDecorator implements TileInterface
         }
 
         $this->entities[$id] = $entity;
+        
+        $entity->setTile($this);
+
         return $this;
     }
 
-    public function clearEntity(SimulationEntity $entity)
+    public function clearEntity(MovableEntity $entity)
     {
         $id = $entity->getId();
 

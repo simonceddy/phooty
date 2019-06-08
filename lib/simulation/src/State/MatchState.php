@@ -17,17 +17,16 @@ class MatchState
     private $state;
 
     /**
-     * Creation datetime object
+     * Current timer
      *
-     * @var \DateTime
+     * @var int
      */
-    private $created;
+    private $current;
 
-    public function __construct(array $state)
+    public function __construct(int $current, array $state)
     {
+        $this->current = $current;
         $this->state = $state;
-
-        $this->created = new \DateTime('now');
     }
 
     public function getState()
@@ -35,18 +34,13 @@ class MatchState
         return $this->state;
     }
 
-    public function setState(array $state): MatchState
-    {
-        return new MatchState($state);
-    }
-
     /**
-     * Get creation datetime object
+     * Get the timer
      *
-     * @return  \DateTime
+     * @return  int
      */ 
-    public function getCreated()
+    public function getTime()
     {
-        return $this->created;
+        return $this->current;
     }
 }

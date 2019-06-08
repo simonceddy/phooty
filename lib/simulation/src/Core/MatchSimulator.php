@@ -5,6 +5,7 @@ use Phooty\Simulation\Support\MapPlacer;
 use Phooty\Simulation\Support\Traits\EmitsEvents;
 use Phooty\Simulation\Match\MatchContainer;
 use Phooty\Simulation\Emitter;
+use Phooty\Simulation\Support\GetStateFrom;
 
 class MatchSimulator
 {
@@ -77,6 +78,11 @@ class MatchSimulator
         $emitter->on('sim.endMatch', function () {
             $this->finish();
             dump("Match finished!");
+        });
+
+        $emitter->on('timer.tick', function () {
+            $state = GetStateFrom::match($this->match);
+            $this->match->getStates()->add($state);
         });
     }
 

@@ -1,15 +1,14 @@
 <?php
 namespace Phooty\Simulation\Support;
 
-use Phooty\Simulation\MatchContainer;
+use Phooty\Simulation\Match\MatchContainer;
 use Phooty\Simulation\State\MatchState;
 
 class GetStateFrom
 {
     public static function match(MatchContainer $match)
     {
-        return new MatchState([
-            $match->getTilemap()->toArray()
-        ]);
+        $total = $match->getTimer()->getTotal();
+        return new MatchState($total, []);
     }
 }

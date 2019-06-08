@@ -90,6 +90,11 @@ class Kernel
             });
         }
 
+        $this->app->singleton(Support\Positions::class, function () {
+            $positions = $this->config->get('data.positions');
+            return new Support\Positions($positions);
+        });
+
         $this->app->singleton(Emitter::class);
         
         $this->app->singleton(Support\Timer::class, function () {

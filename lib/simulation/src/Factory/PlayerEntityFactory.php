@@ -2,28 +2,15 @@
 namespace Phooty\Simulation\Factory;
 
 use Phooty\Simulation\Entities\Player;
-use Faker\Generator;
 
-class PlayerEntityFactory
+class PlayerEntityFactory extends BaseFactory
 {
-    /**
-     * The Faker Generator instance
-     *
-     * @var Generator
-     */
-    protected $faker;
-
     /**
      * Array of already assigned numbers
      *
      * @var array
      */
     protected $numbers = [];
-
-    public function __construct(Generator $faker)
-    {
-        $this->faker = $faker;
-    }
 
     public function create(array $data = [])
     {
@@ -43,8 +30,9 @@ class PlayerEntityFactory
 
         return new Player([
             'number' => $data['number'] ?? mt_rand(0, 99),
-            'surname' => $data['surname'] ?? $this->faker->lastName(),
-            'given_names' => $data['given_names'] ?? $this->faker->firstName(),
+            'surname' => $data['surname'] ?? $this->faker()->lastName(),
+            'given_names' => $data['given_names'] ?? $this->faker()->firstName(),
+            'position' => $data['position'] ?? null
         ]);
     }
 

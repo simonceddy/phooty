@@ -8,5 +8,15 @@ class Positions
      *
      * @var array
      */
-    protected $positions = [];
+    protected $positions;
+
+    public function __construct(array $positions)
+    {
+        $this->positions = $positions;
+    }
+
+    public function all()
+    {
+        return $this->positions;
+    }
 }

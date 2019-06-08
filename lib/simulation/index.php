@@ -5,11 +5,8 @@ use Phooty\Simulation\Factory\TeamFactory;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Cloner\Data;
 
-//use Eddy\Tilemap\Visualizer\HtmlDumper;
-
 require __DIR__.'/vendor/autoload.php';
 
-//dump(memory_get_usage());
 $dumper = new HtmlDumper();
 
 $dumper->setTheme('light');
@@ -17,8 +14,6 @@ $dumper->setTheme('light');
 $start = Carbon::now()->getTimestamp();
 
 $kernel = new Kernel();
-
-//dd($kernel);
 
 $factory = $kernel->app()->make(TeamFactory::class);
 
@@ -36,17 +31,10 @@ $results = $sim->run();
 
 $total = Carbon::now()->getTimestamp() - $start;
 
-//HtmlDumper::dump($sim->getMatch()->getTilemap());
-//dd();
-$data = [];
+dump("Sim took {$total} microseconds");
 
-$data[] = "Sim took {$total} microseconds";
-//dump(memory_get_usage());
-//dd($kernel);
-//dump($sim->getMatch());
-
-$data = new Data($data);
+$data = new Data([1]);
 
 $dumper->dump($data);
 
-dump($sim);
+dump($sim->getMatch());
