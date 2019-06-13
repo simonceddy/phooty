@@ -1,0 +1,38 @@
+{
+    "name": "phooty/ai",
+    "description": "Phooty Ai",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\Ai\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "phooty/config": "dev-master",
+        "symfony/yaml": "^4.2",
+        "nesbot/carbon": "^2.18",
+        "evenement/evenement": "^3.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/config.git"
+        }
+    ]
+}
