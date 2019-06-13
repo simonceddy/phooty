@@ -1,15 +1,7 @@
 <?php
-use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
-use Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand;
-use Phooty\Core\Support\MovableEntityWrapper;
-use Phooty\Orm\Support\EntityToArray;
-
-//use Doctrine\ORM\EntityManagerInterface;
-
 require 'vendor/autoload.php';
 require 'autoload.php';
-//dd(new ReflectionClass(CreateCommand::class));
-//$app = include_once 'bootstrap.php';
+$app = include_once 'bootstrap.php';
 
 /* $player = new Phooty\Orm\Entities\Player();
 $player->setSurname('jiffy'); */
@@ -24,17 +16,11 @@ dd($map); */
 //dd((new EntityToArray())->convert($player));
 
 //$app->make(Phooty\Core\Simulation::class)->run();
-//$kernel = $app->make(Phooty\Console\Kernel::class);
+$kernel = $app->make(Phooty\Console\Kernel::class);
+$kernel->run();
 //dd($app);
 
-$knl = new Phooty\Simulation\Kernel();
-
-$loop = React\EventLoop\Factory::create();
-
-$loop->addPeriodicTimer(1, function () {
-    echo "true!\n";
-});
-$loop->run();
+//$knl = new Phooty\Simulation\Kernel();
 //dd($loop, memory_get_usage());
 
 /* $kernel->getHelperSet()->set($app->make(EntityManagerHelper::class));

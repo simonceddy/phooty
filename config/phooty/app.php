@@ -6,7 +6,7 @@ return [
     'dev_mode' => true,
 
     'providers' => [
-        Phooty\Core\CoreServiceProvider::class,
+        //Phooty\Core\CoreServiceProvider::class,
         Phooty\Orm\OrmServiceProvider::class,
         Phooty\Crawler\CrawlerServiceProvider::class,
         Phooty\Crawler\FactoryServiceProvider::class,

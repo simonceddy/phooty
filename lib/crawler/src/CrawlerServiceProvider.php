@@ -13,8 +13,8 @@ class CrawlerServiceProvider extends ServiceProvider
         $this->app->bind(TeamResolver::class, function () {
             $config = $this->app->make('config');
             return new TeamResolver(
-                $config->get('phooty.crawler.teams'),
-                $config->get('phooty.crawler.aliases')
+                $config->get('crawler.teams'),
+                $config->get('crawler.aliases')
             );
         });
 

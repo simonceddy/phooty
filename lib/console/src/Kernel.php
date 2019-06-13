@@ -38,10 +38,15 @@ class Kernel extends Application
     private function registerCommands()
     {
         // get commands from config
-        $commands = $this->config->get('phooty.console.commands');
-        
+        $commands = $this->config->get('console.commands');
+        //dd($this->config);
         foreach ($commands as $command) {
-            $this->add($this->app->make($command));
+            try {
+                $this->add($this->app->make($command));
+            } catch (\Exception $e) {
+                dump($command);
+                throw $e;
+            }
         }
     }
 }

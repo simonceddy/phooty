@@ -76,7 +76,7 @@ class Application extends Container
                 'yml' => ConfigDriver\YamlFileDriver::class,
             ]
         ))->bootstrap(
-            $this->path->get('config')
+            $this->path->get('config/phooty')
         );
 
     }
@@ -117,7 +117,7 @@ class Application extends Container
      */
     private function registerProviders()
     {
-        $providers = $this->config('phooty.app.providers') ?? [];
+        $providers = $this->config('app.providers') ?? [];
         foreach ($providers as $provider) {
             if (!class_exists($provider)
                 || !((new \ReflectionClass($provider))->isSubclassOf(ServiceProvider::class))

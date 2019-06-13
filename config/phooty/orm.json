@@ -1,5 +1,5 @@
 {
-    "config_method": "annotations",
+    "config_driver": "annotations",
     "annotations": {
         "path": "lib/orm/src/Entities",
         "namespace": "Phooty\\Orm\\Entities\\"
