@@ -35,7 +35,6 @@
         "ramsey/uuid": "^3.8",
         "doctrine/orm": "^2.6",
         "nesbot/carbon": "^2.17",
-        "phooty/core": "dev-master",
         "phooty/orm": "dev-master",
         "phooty/foundation": "dev-master",
         "phooty/crawler": "dev-master",
@@ -65,10 +64,6 @@
         {
             "type": "vcs",
             "url": "git@github.com:phooty/foundation.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:phooty/core.git"
         },
         {
             "type": "vcs",
