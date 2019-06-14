@@ -16,7 +16,6 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Phooty\\Config\\": "lib/config/src",
             "Phooty\\Console\\": "lib/console/src"
         }
     },
@@ -32,6 +31,7 @@
         "doctrine/orm": "^2.6",
         "nesbot/carbon": "^2.17",
         "phooty/orm": "dev-master",
+        "phooty/config": "dev-master",
         "phooty/foundation": "dev-master",
         "phooty/crawler": "dev-master",
         "symfony/config": "^4.2",
@@ -64,6 +64,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:phooty/orm.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/config.git"
         }
     ]
 }
