@@ -1,9 +1,9 @@
 <?php
 require 'vendor/autoload.php';
 require 'autoload.php';
-$app = include_once 'bootstrap.php';
+//$app = include_once 'bootstrap.php';
 
-$kernel = $app->make(Phooty\Console\Kernel::class);
+//$kernel = $app->make(Phooty\Console\Kernel::class);
 
 //$kernel->run();
 

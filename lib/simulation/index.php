@@ -21,10 +21,10 @@ $home = $factory->create();
 
 $away = $factory->create(['away' => true]);
 
-$sim = $kernel->makeSim(function ($builder) use ($home, $away) {
-    $builder->setGround(Phooty\Simulation\Tilemap\Ground::mcg());
-    $builder->setHomeTeam($home);
-    $builder->setAwayTeam($away);
+$sim = $kernel->makeSim(function ($match) use ($home, $away) {
+    $match->setGround(Phooty\Simulation\Tilemap\Ground::mcg());
+    $match->setHomeTeam($home);
+    $match->setAwayTeam($away);
 });
 
 $results = $sim->run();
@@ -35,6 +35,6 @@ dump("Sim took {$total} microseconds");
 
 $data = new Data([1]);
 
-$dumper->dump($data);
+//$dumper->dump($data);
 
-dump($sim->getMatch());
+//dump($sim->getMatch());

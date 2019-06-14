@@ -1,7 +1,0 @@
-/.vscode/
-/vendor/
-composer.phar
-.DS_Store
-.env
-/bin/
-*.sqlite

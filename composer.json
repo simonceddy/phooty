@@ -17,12 +17,8 @@
     "autoload": {
         "psr-4": {
             "Phooty\\Config\\": "lib/config/src",
-            "Phooty\\Console\\": "lib/console/src",
-            "Phooty\\Support\\": "lib/support/src"
-        },
-        "files": [
-            "lib/support/src/helpers.php"
-        ]
+            "Phooty\\Console\\": "lib/console/src"
+        }
     },
     "require": {
         "php": ">=7.1",
