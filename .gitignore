@@ -8,4 +8,5 @@ composer.phar
 /storage/*.html
 #/lib/*/.git/
 *.log
-/deprecate/*/.git/
+/deprecated/*/.git/
+/utils/*/.git/
