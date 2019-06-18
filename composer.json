@@ -16,7 +16,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Phooty\\Console\\": "lib/console/src"
+            "Phooty\\Console\\": "lib/console/src",
+            "Phooty\\App\\": "lib/app/src"
         }
     },
     "require": {
@@ -32,7 +33,6 @@
         "nesbot/carbon": "^2.17",
         "phooty/orm": "dev-master",
         "phooty/config": "dev-master",
-        "phooty/foundation": "dev-master",
         "phooty/crawler": "dev-master",
         "symfony/config": "^4.2",
         "symfony/yaml": "^4.2",
