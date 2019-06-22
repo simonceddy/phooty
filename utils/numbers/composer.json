@@ -1,0 +1,25 @@
+{
+    "name": "phooty/numbers",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\Numbers\\": "src"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "symfony/var-dumper": "^4.3"
+    }
+}
