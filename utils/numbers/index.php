@@ -1,5 +1,6 @@
 <?php
 use Phooty\Numbers\PlayerComparison;
+use Phooty\Numbers\StatCalc;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -19,6 +20,6 @@ $gazza = $orm->find('player', [
 
 if (isset($hodgey, $gazza)) {
 
-    dd((new PlayerComparison())->compare($hodgey, $gazza));
+    dd(StatCalc::careerAverages($gazza));
 }
 

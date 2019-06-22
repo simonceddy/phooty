@@ -1,12 +1,12 @@
 <?php
 namespace Phooty\Numbers;
 
-use Phooty\Orm\Entities\Player;
 use Phooty\Orm\Support\SeasonStatsToArray;
+use Phooty\Orm\Entities\Player;
 
-class StatManager
+class StatCalc
 {
-    public function getCareerStats(Player $player, bool $sum = true)
+    public static function careerStats(Player $player, bool $sum = true)
     {
         $stats = null;
         $rosters = $player->getRosters();
@@ -28,6 +28,21 @@ class StatManager
             }
         }
         
+        return $stats;
+    }
+
+    public static function careerAverages(Player $player)
+    {
+        $stats = self::careerStats($player);
+
+        $games = $stats['games'];
+
+        foreach ($stats as $stat => &$val) {
+            if ('games' !== $stat) {
+                $val = $val / $games;
+            }
+        }
+
         return $stats;
     }
 }
