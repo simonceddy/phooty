@@ -31,7 +31,7 @@ class StatCalc
         return $stats;
     }
 
-    public static function careerAverages(Player $player)
+    public static function careerAverages(Player $player, int $precision = 3)
     {
         $stats = self::careerStats($player);
 
@@ -39,7 +39,7 @@ class StatCalc
 
         foreach ($stats as $stat => &$val) {
             if ('games' !== $stat) {
-                $val = $val / $games;
+                $val = round($val / $games, $precision);
             }
         }
 
