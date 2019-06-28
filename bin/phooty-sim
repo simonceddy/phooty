@@ -1,0 +1,3 @@
+#!/usr/bin/env php
+<?php
+include dirname(__DIR__) . '/lib/simulation/index.php';

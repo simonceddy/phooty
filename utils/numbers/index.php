@@ -1,12 +1,18 @@
 <?php
 use Phooty\Numbers\PlayerComparison;
-use Phooty\Numbers\StatCalc;
+use Phooty\Numbers\MeasuringStick;
 
 require __DIR__.'/vendor/autoload.php';
 
 $em = include_once dirname(__DIR__).'/orm/bootstrap.php';
 
 $orm = new Phooty\Orm\Support\OrmUtil($em->getDoctrineManager());
+
+$ms = new MeasuringStick($orm);
+
+$counts = $ms->getMinMaxes(2018);
+
+dd(json_encode($counts, JSON_PRETTY_PRINT));
 
 $hodgey = $orm->find('player', [
     'surname' => 'Hodge',
@@ -20,6 +26,6 @@ $gazza = $orm->find('player', [
 
 if (isset($hodgey, $gazza)) {
 
-    dd(StatCalc::careerAverages($gazza));
+    dd((new PlayerComparison())->compareSeasonAvg($hodgey, $gazza, 2011));
 }
 
