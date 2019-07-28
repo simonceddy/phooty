@@ -1,0 +1,14 @@
+suites:
+  simulator:
+    namespace:    Phooty\Simulator
+    psr4_prefix:  Phooty\Simulator
+    spec_path:    tests/Simulator
+    src_path:     src/Simulator/src
+
+  contracts:
+    namespace:    Phooty\Contracts
+    psr4_prefix:  Phooty\Contracts
+    spec_path:    tests/Contracts
+    src_path:     src/Contracts/src
+
+formatter.name:   pretty

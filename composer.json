@@ -1,0 +1,32 @@
+{
+    "name": "simoneddy/phooty",
+    "description": "Aussie Rules football simulator written in PHP",
+    "type": "project",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\Contracts\\": "src/Contracts/src",
+            "Phooty\\Simulator\\": "src/Simulator/src"
+        }
+    },
+    "require": {
+        "evenement/evenement": "^3.0"
+    },
+    "require-dev": {
+        "consolidation/robo": "^1.4",
+        "behat/behat": "^3.5",
+        "phpspec/phpspec": "^5.1",
+        "symfony/var-dumper": "^4.3"
+    }
+}
