@@ -10,3 +10,4 @@ composer.phar
 *.log
 /deprecated/*/.git/
 /utils/*/.git/
+/bin/

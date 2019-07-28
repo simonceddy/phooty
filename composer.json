@@ -49,8 +49,11 @@
         "react/promise-timer": "^1.5"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.2",
-        "phpunit/phpunit": "^8.1"
+        "symfony/var-dumper": "^4.3",
+        "phpunit/phpunit": "^8.1",
+        "consolidation/robo": "^1.4",
+        "behat/behat": "^3.5",
+        "phpspec/phpspec": "^5.1"
     },
     "repositories": [
         {
