@@ -12,7 +12,11 @@ class MatchConfigSpec extends ObjectBehavior
 {
     function let(Team $homeTeam, Team $awayTeam, Ground $ground)
     {
-        $this->beConstructedWith($homeTeam, $awayTeam, $ground);
+        $this->beConstructedWith(
+            $homeTeam,
+            $awayTeam,
+            $ground
+        );
     }
 
     function it_has_a_home_team()

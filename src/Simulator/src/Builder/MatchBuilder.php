@@ -20,7 +20,7 @@ class MatchBuilder implements Builder
         }
 
         if (!isset($this->ground)) {
-            $this->ground = new Ground();
+            $this->ground = new Ground(120, 120);
         }
 
         return new MatchConfig($this->homeTeam, $this->awayTeam, $this->ground);

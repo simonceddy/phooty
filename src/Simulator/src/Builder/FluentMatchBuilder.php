@@ -49,13 +49,17 @@ class FluentMatchBuilder implements Builder
         return $this;
     }
 
-    public function getGround()
-    {
-        return $this->builder->getGround();
-    }
-
     public function getBuilder()
     {
         return $this->builder;
+    }
+
+    public function __call(string $name, array $args = [])
+    {
+        if (method_exists($this->builder, $name)) {
+            return call_user_func_array([$this->builder, $name], $args);
+        }
+
+        throw new \Exception("Undefined method: {$name}");
     }
 }

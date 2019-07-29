@@ -23,9 +23,4 @@ class MatchConfig
 
         $this->ground = $ground;
     }
-
-    public static function make()
-    {
-        
-    }
 }
