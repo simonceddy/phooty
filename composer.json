@@ -21,7 +21,8 @@
         }
     },
     "require": {
-        "evenement/evenement": "^3.0"
+        "evenement/evenement": "^3.0",
+        "simoneddy/path": "^0.0.2"
     },
     "require-dev": {
         "consolidation/robo": "^1.4",
