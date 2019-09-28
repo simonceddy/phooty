@@ -16,14 +16,15 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Phooty\\Contracts\\": "src/Contracts/src",
-            "Phooty\\Simulator\\": "src/Simulator/src"
+            "Phooty\\": "src"
         }
     },
     "require": {
         "evenement/evenement": "^3.0",
         "simoneddy/path": "^0.0.2",
-        "adbario/php-dot-notation": "^2.2"
+        "adbario/php-dot-notation": "^2.2",
+        "fzaninotto/faker": "^1.8",
+        "pimple/pimple": "^3.2"
     },
     "require-dev": {
         "consolidation/robo": "^1.4",
