@@ -2,74 +2,51 @@
 namespace Phooty\Core;
 
 use Phooty\Contracts\Core\Container as PhootyContainer;
+use Phooty\Core\Bootstrap\BootstrapConfig;
+use Phooty\Core\Bootstrap\BootstrapEnvironment;
 use Phooty\Support\Providers\FactoryProvider;
 use Pimple\Container;
+use Symfony\Component\Filesystem\Filesystem;
 
-class Kernel implements PhootyContainer, \ArrayAccess
+class Kernel extends Container implements PhootyContainer
 {
-    /**
-     * The Container instance
-     *
-     * @var Container
-     */
-    protected $container;
-
-    public function __construct(Container $pimple = null)
+    public function __construct()
     {
-        $this->container = $pimple ?? new Container();
+        $this->registerCoreServices();
         $this->loadProviders();
+    }
+
+    private function registerCoreServices()
+    {
+        $this->offsetSet('env', function () {
+            return (new BootstrapEnvironment())->bootstrap($_ENV, $_SERVER);
+        });
+        $this->offsetSet('fs', function () {
+            return new Filesystem();
+        });
+        $this->offsetSet('config', function ($c) {
+            return (new BootstrapConfig($c['fs']))->bootstrap();
+        });
     }
 
     private function loadProviders()
     {
-        (new FactoryProvider())->register($this->container);
-    }
-
-    public function container()
-    {
-        return $this->container;
+        (new FactoryProvider())->register($this);
     }
 
     public function get($id)
     {
-        return $this->container[$id];
+        return $this->offsetGet($id);
     }
 
     public function has($id)
     {
-        return isset($this->container[$id]);
+        return $this->offsetExists($id);
     }
 
-    public function factory($id, callable $closure)
+    public function bind($id, callable $closure)
     {
-        $this->container[$id] = $this->container->factory($closure);
+        $this->offsetSet($id, $closure);
         return $this;
-    }
-
-    public function add($id, callable $closure)
-    {
-        $this->container[$id] = $closure;
-        return $this;
-    }
-
-    public function offsetExists($offset)
-    {
-        return $this->container->offsetExists($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->container->offsetGet($offset);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->container->offsetSet($offset, $value);
-        return $this;
-    }
-
-    public function offsetUnset($offset)
-    {
-        return $this->container->offsetUnet($offset);
     }
 }

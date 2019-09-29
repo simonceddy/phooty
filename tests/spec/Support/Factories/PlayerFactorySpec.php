@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Phooty\Factories;
+namespace spec\Phooty\Support\Factories;
 
-use Phooty\Factories\PlayerFactory;
+use Phooty\Support\Factories\PlayerFactory;
 use Phooty\Contracts\Factory;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
