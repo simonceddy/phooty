@@ -26,7 +26,8 @@
         "fzaninotto/faker": "^1.8",
         "pimple/pimple": "^3.2",
         "symfony/yaml": "^4.3",
-        "symfony/filesystem": "^4.3"
+        "symfony/filesystem": "^4.3",
+        "beberlei/assert": "^3.2"
     },
     "require-dev": {
         "consolidation/robo": "^1.4",

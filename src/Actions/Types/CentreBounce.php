@@ -1,7 +1,9 @@
 <?php
 namespace Phooty\Actions\Types;
 
-class CentreBounce
+use Phooty\Contracts\Actions\ActionType;
+
+class CentreBounce implements ActionType
 {
 
 }

@@ -1,7 +1,9 @@
 <?php
 namespace Phooty\Actions\Types;
 
-class BallUp
+use Phooty\Contracts\Actions\ActionType;
+
+class BallUp implements ActionType
 {
 
 }
