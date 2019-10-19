@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Core;
+namespace Phooty\Config;
 
 use Adbar\Dot;
 

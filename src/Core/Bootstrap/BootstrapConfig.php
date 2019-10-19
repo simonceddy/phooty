@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Core\Bootstrap;
 
-use Phooty\Core\Config;
+use Phooty\Config\Config;
 use Phooty\Support\Traits\FilesystemAware;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;

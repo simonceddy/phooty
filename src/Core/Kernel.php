@@ -1,13 +1,16 @@
 <?php
 namespace Phooty\Core;
 
+use Phooty\Config\Env;
 use Phooty\Contracts\Core\Container as PhootyContainer;
 use Phooty\Core\Bootstrap\BootstrapConfig;
-use Phooty\Core\Bootstrap\BootstrapEnvironment;
 use Phooty\Support\Providers\FactoryProvider;
 use Pimple\Container;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * TODO: move into app namespace - not essential to sim
+ */
 class Kernel extends Container implements PhootyContainer
 {
     public function __construct()
@@ -19,7 +22,7 @@ class Kernel extends Container implements PhootyContainer
     private function registerCoreServices()
     {
         $this->offsetSet('env', function () {
-            return (new BootstrapEnvironment())->bootstrap($_ENV, $_SERVER);
+            return new Env();
         });
         $this->offsetSet('fs', function () {
             return new Filesystem();
