@@ -1,7 +1,19 @@
 {
-    "ballUp": {},
-    "centreBounce": {},
-    "freeKick": {},
+    "ballUp": {
+        "hitout": 85,
+        "freeKick": 10,
+        "groundBall": 5
+    },
+    "centreBounce": {
+        "hitout": 80,
+        "recallBounce": 5,
+        "freeKick": 10,
+        "groundBall": 5
+    },
+    "freeKick": {
+        "kick": 50,
+        "handball": 50
+    },
     "groundBall": {},
     "handball": {},
     "hitout": {},

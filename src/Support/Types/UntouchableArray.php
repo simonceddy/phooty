@@ -12,7 +12,7 @@ use Phooty\Support\Traits\ArraySettersDisabled;
  * Setting or unsetting values after the object has been constructed does
  * nothing by default.
  */
-class UntouchableArray implements \ArrayAccess
+class UntouchableArray implements \ArrayAccess, \JsonSerializable
 {
     use ArraySettersDisabled;
 
@@ -51,5 +51,13 @@ class UntouchableArray implements \ArrayAccess
     public function offsetGet($offset)
     {
         return $this->storage[$offset] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return array_values($this->storage);
     }
 }
