@@ -1,19 +1,19 @@
 <?php
 
-namespace spec\Phooty\Core;
+namespace spec\Phooty\App;
 
 use Faker\Generator;
-use Phooty\Core\Kernel;
+use Phooty\App\Container;
 use Phooty\Support\Factories\PlayerFactory;
 use PhpSpec\ObjectBehavior;
-use Pimple\Container;
+use Pimple\Container as Pimple;
 use Prophecy\Argument;
 
-class KernelSpec extends ObjectBehavior
+class ContainerSpec extends ObjectBehavior
 {
     function it_wraps_pimple_container()
     {
-        $this->shouldBeAnInstanceOf(Container::class);
+        $this->shouldBeAnInstanceOf(Pimple::class);
         $this->bind('test', function () {
             return 'test';
         })->get('test')->shouldReturn('test');

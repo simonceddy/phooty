@@ -1,17 +1,14 @@
 <?php
-namespace Phooty\Core;
+namespace Phooty\App;
 
 use Phooty\Config\Env;
 use Phooty\Contracts\Core\Container as PhootyContainer;
 use Phooty\Core\Bootstrap\BootstrapConfig;
 use Phooty\Support\Providers\FactoryProvider;
-use Pimple\Container;
+use Pimple\Container as Pimple;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * TODO: move into app namespace - not essential to sim
- */
-class Kernel extends Container implements PhootyContainer
+class Container extends Pimple implements PhootyContainer
 {
     public function __construct()
     {
