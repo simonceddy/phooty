@@ -1,7 +1,8 @@
 <?php
-use Phooty\Core\Kernel;
-
 require __DIR__ . '/vendor/autoload.php';
 
-$k = new Kernel();
-dump($k);
+$loop = React\EventLoop\Factory::create();
+
+$ref = new ReflectionClass($loop);
+
+dd($ref->getMethod('addSignal'));
