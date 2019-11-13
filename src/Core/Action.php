@@ -1,8 +1,15 @@
 <?php
 namespace Phooty\Core;
 
-class Action
+use Phooty\Contracts\Actions\Type;
+
+class Action implements Type
 {
+    /**
+     * The action type
+     *
+     * @var string
+     */
     protected $type;
 
     public function __construct(string $type)
@@ -11,6 +18,11 @@ class Action
     }
 
     public function type()
+    {
+        return $this->type;
+    }
+
+    public function __toString()
     {
         return $this->type;
     }

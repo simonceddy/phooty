@@ -2,20 +2,13 @@
 
 namespace Phooty\Core;
 
-use React\EventLoop\LoopInterface;
-
 class Kernel
 {
-    /**
-     * The Event Loop instance
-     *
-     * @var LoopInterface
-     */
     protected $eventLoop;
 
-    public function __construct(LoopInterface $eventLoop = null)
+    public function __construct($eventLoop = null)
     {
-        $this->eventLoop = $eventLoop ?? \React\EventLoop\Factory::create();
+        $eventLoop === null ?: $this->eventLoop = $eventLoop;
     }
 
     public function eventLoop()

@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Core\Bootstrap;
+namespace Phooty\App\Bootstrap;
 
 use Phooty\Config\Config;
 use Phooty\Support\Traits\FilesystemAware;
