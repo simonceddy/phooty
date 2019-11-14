@@ -4,6 +4,9 @@ namespace Phooty\Core;
 
 use Phooty\Contracts\App\Container;
 
+/**
+ * @todo Make Kernel's responsibility specific to sim
+ */
 class Kernel
 {
     protected $eventLoop;
@@ -13,12 +16,6 @@ class Kernel
     public function __construct(Container $app)
     {
         $this->app = $app;
-        $this->registerCoreProviders();
-    }
-
-    private function registerCoreProviders()
-    {
-        $this->app->register((new ActionOutcomeProvider()));
     }
 
     public function eventLoop()

@@ -4,23 +4,41 @@ namespace Phooty\App;
 use Eddy\Path\Path;
 use Phooty\Config\Env;
 use Phooty\Contracts\App\Container as PhootyContainer;
+use Phooty\Config\Config;
 use Phooty\Config\LoadConfigFromPaths;
+use Phooty\Contracts\App\Provider;
 use Phooty\Core\Kernel;
 use Phooty\Support\Providers\FactoryProvider;
 use Pimple\Container as Pimple;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 use function Eddy\Path\locateProjectDir;
 
 class Container extends Pimple implements PhootyContainer
 {
-    protected $aliases = [
+    protected $aliases = [];
 
-    ];
+    /**
+     * The application Config
+     *
+     * @var Config
+     */
+    protected $config;
 
     public function __construct()
     {
+
         $this->registerCoreServices();
+
+        $this->config = (new LoadConfigFromPaths($this['fs']))->load([
+            $this['path']->get('config')
+        ]);
+
+        $this['config'] = function () {
+            return $this->config;
+        };
+
         $this->loadProviders();
     }
 
@@ -36,11 +54,6 @@ class Container extends Pimple implements PhootyContainer
         $this->offsetSet('fs', function () {
             return new Filesystem();
         });
-        $this->offsetSet('config', function ($c) {
-            return (new LoadConfigFromPaths($c['fs']))->load([
-                $c['path']->get('config')
-            ]);
-        });
 
         $this['sim'] = function ($c) {
             return new Kernel($this);
@@ -49,7 +62,20 @@ class Container extends Pimple implements PhootyContainer
 
     private function loadProviders()
     {
-        (new FactoryProvider())->register($this);
+        $providers = $this->config->get('app.providers', []);
+        if (!empty($providers)) {
+            foreach ($providers as $provider) {
+                if (is_string($provider) && class_exists($provider)) {
+                    $provider = new $provider();
+                }
+                if (!($provider instanceof ServiceProviderInterface)) {
+                    throw new \Exception(
+                        "Invalid Provider!"
+                    );
+                }
+                $this->register($provider);
+            }
+        }
     }
 
     public function get($id)
