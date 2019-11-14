@@ -5,4 +5,4 @@ $app = new Phooty\App\Container();
 
 $ref = new ReflectionClass($app);
 
-dd($app['config']['core.outcomes']);
+dd($app['sim']);

@@ -13,6 +13,12 @@ class Kernel
     public function __construct(Container $app)
     {
         $this->app = $app;
+        $this->registerCoreProviders();
+    }
+
+    private function registerCoreProviders()
+    {
+        $this->app->register((new ActionOutcomeProvider()));
     }
 
     public function eventLoop()
