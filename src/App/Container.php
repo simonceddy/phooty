@@ -70,7 +70,11 @@ class Container extends Pimple implements PhootyContainer
 
     public function offsetExists($id)
     {
-        return isset($this->aliases[$id]) ?? parent::offsetExists($id);
+        if (isset($this->aliases[$id])) {
+            $id = $this->aliases[$id];
+        }
+    
+        return parent::offsetExists($id);
     }
 
     public function offsetGet($id)

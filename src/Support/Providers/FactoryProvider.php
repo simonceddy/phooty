@@ -16,7 +16,9 @@ class FactoryProvider implements Provider
             return FakerFactory::create();
         };
 
-        $c[FakerGenerator::class] = $c['faker'];
+        $c[FakerGenerator::class] = function ($c) {
+            return $c['faker'];
+        };
         
         $this->registerUtils($c);
         
@@ -36,6 +38,8 @@ class FactoryProvider implements Provider
             return new PlayerFactory($c[NameUtil::class], $c['faker']);
         };
 
-        $c[PlayerFactory::class] = $c['factory.player'];
+        $c[PlayerFactory::class] = function ($c) {
+            return $c['factory.player'];
+        };
     }
 }

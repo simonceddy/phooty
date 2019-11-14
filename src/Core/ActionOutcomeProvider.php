@@ -9,10 +9,12 @@ class ActionOutcomeProvider implements Provider
 {
     public function register(Container $c)
     {
-        if (isset($c['config']) && isset($c['config']['core.outcomes'])) {
+        if (isset($c['config']) && is_array($c['config']['core.outcomes'])) {
             $c['outcomes'] = function ($c) {
                 return new OutcomeMap($c['config']['core.outcomes']);
             };
         }
+
+        // dd($c->offsetExists('config'));
     }
 }
