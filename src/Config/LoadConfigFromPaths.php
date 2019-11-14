@@ -1,12 +1,11 @@
 <?php
-namespace Phooty\App\Bootstrap;
+namespace Phooty\Config;
 
-use Phooty\Config\Config;
 use Phooty\Support\Traits\FilesystemAware;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
-class BootstrapConfig
+class LoadConfigFromPaths
 {
     use FilesystemAware;
 
@@ -28,7 +27,6 @@ class BootstrapConfig
 
     protected function loadFile(string $path)
     {
-        // $pathinfo = pathinfo($path);
         $ext = substr(strrchr($path, "."), 1);
         // dd($ext);
         switch ($ext) {
@@ -79,9 +77,8 @@ class BootstrapConfig
      *
      * @return Config
      */
-    public function bootstrap($paths = [])
+    public function load($paths = [])
     {
-        
         $values = [];
 
         if (is_string($paths)) {

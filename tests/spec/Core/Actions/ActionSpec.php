@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Phooty\Core;
+namespace spec\Phooty\Core\Actions;
 
-use Phooty\Core\Action;
+use Phooty\Core\Actions\Action;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

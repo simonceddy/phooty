@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-$loop = React\EventLoop\Factory::create();
+$app = new Phooty\App\Container();
 
-$ref = new ReflectionClass($loop);
+$ref = new ReflectionClass($app);
 
-dd($ref->getMethod('addSignal'));
+dd($app['config']['core.outcomes']);

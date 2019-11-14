@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Contracts\Core;
+namespace Phooty\Contracts\App;
 
 use Pimple\ServiceProviderInterface;
 

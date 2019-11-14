@@ -21,7 +21,7 @@
     },
     "require": {
         "evenement/evenement": "^3.0",
-        "simoneddy/path": "^0.0.2",
+        "simoneddy/path": "dev-master",
         "adbario/php-dot-notation": "^2.2",
         "fzaninotto/faker": "^1.8",
         "pimple/pimple": "^3.2",
@@ -30,7 +30,8 @@
         "beberlei/assert": "^3.2",
         "vlucas/phpdotenv": "^3.6",
         "react/event-loop": "^1.1",
-        "react/stream": "^1.1"
+        "react/stream": "^1.1",
+        "symfony/cache": "^4.3"
     },
     "require-dev": {
         "consolidation/robo": "^1.4",

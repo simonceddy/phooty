@@ -1,12 +1,15 @@
 <?php
 namespace Phooty\App;
 
+use Eddy\Path\Path;
 use Phooty\Config\Env;
-use Phooty\Contracts\Core\Container as PhootyContainer;
-use Phooty\Core\Bootstrap\BootstrapConfig;
+use Phooty\Contracts\App\Container as PhootyContainer;
+use Phooty\Config\LoadConfigFromPaths;
 use Phooty\Support\Providers\FactoryProvider;
 use Pimple\Container as Pimple;
 use Symfony\Component\Filesystem\Filesystem;
+
+use function Eddy\Path\locateProjectDir;
 
 class Container extends Pimple implements PhootyContainer
 {
@@ -18,6 +21,10 @@ class Container extends Pimple implements PhootyContainer
 
     private function registerCoreServices()
     {
+        $this['path'] = function () {
+            return new Path(locateProjectDir());
+        };
+
         $this->offsetSet('env', function () {
             return new Env();
         });
@@ -25,7 +32,9 @@ class Container extends Pimple implements PhootyContainer
             return new Filesystem();
         });
         $this->offsetSet('config', function ($c) {
-            return (new BootstrapConfig($c['fs']))->bootstrap();
+            return (new LoadConfigFromPaths($c['fs']))->load([
+                $c['path']->get('config')
+            ]);
         });
     }
 

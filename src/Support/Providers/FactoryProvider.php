@@ -3,7 +3,7 @@ namespace Phooty\Support\Providers;
 
 use Faker\Generator as FakerGenerator;
 use Faker\Factory as FakerFactory;
-use Phooty\Contracts\Core\Provider;
+use Phooty\Contracts\App\Provider;
 use Phooty\Support\Factories\PlayerFactory;
 use Phooty\Support\Faker\NameUtil;
 use Pimple\Container;

@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Core;
+namespace Phooty\Core\Actions;
 
 use Phooty\Contracts\Actions\Type;
 

@@ -2,13 +2,17 @@
 
 namespace Phooty\Core;
 
+use Phooty\Contracts\App\Container;
+
 class Kernel
 {
     protected $eventLoop;
 
-    public function __construct($eventLoop = null)
+    protected $app;
+
+    public function __construct(Container $app)
     {
-        $eventLoop === null ?: $this->eventLoop = $eventLoop;
+        $this->app = $app;
     }
 
     public function eventLoop()
