@@ -31,20 +31,31 @@ class Application implements ContainerInterface, \ArrayAccess
      */
     protected $config;
 
+    /**
+     * The application path object
+     *
+     * @var Path
+     */
+    protected $path;
+
     public function __construct(Container $container = null)
     {
         $this->container = $container ?? new Container();
 
         $this->initCoreServices();
         $this->initConfiguration();
+
         $this->loadProviders();
+
         $this->bootApplication();
     }
 
     private function initCoreServices()
     {
+        $this->path = new Path(locateProjectDir());
+
         $this->bind('path', function () {
-            return new Path(locateProjectDir());
+            return $this->path;
         });
 
         $this->bind('fs', function () {
@@ -54,9 +65,8 @@ class Application implements ContainerInterface, \ArrayAccess
 
     private function initConfiguration()
     {
-        $this->config = (new LoadConfigFromPaths($this->container['fs']))->load([
-            $this->container['path']->get('config')
-        ]);
+        $this->config = (new LoadConfigFromPaths($this->container['fs']))
+            ->load([$this->path('config')]);
 
         $this->bind('config', function () {
             return $this->config;
@@ -65,7 +75,15 @@ class Application implements ContainerInterface, \ArrayAccess
 
     private function loadProviders()
     {
-        $providers = $this->config->get('app.providers', []);
+        $providers = $this->config('app.providers', []);
+
+        if ($this->config('app.env') !== 'production') {
+            $providers = array_merge(
+                $providers,
+                $this->config('app.providers-dev', [])
+            );
+        }
+
         if (!empty($providers)) {
             $this->addProviders(array_map(function ($provider) {
                 if (is_string($provider) && class_exists($provider)) {
@@ -86,9 +104,30 @@ class Application implements ContainerInterface, \ArrayAccess
         return $this->container;
     }
 
-    public function config()
+    /**
+     * Access the Applications Config.
+     * 
+     * If no $id is given it will return the Config instance.
+     *
+     * @param string|null $id
+     * @param mixed $default
+     *
+     * @return mixed|Config
+     */
+    public function config(string $id = null, $default = null)
     {
-        return $this->config;
+        if ($id === null) {
+            return $this->config;
+        }
+        return $this->config->get($id, $default);
+    }
+
+    public function path(string $path = null)
+    {
+        if ($path === null) {
+            return $this->path;
+        }
+        return $this->path->get($path);
     }
 
     public function bind($id, callable $concrete, bool $isFactory = false)

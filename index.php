@@ -7,4 +7,4 @@ if (file_exists(__DIR__ . '/.env')) {
 
 $app = new Phooty\App\Application();
 
-dd($app);
+dd($app->config('app.env'));
