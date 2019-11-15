@@ -1,10 +1,9 @@
 <?php
+
+use Phooty\Core\Kernel;
+
 require __DIR__ . '/vendor/autoload.php';
 
-if (file_exists(__DIR__ . '/.env')) {
-    Dotenv\Dotenv::create(__DIR__)->load();
-}
+$app = include_once 'bootstrap/app.php';
 
-$app = new Phooty\App\Application();
-
-dd($app->config('app.env'));
+dd($app[Kernel::class]);

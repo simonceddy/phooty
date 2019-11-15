@@ -8,8 +8,5 @@ use Prophecy\Argument;
 
 class SherrinSpec extends ObjectBehavior
 {
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(Sherrin::class);
-    }
+
 }

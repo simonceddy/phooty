@@ -2,25 +2,40 @@
 
 namespace Phooty\Core;
 
-use Phooty\Contracts\App\Container;
+use Evenement\EventEmitter;
+use Evenement\EventEmitterInterface;
+use Phooty\App\Application;
+use Phooty\Core\Events\BootstrapEvents;
 
 /**
  * @todo Make Kernel's responsibility specific to sim
  */
 class Kernel
 {
-    protected $eventLoop;
-
     protected $app;
 
-    public function __construct(Container $app)
+    protected $emitter;
+
+    public function __construct(Application $app, EventEmitterInterface $emitter = null)
     {
         $this->app = $app;
+
+        $this->emitter = $emitter ?? $this->app[EventEmitterInterface::class];
+
+        $this->bootstrapEvents();
     }
 
-    public function eventLoop()
+    private function bootstrapEvents()
+    {
+        (new BootstrapEvents())->bootstrap(
+            $this->emitter,
+            $this->app->config('core.events', [])
+        );
+    }
+
+    public function emitter()
     {
         // TODO: write logic here
-        return $this->eventLoop;
+        return $this->emitter;
     }
 }

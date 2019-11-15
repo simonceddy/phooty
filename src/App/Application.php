@@ -42,6 +42,10 @@ class Application implements ContainerInterface, \ArrayAccess
     {
         $this->container = $container ?? new Container();
 
+        $this->container['app'] = function () {
+            return $this;
+        };
+
         $this->initCoreServices();
         $this->initConfiguration();
 
@@ -57,6 +61,8 @@ class Application implements ContainerInterface, \ArrayAccess
         $this->bind('path', function () {
             return $this->path;
         });
+
+        $this->alias(Path::class, 'path');
 
         $this->bind('fs', function () {
             return new Filesystem();
@@ -154,9 +160,7 @@ class Application implements ContainerInterface, \ArrayAccess
             );
         }
 
-        $this->container[$alias] = function ($c) use ($id) {
-            return $c[$id];
-        };
+        $this->container[$alias] = $this->container->raw($id);
 
         return $this;
     }

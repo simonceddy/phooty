@@ -13,11 +13,14 @@ return [
     'sim.abort',    // simulation ends with an error
     'sim.exit',     // simulation has finished running, either successfully or in error
 
-    // timer events
-    'timer.start',  // timer has started
-    'timer.resume', // timer has resumed
-    'timer.stop',   // the timer has stopped
-    'timer.clear',  // the timer has been cleared
+    // match events
+    'match.start',  // match has started
+    'match.resume', // match has resumed
+    'match.end',   // the match has stopped
+
+    // period events
+    'period.start',
+    'period.end',
 
     // player events
     'player.gain',  // the player gains possession of the sherrin

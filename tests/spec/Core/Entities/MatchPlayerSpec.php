@@ -13,9 +13,4 @@ class MatchPlayerSpec extends ObjectBehavior
     {
         $this->beConstructedWith((new PlayerFactory())->create());
     }
-
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(MatchPlayer::class);
-    }
 }

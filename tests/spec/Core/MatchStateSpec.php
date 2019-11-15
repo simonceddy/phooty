@@ -2,11 +2,10 @@
 
 namespace spec\Phooty\Core;
 
-use Phooty\Core\EventLoop;
+use Phooty\Core\MatchState;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class EventLoopSpec extends ObjectBehavior
+class MatchStateSpec extends ObjectBehavior
 {
-
 }

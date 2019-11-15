@@ -5,8 +5,8 @@ return [
     'providers' => [
         Phooty\Core\CoreProvider::class,
         Phooty\Core\ActionOutcomeProvider::class,
-        Phooty\Support\Providers\FactoryProvider::class,
     ],
     'providers-dev' => [
+        Phooty\Support\Factories\FactoryProvider::class,
     ]
 ];

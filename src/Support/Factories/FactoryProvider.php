@@ -1,10 +1,9 @@
 <?php
-namespace Phooty\Support\Providers;
+namespace Phooty\Support\Factories;
 
 use Faker\Generator as FakerGenerator;
 use Faker\Factory as FakerFactory;
 use Phooty\Contracts\App\Provider;
-use Phooty\Support\Factories\PlayerFactory;
 use Phooty\Support\Faker\NameUtil;
 use Pimple\Container;
 
@@ -16,9 +15,7 @@ class FactoryProvider implements Provider
             return FakerFactory::create();
         };
 
-        $c[FakerGenerator::class] = function ($c) {
-            return $c['faker'];
-        };
+        $c[FakerGenerator::class] = $c->raw('faker');
         
         $this->registerUtils($c);
         
@@ -38,8 +35,6 @@ class FactoryProvider implements Provider
             return new PlayerFactory($c[NameUtil::class], $c['faker']);
         };
 
-        $c[PlayerFactory::class] = function ($c) {
-            return $c['factory.player'];
-        };
+        $c[PlayerFactory::class] = $c->raw('factory.player');
     }
 }

@@ -2,16 +2,18 @@
 
 namespace spec\Phooty\Core;
 
-use Phooty\App\Container;
+use Evenement\EventEmitterInterface;
+use Phooty\App\Application;
 use Phooty\Core\Kernel;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class KernelSpec extends ObjectBehavior
 {
-    function let(Container $container)
+    function let(Application $app, EventEmitterInterface $emitter)
     {
-        $this->beConstructedWith($container);
+        $app->config('core.events', [])->willReturn([]);
+        $this->beConstructedWith($app, $emitter);
     }
 
     function it_is_initializable()
