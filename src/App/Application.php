@@ -243,7 +243,7 @@ class Application implements ContainerInterface, \ArrayAccess
             return call_user_func([$this->container, $name], ...$arguments);
         }
 
-        throw new \Exception(
+        throw new \BadMethodCallException(
             "Unknown method: {$name}"
         );
     }

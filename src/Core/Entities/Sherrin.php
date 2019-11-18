@@ -1,8 +1,12 @@
 <?php
 namespace Phooty\Core\Entities;
 
+use Phooty\Core\Traits\Moveable;
+
 class Sherrin
 {
+    use Moveable;
+
     /**
      * The Entity in possession of the Sherrin. Must be null if in dispute.
      *

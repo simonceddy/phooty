@@ -34,7 +34,8 @@
         "vlucas/phpdotenv": "^3.6",
         "react/event-loop": "^1.1",
         "react/stream": "^1.1",
-        "symfony/cache": "^4.3"
+        "symfony/cache": "^4.3",
+        "php-ds/php-ds": "^1.2"
     },
     "require-dev": {
         "consolidation/robo": "^1.4",
