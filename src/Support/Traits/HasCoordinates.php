@@ -1,9 +1,9 @@
 <?php
-namespace Phooty\Core\Traits;
+namespace Phooty\Support\Traits;
 
 use Ds\Vector;
 
-trait Moveable
+trait HasCoordinates
 {
     /**
      * The current coordinates
@@ -29,7 +29,7 @@ trait Moveable
      *
      * @return Vector|null
      */
-    public function getCoords()
+    public function getCoordinates()
     {
         return $this->coords;
     }
