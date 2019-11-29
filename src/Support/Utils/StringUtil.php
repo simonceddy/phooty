@@ -13,9 +13,9 @@ class StringUtil
                 $target,
                 'Target is not an object or the class was not found.'
             );
+            $target = get_class($target);
         }
 
-        $bits = explode('\\', is_string($target) ? $target : get_class($target));
-        return array_pop($bits);
+        return substr($target, (strrpos($target, '\\') + 1));
     }
 }

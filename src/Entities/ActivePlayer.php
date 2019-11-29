@@ -4,20 +4,14 @@ namespace Phooty\Entities;
 
 use Phooty\Models\Player;
 use Phooty\Support\Traits\HasCoordinates;
+use Phooty\Support\Traits\HasPlayerModel;
 
 class ActivePlayer
 {
-    use HasCoordinates;
-
-    protected $model;
+    use HasCoordinates, HasPlayerModel;
 
     public function __construct(Player $model)
     {
         $this->model = $model;
-    }
-
-    public function model()
-    {
-        return $this->model;
     }
 }
