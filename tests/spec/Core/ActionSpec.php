@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Phooty\Core\Actions;
+namespace spec\Phooty\Core;
 
 use Phooty\Core\Actions\Action;
 use PhpSpec\ObjectBehavior;

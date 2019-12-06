@@ -1,9 +1,9 @@
 <?php
-namespace Phooty\Core\Actions;
+namespace Phooty\Core;
 
-use Phooty\Contracts\Actions\Type;
+use Phooty\Contracts\Actions\Typed;
 
-class Action implements Type
+class Action implements Typed
 {
     /**
      * The action type

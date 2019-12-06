@@ -1,7 +1,7 @@
 <?php
 namespace Phooty\Contracts\Actions;
 
-interface Type
+interface Typed
 {
     /**
      * Get the action type.
