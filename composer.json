@@ -28,19 +28,17 @@
         "adbario/php-dot-notation": "^2.2",
         "fzaninotto/faker": "^1.8",
         "pimple/pimple": "^3.2",
-        "symfony/yaml": "^4.3",
-        "symfony/filesystem": "^4.3",
+        "symfony/yaml": "^5.0",
+        "symfony/filesystem": "^5.0",
         "beberlei/assert": "^3.2",
         "vlucas/phpdotenv": "^3.6",
         "react/event-loop": "^1.1",
         "react/stream": "^1.1",
-        "symfony/cache": "^4.3",
+        "symfony/cache": "^5.0",
         "php-ds/php-ds": "^1.2"
     },
     "require-dev": {
-        "consolidation/robo": "^1.4",
-        "behat/behat": "^3.5",
-        "phpspec/phpspec": "^5.1",
-        "symfony/var-dumper": "^4.3"
+        "phpspec/phpspec": "^6.0",
+        "symfony/var-dumper": "^5.0"
     }
 }
