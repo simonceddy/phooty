@@ -19,7 +19,7 @@
             "Phooty\\": "src"
         },
         "files": [
-            "src/Support/functions.php"
+            
         ]
     },
     "require": {
