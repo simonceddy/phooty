@@ -4,6 +4,7 @@ namespace Phooty\Ground;
 use Ds\Set;
 use Phooty\Support\Traits\IsSerializable;
 
+// TODO lazy load rows/cells
 class Grid implements \ArrayAccess, \JsonSerializable
 {
     use IsSerializable;
