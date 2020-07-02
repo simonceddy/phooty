@@ -1,15 +1,28 @@
 <?php
 namespace Phooty\Core;
 
+use Adbar\Dot;
 use Pimple\Container;
 
 class Application
 {
     protected Container $pimple;
 
-    public function __construct(Container $pimple)
+    protected Dot $config;
+
+    public function __construct(Dot $config, Container $pimple = null)
     {
-        $this->pimple = $pimple;
+        $this->config = $config;
+        $this->pimple = $pimple ?? new Container();
+
+        $this->registerCoreServices();
+    }
+
+    private function registerCoreServices()
+    {
+        $this->pimple['config'] = function () {
+            return $this->config;
+        };
     }
 
     /**
@@ -20,5 +33,17 @@ class Application
     public function container()
     {
         return $this->pimple;
+    }
+
+    /**
+     * Get the Applications Configuration instance.
+     * 
+     * Config is stored in an instance of Dot.
+     *
+     * @return Dot
+     */
+    public function config()
+    {
+        return $this->config;
     }
 }

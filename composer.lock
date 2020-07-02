@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "971fe759fe04639a043be208b90361ab",
+    "content-hash": "438bbfdb5eb483d33853f6c22c16563c",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -468,6 +468,49 @@
                 "writable"
             ],
             "time": "2020-05-04T10:17:57+00:00"
+        },
+        {
+            "name": "simoneddy/dot-config-loader",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simonceddy/dot-config-loader.git",
+                "reference": "a5156cea9d4df2e295fd8241fb949b337245974e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simonceddy/dot-config-loader/zipball/a5156cea9d4df2e295fd8241fb949b337245974e",
+                "reference": "a5156cea9d4df2e295fd8241fb949b337245974e",
+                "shasum": ""
+            },
+            "require": {
+                "adbario/php-dot-notation": "^2.2",
+                "symfony/yaml": "^5.0"
+            },
+            "require-dev": {
+                "symfony/var-dumper": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Eddy\\DotConfig\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Eddy",
+                    "email": "simon@simoneddy.com.au"
+                }
+            ],
+            "description": "Basic config file loader using Adbar/Dot",
+            "support": {
+                "source": "https://github.com/simonceddy/dot-config-loader/tree/master",
+                "issues": "https://github.com/simonceddy/dot-config-loader/issues"
+            },
+            "time": "2019-12-11T02:30:50+00:00"
         },
         {
             "name": "simoneddy/path",
@@ -2359,7 +2402,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "simoneddy/path": 20
+        "simoneddy/path": 20,
+        "simoneddy/dot-config-loader": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
