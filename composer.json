@@ -26,18 +26,16 @@
         "evenement/evenement": "^3.0",
         "simoneddy/path": "dev-master",
         "adbario/php-dot-notation": "^2.2",
-        "fzaninotto/faker": "^1.8",
         "pimple/pimple": "^3.2",
         "symfony/yaml": "^5.0",
-        "symfony/filesystem": "^5.0",
-        "beberlei/assert": "^3.2",
         "vlucas/phpdotenv": "^3.6",
         "react/event-loop": "^1.1",
         "react/stream": "^1.1",
-        "symfony/cache": "^5.0",
-        "php-ds/php-ds": "^1.2"
+        "php-ds/php-ds": "^1.2",
+        "doctrine/cache": "^1.10"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.8",
         "phpspec/phpspec": "^6.0",
         "symfony/var-dumper": "^5.0"
     }
