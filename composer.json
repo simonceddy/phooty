@@ -24,9 +24,6 @@
     },
     "require": {
         "evenement/evenement": "^3.0",
-        "simoneddy/path": "dev-master",
-        "simoneddy/dot-config-loader": "dev-master",
-        "adbario/php-dot-notation": "^2.2",
         "pimple/pimple": "^3.2",
         "symfony/yaml": "^5.0",
         "vlucas/phpdotenv": "^3.6",
