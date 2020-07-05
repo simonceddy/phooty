@@ -1,12 +1,17 @@
 <?php
 namespace Phooty\Core;
 
-use Phooty\Core\Bootstrap\BindConfiguration;
-use Phooty\Core\Bootstrap\InitBindings;
-use Phooty\Core\Bootstrap\InitProviders;
+use Phooty\Core\Bootstrap\{
+    BindConfiguration,
+    InitBindings,
+    InitFactories,
+    InitProviders
+};
 use Phooty\Support\Container\ReflectionConstructor;
-use Pimple\Container;
-use Pimple\Psr11\Container as Psr11Container;
+use Pimple\{
+    Container,
+    Psr11\Container as Psr11Container
+};
 
 class BootstrapApp
 {
@@ -27,6 +32,7 @@ class BootstrapApp
         $this->stack = [
             new BindConfiguration($this->rootDir . '/config'),
             new InitBindings($reflectionConstructor),
+            new InitFactories($reflectionConstructor),
             new InitProviders($reflectionConstructor),
         ];
     }

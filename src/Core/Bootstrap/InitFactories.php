@@ -4,7 +4,7 @@ namespace Phooty\Core\Bootstrap;
 use Phooty\Support\Container\ReflectionConstructor;
 use Pimple\Container;
 
-class InitBindings
+class InitFactories
 {
     protected ReflectionConstructor $constructor;
 
@@ -21,21 +21,21 @@ class InitBindings
 
     public function __invoke(Container $app)
     {
-        if (isset($app['config']['app']['bindings'])
-            && is_array($app['config']['app']['bindings'])
-            && !empty($app['config']['app']['bindings'])
+        if (isset($app['config']['app']['factories'])
+            && is_array($app['config']['app']['factories'])
+            && !empty($app['config']['app']['factories'])
         ) {
 
-            foreach ($app['config']['app']['bindings'] as $key => $binding) {
-                if (!$this->isValidBinding($binding)) {
+            foreach ($app['config']['app']['factories'] as $key => $factory) {
+                if (!$this->isValidBinding($factory)) {
                     continue;
                 }
 
-                is_string($key) ?: $key = $binding;
+                is_string($key) ?: $key = $factory;
 
-                $app[$key] = function () use ($binding) {
-                    return $this->constructor->create($binding);
-                };
+                $app[$key] = $app->factory(function () use ($factory) {
+                    return $this->constructor->create($factory);
+                });
             }
         }
 
