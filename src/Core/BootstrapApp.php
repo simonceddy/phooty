@@ -3,7 +3,10 @@ namespace Phooty\Core;
 
 use Phooty\Core\Bootstrap\BindConfiguration;
 use Phooty\Core\Bootstrap\InitBindings;
+use Phooty\Core\Bootstrap\InitProviders;
+use Phooty\Support\Container\ReflectionConstructor;
 use Pimple\Container;
+use Pimple\Psr11\Container as Psr11Container;
 
 class BootstrapApp
 {
@@ -16,11 +19,15 @@ class BootstrapApp
         $this->rootDir = $rootDir;
     }
 
-    private function initBootstrapperStack()
+    private function initBootstrapperStack(Container $app)
     {
+        $reflectionConstructor = new ReflectionConstructor(
+            new Psr11Container($app)
+        );
         $this->stack = [
             new BindConfiguration($this->rootDir . '/config'),
-            new InitBindings()
+            new InitBindings($reflectionConstructor),
+            new InitProviders($reflectionConstructor),
         ];
     }
 
@@ -33,7 +40,7 @@ class BootstrapApp
      */
     public function bootstrap(Container $app)
     {
-        isset($this->stack) ?: $this->initBootstrapperStack();
+        isset($this->stack) ?: $this->initBootstrapperStack($app);
 
         foreach ($this->stack as $bootstrapper) {
             $app = call_user_func($bootstrapper, $app);

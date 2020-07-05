@@ -1,10 +1,18 @@
 <?php
 namespace Phooty\Core\Bootstrap;
 
+use Phooty\Support\Container\ReflectionConstructor;
 use Pimple\Container;
 
 class InitBindings
 {
+    protected ReflectionConstructor $constructor;
+
+    public function __construct(ReflectionConstructor $constructor)
+    {
+        $this->constructor = $constructor;
+    }
+
     private function isValidBinding($binding)
     {
         // dd(class_implements($binding));
@@ -19,6 +27,7 @@ class InitBindings
             && is_array($app['config']['app']['bindings'])
             && !empty($app['config']['app']['bindings'])
         ) {
+
             foreach ($app['config']['app']['bindings'] as $key => $binding) {
                 if (!$this->isValidBinding($binding)) {
                     continue;
@@ -28,7 +37,7 @@ class InitBindings
 
                 // TODO handle constructors, etc
                 $app[$key] = function () use ($binding) {
-                    return new $binding;
+                    return $this->constructor->create($binding);
                 };
             }
         }
