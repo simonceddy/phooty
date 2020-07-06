@@ -5,8 +5,12 @@ return [
 
     'bindings' => [
         // container bindings
-        \Phooty\Support\Text::class,
-        \Phooty\Testing\PlayerFactory::class,
+        
+    ],
+
+    'factories' => [
+        // container bindings
+        
     ],
 
     'providers' => [
