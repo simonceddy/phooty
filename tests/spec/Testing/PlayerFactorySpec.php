@@ -35,6 +35,6 @@ class PlayerFactorySpec extends ObjectBehavior
     {
         $this->make([
             'firstName' => 'Digga'
-        ])->firstName()->shouldEqual('Digga');
+        ])->info()->firstName()->shouldEqual('Digga');
     }
 }

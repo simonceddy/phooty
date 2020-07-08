@@ -2,17 +2,18 @@
 
 namespace spec\Phooty\Entities;
 
-use Phooty\Entities\Player;
+use Phooty\Entities\{
+    Player,
+    PlayerInfo,
+    PlayerRatings,
+};
 use PhpSpec\ObjectBehavior;
 
 class PlayerSpec extends ObjectBehavior
 {
-    function let()
+    function let(PlayerInfo $info, PlayerRatings $ratings)
     {
-        $this->beConstructedWith(
-            'Ben',
-            'Rutten'
-        );
+        $this->beConstructedWith($info, $ratings);
     }
 
     function it_is_initializable()
@@ -20,20 +21,13 @@ class PlayerSpec extends ObjectBehavior
         $this->shouldHaveType(Player::class);
     }
 
-    function it_has_a_first_and_last_name()
+    function it_has_player_info()
     {
-        $this->firstName()->shouldEqual('Ben');
-        $this->lastName()->shouldEqual('Rutten');
+        $this->info()->shouldBeAnInstanceOf(PlayerInfo::class);
     }
 
-    function it_returns_nicknames_if_set()
+    function it_has_player_ratings()
     {
-        $this->beConstructedWith('Ben', 'Rutten', ['Big Crunch']);
-        $this->nicknames()->shouldContain('Big Crunch');
-    }
-
-    function it_returns_null_if_no_nicknames_are_set()
-    {
-        $this->nicknames()->shouldBeNull();
+        $this->ratings()->shouldBeAnInstanceOf(PlayerRatings::class);
     }
 }

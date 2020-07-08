@@ -1,72 +1,28 @@
 <?php
+
 namespace Phooty\Entities;
 
-use Phooty\Entities\Support\HasNicknames;
-
-/**
- * A Player object contains the personal information of the player.
- * 
- * This includes the players name and any nicknames.
- */
 class Player
 {
-    use HasNicknames;
+    protected PlayerInfo $info;
 
-    protected string $firstName;
+    protected PlayerRatings $ratings;
 
-    protected string $lastName;
-
-    /**
-     * Create a new Player object
-     *
-     * @param string $firstName The Player's first name
-     * @param string $lastName The Player's last name
-     * @param string[] $nicknames (optional) The player's nicknames, if any
-     */
     public function __construct(
-        string $firstName,
-        string $lastName,
-        array $nicknames = []
+        PlayerInfo $info,
+        PlayerRatings $ratings
     ) {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-
-        empty($nicknames) ?: $this->nicknames = $nicknames;
+        $this->info = $info;
+        $this->ratings = $ratings;
     }
 
-    /**
-     * Get the player's first name
-     *
-     * @return string
-     */
-    public function firstName()
+    public function info()
     {
-        return $this->firstName;
+        return $this->info;
     }
 
-    /**
-     * Get the player's last name
-     *
-     * @return string
-     */
-    public function lastName()
+    public function ratings()
     {
-        return $this->lastName;
-    }
-
-    public function __get(string $name)
-    {
-        switch ($name) {
-            case 'lastName':
-                return $this->lastName;
-            case 'firstName':
-                return $this->firstName;
-            case 'nicknames':
-                return $this->nicknames();
-        }
-
-        throw new \Exception(
-            'Unknown property: ' . $name
-        );
+        return $this->ratings;
     }
 }
