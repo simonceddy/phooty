@@ -2,6 +2,7 @@
 namespace Phooty\Core\Bootstrap;
 
 use Phooty\Support\Container\ReflectionConstructor;
+use Phooty\Support\Container\Validate;
 use Pimple\Container;
 
 class InitBindings
@@ -13,12 +14,6 @@ class InitBindings
         $this->constructor = $constructor;
     }
 
-    private function isValidBinding($binding)
-    {
-        return is_string($binding)
-            && class_exists($binding);
-    }
-
     public function __invoke(Container $app)
     {
         if (isset($app['config']['app']['bindings'])
@@ -27,15 +22,21 @@ class InitBindings
         ) {
 
             foreach ($app['config']['app']['bindings'] as $key => $binding) {
-                if (!$this->isValidBinding($binding)) {
+                if (!Validate::binding($binding)) {
                     continue;
                 }
 
-                is_string($key) ?: $key = $binding;
-
-                $app[$key] = function () use ($binding) {
-                    return $this->constructor->create($binding);
-                };
+                if (is_string($binding)) {
+                    is_string($key) ?: $key = $binding;
+    
+                    $app[$key] = function () use ($binding) {
+                        return $this->constructor->create($binding);
+                    };
+                } else {
+                    $app[$key] = function () use ($binding, $app) {
+                        return call_user_func($binding, $app);
+                    };
+                }
             }
         }
 

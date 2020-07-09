@@ -9,8 +9,10 @@ return [
     ],
 
     'factories' => [
-        // container bindings
-        
+        // container factories
+        'testing' => function () {
+            return mt_rand(0, 10);
+        }
     ],
 
     'providers' => [

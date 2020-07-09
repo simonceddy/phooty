@@ -1,7 +1,10 @@
 <?php
 namespace Phooty\Core\Bootstrap;
 
-use Phooty\Support\Container\ReflectionConstructor;
+use Phooty\Support\Container\{
+    ReflectionConstructor,
+    Validate
+};
 use Pimple\Container;
 
 class InitFactories
@@ -13,12 +16,6 @@ class InitFactories
         $this->constructor = $constructor;
     }
 
-    private function isValidBinding($binding)
-    {
-        return is_string($binding)
-            && class_exists($binding);
-    }
-
     public function __invoke(Container $app)
     {
         if (isset($app['config']['app']['factories'])
@@ -27,15 +24,21 @@ class InitFactories
         ) {
 
             foreach ($app['config']['app']['factories'] as $key => $factory) {
-                if (!$this->isValidBinding($factory)) {
+                if (!Validate::binding($factory)) {
                     continue;
                 }
 
-                is_string($key) ?: $key = $factory;
-
-                $app[$key] = $app->factory(function () use ($factory) {
-                    return $this->constructor->create($factory);
-                });
+                if (is_string($factory)) {
+                    is_string($key) ?: $key = $factory;
+    
+                    $app[$key] = $app->factory(function () use ($factory) {
+                        return $this->constructor->create($factory);
+                    });
+                } else {
+                    $app[$key] = $app->factory(function () use ($factory, $app) {
+                        return call_user_func($factory, $app);
+                    });
+                }
             }
         }
 

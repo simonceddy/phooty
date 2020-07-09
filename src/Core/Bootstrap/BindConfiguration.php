@@ -15,7 +15,6 @@ class BindConfiguration
             throw new \InvalidArgumentException(
                 'Could not locate ' . $configDir
             );
-
         }
         
         $this->configDir = $configDir;

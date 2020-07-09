@@ -2,6 +2,7 @@
 namespace Phooty\Core\Bootstrap;
 
 use Phooty\Support\Container\ReflectionConstructor;
+use Phooty\Support\Container\Validate;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -31,12 +32,12 @@ class InitProviders
         ) {
 
             foreach ($app['config']['app']['providers'] as $provider) {
-                if (!$this->isValidProvider($provider)) {
+                if (!Validate::provider($provider)) {
                     throw new \Exception(
                         'Invalid provider!'
                     );
                 }
-
+                
                 // TODO costructors etc
                 $app->register($this->constructor->create($provider));
             }
