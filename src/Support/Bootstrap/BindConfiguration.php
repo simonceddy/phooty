@@ -1,5 +1,5 @@
 <?php
-namespace Phooty\Core\Bootstrap;
+namespace Phooty\Support\Bootstrap;
 
 use Phooty\Core\Configuration;
 use Phooty\Support\Filesystem\LoadConfigFiles;

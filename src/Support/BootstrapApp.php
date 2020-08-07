@@ -1,13 +1,13 @@
 <?php
-namespace Phooty\Core;
+namespace Phooty\Support;
 
-use Phooty\Core\Bootstrap\{
-    BindConfiguration,
-    InitBindings,
-    InitFactories,
-    InitProviders
+use Phooty\Support\{
+    Bootstrap\BindConfiguration,
+    Bootstrap\InitBindings,
+    Bootstrap\InitFactories,
+    Bootstrap\InitProviders,
+    Container\ReflectionConstructor
 };
-use Phooty\Support\Container\ReflectionConstructor;
 use Pimple\{
     Container,
     Psr11\Container as Psr11Container

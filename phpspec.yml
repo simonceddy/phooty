@@ -1,8 +1,13 @@
 suites:
-  default:
-    namespace:    Phooty
-    psr4_prefix:  Phooty
-    spec_path:    tests
-    src_path:     src
+  core:
+    namespace:    Phooty\Core
+    psr4_prefix:  Phooty\Core
+    spec_path:    tests/Core
+    src_path:     src/Core
+  # default:
+  #   namespace:    Phooty
+  #   psr4_prefix:  Phooty
+  #   spec_path:    tests
+  #   src_path:     src
 
 formatter.name:   pretty

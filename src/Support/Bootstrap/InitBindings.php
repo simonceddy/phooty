@@ -1,8 +1,10 @@
 <?php
-namespace Phooty\Core\Bootstrap;
+namespace Phooty\Support\Bootstrap;
 
-use Phooty\Support\Container\ReflectionConstructor;
-use Phooty\Support\Container\Validate;
+use Phooty\Support\Container\{
+    ReflectionConstructor,
+    Validate
+};
 use Pimple\Container;
 
 class InitBindings

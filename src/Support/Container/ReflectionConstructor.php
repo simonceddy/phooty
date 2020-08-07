@@ -7,18 +7,26 @@ class ReflectionConstructor
 {
     protected ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container = null)
     {
-        $this->container = $container;
+        !isset($container) ?: $this->container = $container;
     }
 
     protected function resolveParameter(\ReflectionParameter $param)
     {
-        if (($type = $param->getType()) !== null
-            && $this->container->has($name = $type->getName())
+        $type = $param->getType();
+        $name = $type->getName();
+        if (isset($this->container)
+            && ($type) !== null
+            && $this->container->has($name)
         ) {
-            // dd($param->getType());
             return $this->container->get($name);
+        }
+
+        if (class_exists($name)
+            && ($resolved = $this->create($name)) !== null
+        ) {
+            return $resolved;
         }
 
         if ($param->isDefaultValueAvailable()) {

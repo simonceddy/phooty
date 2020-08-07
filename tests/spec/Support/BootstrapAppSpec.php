@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Phooty\Core;
+namespace spec\Phooty\Support;
 
-use Phooty\Core\BootstrapApp;
+use Phooty\Support\BootstrapApp;
 // use Phooty\Core\Configuration;
 use PhpSpec\ObjectBehavior;
 use Pimple\Container;
